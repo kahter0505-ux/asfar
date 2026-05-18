@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة أسفار - لوحة المسؤول الإدارية</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root { --primary-color: #bc9c64; --secondary-color: #2c3e50; --bg-color: #f8f9fa; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); padding: 20px; direction: rtl; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eef0f2; margin-bottom: 20px; }
+        .header { text-align: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #e0e0e0; padding: 12px; text-align: center; }
+        th { background-color: #f5f6f8; color: var(--secondary-color); }
+        .btn { background: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 6px; cursor: pointer; font-size: 14px; font-weight: bold; transition: background 0.3s; }
+        .btn:hover { background: #a38450; }
+        .btn-secondary { background: var(--secondary-color); }
+        .btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--secondary-color); }
+        #preview-section { background: white; padding: 30px; border: 1px solid #ccc; border-radius: 8px; margin-top: 20px; display: none; }
+        .preview-header { text-align: center; border-bottom: 3px double var(--primary-color); padding-bottom: 15px; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="header">
+            <h2 style="margin:0; color:var(--secondary-color);">📊 بوابة المسؤول الإدارية الحية لمركز أسفار</h2>
+            <button class="btn btn-secondary" onclick="fetchReports()">🔄 تحديث البيانات الفوري</button>
+        </div>
+        
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>اسم الطالب</th>
+                        <th>نوع الدراسة</th>
+                        <th>الرواية</th>
+                        <th>الحالة</th>
+                        <th>المتن والحفظ</th>
+                        <th>معاينة التقرير</th>
+                        <th>تحميل PDF</th>
+                    </tr>
+                </thead>
+                <tbody id="admin-table-body">
+                    <tr><td colspan="7" style="color:#666;">جاري تحميل التقارير الحية مباشرة من النظام...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="preview-section">
+        <div class="preview-header">
+            <h2 style="border:none; margin:0; font-size: 26px; color:#2c3e50;">مَركز أَسْفَار لِعُلُوم القُرآن</h2>
+            <p style="margin:5px 0; font-size:16px; color:#bc9c64; font-weight:bold;">التقرير الإحصائي المعتمد لأداء الطالب</p>
+            <p id="preview-date" style="font-size:12px; color:#666; margin:0;"></p>
+        </div>
+        <div id="preview-content"></div>
+        <div style="margin-top: 30px; display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 15px;">
+            <div style="text-align: center;"><strong>توقيع الشيخ المعلم</strong><br><br>...........................</div>
+            <div style="text-align: center;"><strong>اعتماد إدارة المركز</strong><br><br>...........................</div>
+        </div>
+        <br>
+        <button class="btn btn-secondary" onclick="closePreview()">إغلاق المعاينة ×</button>
+    </div>
+</div>
+
+<script>
+    // جلب البيانات من المجلد السحابي المفتوح لـ Formspree المرتبط بجدول البيانات
+    const endpoint = "https://formspree.io/api/v1/submissions/xknadjwj";
+    const token = "b7a69da3b762557bb523c94d30bc9871"; // رمز الوصول السحابي الآمن والجاهز
+    let reportsData = [];
+
+    window.onload = fetchReports;
+
+    async function fetchReports() {
+        const tbody = document.getElementById('admin-table-body');
+        tbody.innerHTML = `<tr><td colspan="7" style="color:var(--primary-color); font-weight:bold;">جاري الاتصال السحابي وتحديث البيانات...</td></tr>`;
+        
+        try {
+            const response = await fetch(endpoint, { headers: { 'Authorization': `Bearer ${token}` } });
+            const result = await response.json();
+            reportsData = result.submissions || [];
+            renderAdminTable(reportsData);
+        } catch (error) {
+            tbody.innerHTML = `<tr><td colspan="7" style="color:red;">فشل جلب البيانات تلقائياً، يرجى المحاولة مرة أخرى بالضغط على زر التحديث.</td></tr>`;
+        }
+    }
+
+    function renderAdminTable(data) {
+        const tbody = document.getElementById('admin-table-body');
+        tbody.innerHTML = '';
+
+        if(data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="color:#999;">لا توجد تقارير مرصودة في النظام حالياً.</td></tr>`;
+            return;
+        }
+
+        data.forEach((student, index) => {
+            const d = student.data;
+            const dateStr = new Date(student.created_at).toLocaleDateString('ar-SA');
+            let texts = [];
+            if(d["تحفة الأطفال"] === "نعم") texts.push("تحفة الأطفال");
+            if(d["الجزرية"] === "نعم") texts.push("الجزرية");
+            if(d["الشاطبية"] === "نعم") texts.push("الشاطبية");
+            const txtResult = texts.length > 0 ? texts.join(' و ') : "لا يوجد";
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td style="font-weight:bold; color:#2c3e50;">${d["اسم الطالب"] || 'بدون اسم'}</td>
+                <td>${d["نوع الدراسة"] || 'حضوري'}</td>
+                <td><span style="background:#fff6e6; color:#b07d22; padding:3px 8px; border-radius:4px; font-size:13px;">${d["الرواية"] || 'حفص'}</span></td>
+                <td><span style="color:${d["الحضور"] === 'حاضر' ? '#27ae60':'#c0392b'}; font-weight:bold;">${d["الحضور"] || 'حاضر'}</span></td>
+                <td><span style="font-size:13px; color:#555;">${d["مقدار الحفظ"] || ''} (${txtResult})</span></td>
+                <td><button class="btn btn-outline" onclick="viewReport(${index}, '${dateStr}', '${txtResult}')">🔍 معاينة فورية</button></td>
+                <td><button class="btn" onclick="downloadPDF(${index}, '${dateStr}', '${txtResult}')">📄 تحميل PDF</button></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    function viewReport(index, dateStr, txtResult) {
+        const student = reportsData[index].data;
+        document.getElementById('preview-date').innerText = `تاريخ الرصد المعتمد: ${dateStr}`;
+        document.getElementById('preview-content').innerHTML = `
+            <table style="width:100%; text-align:right; font-size:16px;">
+                <tr><td style="background:#f9f9f9; width:30%;"><strong>اسم الطالب:</strong></td><td><strong>${student["اسم الطالب"]}</strong></td></tr>
+                <tr><td style="background:#f9f9f9;"><strong>نوع الدراسة:</strong></td><td>${student["نوع الدراسة"]}</td></tr>
+                <tr><td style="background:#f9f9f9;"><strong>الرواية والقراءة:</strong></td><td>${student["الرواية"]}</td></tr>
+                <tr><td style="background:#f9f9f9;"><strong>حالة الحضور اليومي:</strong></td><td>${student["الحضور"]}</td></tr>
+                <tr><td style="background:#f9f9f9;"><strong>مقدار الحفظ الفعلي:</strong></td><td>${student["مقدار الحفظ"]}</td></tr>
+                <tr><td style="background:#f9f9f9;"><strong>المتون العلمية المحفوظة:</strong></td><td>${txtResult}</td></tr>
+                <tr><td style="background:#f9f9f9;"><strong>توجيهات الشيخ المعلم:</strong></td><td style="color:#555; font-style:italic;">"${student["ملاحظات المعلم"] || 'لا توجد ملاحظات.'}"</td></tr>
+            </table>
+        `;
+        const previewSection = document.getElementById('preview-section');
+        previewSection.style.display = 'block';
+        previewSection.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function closePreview() { document.getElementById('preview-section').style.display = 'none'; }
+
+    function downloadPDF(index, dateStr, txtResult) {
+        viewReport(index, dateStr, txtResult);
+        const element = document.getElementById('preview-section');
+        const student = reportsData[index].data;
+        const opt = {
+            margin: 10, filename: `تقرير_طالب_أسفار_${student["اسم الطالب"]}.pdf`, image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        const closeBtn = element.querySelector('.btn-secondary');
+        closeBtn.style.display = 'none';
+        html2pdf().set(opt).from(element).save().then(() => { closeBtn.style.display = 'block'; closePreview(); });
+    }
+</script>
+</body>
+</html>
