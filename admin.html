@@ -99,7 +99,6 @@
 </div>
 
 <script>
-    // الرابط السحابي المستخرج والجاهز للعمل المباشر لصفحة الإدارة
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQ-Gh67WTge4p2N2C5hx4m7AW9X3Ws-4kEGxNhzgXX-ZiNLhCST9_I4sHwvW32nh9kpA/exec";
     let reportsData = [];
 
@@ -109,13 +108,16 @@
         const tbody = document.getElementById('admin-table-body');
         tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري تحديث البيانات من سحابة جوجل...</td></tr>`;
         
-        // جلب البيانات بدون قيود CORS المتصفحات
         const script = document.createElement('script');
         script.src = SCRIPT_URL + "?callback=renderData&t=" + new Date().getTime();
         document.body.appendChild(script);
     }
 
-    function renderData(data) {
+    // هذه الدالة الموحدة لاستقبال وعرض البيانات بدون تعليق
+    window.renderData = function(data) {
+        // إذا كان الرد قادم من عملية الحفظ (insert) فإنه يحتوي على status ولا نحدث الجدول منه
+        if(data.status === "success") return;
+
         reportsData = data;
         calculateStats(data);
         const tbody = document.getElementById('admin-table-body');
