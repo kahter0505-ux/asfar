@@ -34,15 +34,10 @@
             <h2 style="margin:0; color:var(--secondary-color);">⚜️ مَركز أَسْفَار لِعُلُوم القُرآن ⚜️</h2>
             <p style="margin:5px 0 0 0; color:#666; font-size:14px;">استمارة رصد أداء الطالب اليومي (خاص بالمعلم)</p>
         </div>
-
         <div class="alert" id="alert-box">تم إرسال التقرير سحابياً بنجاح وتحديث لوحة المسؤول!</div>
 
         <form id="report-form">
-            <div class="form-group">
-                <label>اسم الطالب ثلاثي:</label>
-                <input type="text" id="student-name" required placeholder="أدخل اسم الطالب الكامل">
-            </div>
-
+            <div class="form-group"><label>اسم الطالب ثلاثي:</label><input type="text" id="student-name" required placeholder="أدخل اسم الطالب الكامل"></div>
             <div class="form-group">
                 <label>نوع الدراسة:</label>
                 <div class="radio-group">
@@ -50,7 +45,6 @@
                     <div class="radio-btn"><input type="radio" name="study-type" id="s2" value="عن بعد"><label for="s2">عن بعد</label></div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label>الرواية / القراءة الحالية:</label>
                 <div class="radio-group">
@@ -59,7 +53,6 @@
                     <div class="radio-btn"><input type="radio" name="read-type" id="r3" value="قراءة الإمام عاصم"><label for="r3">قراءة الإمام عاصم</label></div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label>الحضور والغياب اليومي:</label>
                 <div class="radio-group">
@@ -67,7 +60,6 @@
                     <div class="radio-btn"><input type="radio" name="attendance" id="a2" value="غائب"><label for="a2">غائب</label></div>
                 </div>
             </div>
-
             <div class="form-group">
                 <label>مقدار الحفظ الفعلي الحالي:</label>
                 <select id="hifz-part">
@@ -78,7 +70,6 @@
                     <option value="القرآن كاملاً">القرآن كاملاً</option>
                 </select>
             </div>
-
             <div class="form-group">
                 <label>شواهد المتون العلمية المحفوظة:</label>
                 <table>
@@ -88,19 +79,15 @@
                     <tr><td>متن الشاطبية</td><td><input type="radio" name="shatibiya" value="نعم"></td><td><input type="radio" name="shatibiya" value="لا"></td><td><input type="radio" name="shatibiya" value="غير مطلوب" checked></td></tr>
                 </table>
             </div>
-
-            <div class="form-group">
-                <label>ملاحظات وتوجيهات الشيخ المعلم:</label>
-                <textarea id="teacher-notes" rows="3" placeholder="أكتب ملاحظات الأداء هنا..."></textarea>
-            </div>
-
+            <div class="form-group"><label>ملاحظات وتوجيهات الشيخ المعلم:</label><textarea id="teacher-notes" rows="3" placeholder="أكتب ملاحظات الأداء هنا..."></textarea></div>
             <button type="submit" class="btn" id="submit-btn">💾 حفظ وإرسال التقرير تلقائياً</button>
         </form>
     </div>
 </div>
 
 <script>
-    const databaseURL = "https://script.google.com/macros/s/AKfycbzE8ZfQ8e5S_P6E9RGoO-v-B0O8tS6f18nbe9jG_j2vG8LgYwA3t9B8N-V3fXvF3g/exec";
+    const dbAPI = "https://api.jsonbin.io/v3/b/6648ef0eacc3466885661413";
+    const apiKey = "$2a$10$w82vAofg6w8f6X5WqK890uE1r5sUq5e5M4aA2bC3dE4fG5h6i7j8k";
     const form = document.getElementById('report-form');
 
     form.addEventListener('submit', async function(e) {
@@ -108,35 +95,43 @@
         const btn = document.getElementById('submit-btn');
         const alertBox = document.getElementById('alert-box');
         btn.disabled = true;
-        btn.innerText = "جاري الحفظ التلقائي... ⏳";
+        btn.innerText = "جاري الحفظ والرفع التلقائي... ⏳";
 
         let activeTexts = [];
         if(document.querySelector('input[name="tohfa"]:checked').value === "نعم") activeTexts.push("تحفة الأطفال");
         if(document.querySelector('input[name="jazariya"]:checked').value === "نعم") activeTexts.push("الجزرية");
         if(document.querySelector('input[name="shatibiya"]:checked').value === "نعم") activeTexts.push("الشاطبية");
 
-        const payload = {
+        const newReport = {
             studentName: document.getElementById('student-name').value.trim(),
             studyType: document.querySelector('input[name="study-type"]:checked').value,
             readType: document.querySelector('input[name="read-type"]:checked').value,
             attendance: document.querySelector('input[name="attendance"]:checked').value,
             hifzPart: document.getElementById('hifz-part').value,
             texts: activeTexts.length > 0 ? activeTexts.join(' و ') : "لا يوجد",
-            notes: document.getElementById('teacher-notes').value || "لا توجد ملاحظات."
+            notes: document.getElementById('teacher-notes').value || "لا توجد ملاحظات.",
+            date: new Date().toLocaleDateString('ar-SA')
         };
 
         try {
-            await fetch(databaseURL, {
-                method: "POST",
-                mode: "no-cors",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
+            // جلب البيانات الحالية أولاً لإضافة التقرير الجديد عليها
+            const getRes = await fetch(`${dbAPI}/latest`, { headers: { "X-Master-Key": apiKey } });
+            const currentData = await getRes.json();
+            let reportsList = currentData.record.reports || [];
+            reportsList.push(newReport);
+
+            // تحديث الحوض السحابي بالكامل
+            await fetch(dbAPI, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json", "X-Master-Key": apiKey },
+                body: JSON.stringify({ reports: reportsList })
             });
+
             alertBox.style.display = 'block';
             form.reset();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } catch (error) {
-            alert("حدث خطأ أثناء الاتصال، يرجى إعادة المحاولة.");
+            alert("حدثت مشكلة في الشبكة، يرجى إعادة المحاولة.");
         } finally {
             btn.disabled = false;
             btn.innerText = "💾 حفظ وإرسال التقرير تلقائياً";
