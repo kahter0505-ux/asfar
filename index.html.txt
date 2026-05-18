@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة أسفار لتعليم القرآن الكريم - النسخة الإدارية المستقرة</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <style>
+        :root {
+            --bg-white: #f8f9fa;
+            --panel-white: #ffffff;
+            --text-dark: #2d3748;
+            --text-muted: #718096;
+            --gold-dark: #8c6d31;
+            --gold-light: #C5A059;
+            --border-light: #e2e8f0;
+            --green-dark: #1b4d3e;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .app-card {
+            background-color: var(--panel-white);
+            border: 2px solid var(--border-light);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 750px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+        }
+
+        .main-header {
+            text-align: center;
+            border-bottom: 2px solid var(--border-light);
+            padding-bottom: 20px;
+            margin-bottom: 35px;
+        }
+
+        .main-header h2 { margin: 0; color: var(--gold-dark); font-size: 28px; font-weight: 600; }
+        .main-header p { margin: 8px 0 0 0; color: var(--text-muted); font-size: 15px; }
+        .form-group { margin-bottom: 28px; }
+        .form-group label { display: block; margin-bottom: 12px; font-size: 18px; font-weight: 600; color: var(--text-dark); }
+        
+        .input-field, .select-field {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 18px;
+            color: var(--text-dark);
+            background-color: #fff;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .file-label {
+            display: block;
+            text-align: center;
+            background: #fdfbf7;
+            border: 2px dashed var(--gold-light);
+            padding: 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            color: var(--gold-dark);
+            transition: all 0.3s ease;
+        }
+        .file-label:hover { background: rgba(197, 160, 89, 0.1); }
+        #logoUpload { display: none; }
+
+        .options-flex { display: flex; gap: 12px; flex-wrap: wrap; }
+        .custom-radio {
+            background: #fff; border: 2px solid var(--border-light); padding: 14px 24px;
+            border-radius: 12px; cursor: pointer; font-size: 17px; font-weight: 500;
+            display: flex; align-items: center; gap: 10px; user-select: none;
+        }
+        .custom-radio input { width: 20px; height: 20px; accent-color: var(--gold-dark); margin: 0; }
+        .custom-radio:has(input:checked) { border-color: var(--gold-dark); background-color: rgba(197, 160, 89, 0.08); color: var(--gold-dark); }
+
+        .textarea-field { width: 100%; padding: 16px; border: 2px solid var(--border-light); border-radius: 12px; font-size: 18px; box-sizing: border-box; outline: none; }
+        .action-btn { width: 100%; padding: 18px; border: none; border-radius: 12px; font-size: 19px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+        .btn-submit { background-color: var(--gold-dark); color: #ffffff; }
+
+        .btn-secure-clear { 
+            background: #fff5f5; 
+            color: #d90429; 
+            font-size: 15px; 
+            font-weight: bold;
+            margin-top: 25px; 
+            border: 2px dashed #ef233c; 
+            cursor: pointer; 
+            padding: 14px 24px;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.2s;
+        }
+        .btn-secure-clear:hover { background-color: #ffe3e6; }
+
+        .inline-auth-box {
+            display: none;
+            background: #fffdf9;
+            border: 2px solid var(--gold-light);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+            text-align: center;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+        }
+
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 16px; }
+        .admin-table th, .admin-table td { border: 1px solid var(--border-light); padding: 14px; text-align: center; }
+        .admin-table th { background-color: #fdfbf7; color: var(--gold-dark); }
+        .view-btn { background-color: var(--gold-dark); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .pdf-btn { background-color: var(--green-dark); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+
+        #livePreviewZone { margin-top: 25px; border: 3px dashed var(--gold-light); border-radius: 15px; padding: 20px; display: none; background-color: #fff; width: 100%; box-sizing: border-box; }
+        #hiddenReportCard { width: 100%; max-width: 800px; background-color: #ffffff; border: 15px solid var(--gold-light); padding: 30px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px; margin: 0 auto; }
+        .card-header-zone { text-align: center; border-bottom: 4px solid var(--gold-light); padding-bottom: 20px; width: 100%; }
+        .logo-image-container { max-width: 250px; max-height: 100px; margin: 0 auto 10px auto; display: block; object-fit: contain; }
+        .card-header-zone h3 { font-size: 24px; color: var(--gold-dark); margin: 10px 0 0 0; font-weight: 800; text-align: center; }
+        .card-title-box { font-size: 22px; font-weight: 800; color: #111; border-right: 6px solid var(--gold-light); padding-right: 12px; text-align: right; }
+        .grid-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        @media(max-width: 600px) { .grid-layout { grid-template-columns: 1fr; } }
+
+        .block-info { background: #fdfbf7; border: 2px solid var(--border-light); border-radius: 12px; padding: 15px; text-align: right; }
+        .block-info h4 { margin: 0 0 10px 0; color: var(--gold-dark); font-size: 18px; font-weight: bold; border-bottom: 2px solid var(--gold-light); padding-bottom: 4px; }
+        .block-info p { font-size: 16px; line-height: 1.6; margin: 0; font-weight: 600; color: #2d3748; }
+        .block-info span { color: var(--gold-dark); font-weight: 800; }
+
+        .chart-area-box { grid-column: span 2; background: #fdfbf7; border: 2px solid var(--border-light); border-radius: 12px; padding: 15px; text-align: right; }
+        @media(max-width: 600px) { .chart-area-box { grid-column: span 1; } }
+        .chart-area-box h4 { margin: 0; color: var(--gold-dark); font-size: 18px; font-weight: bold; }
+        
+        .chart-wrapper-grid { display: flex; justify-content: space-around; align-items: flex-end; gap: 10px; margin-top: 30px; height: 180px; }
+        .chart-column-item { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; flex: 1; }
+        .bar-container-box { height: 140px; width: 40px; background-color: #eaeef3; border-radius: 6px 6px 0 0; display: flex; flex-direction: column; justify-content: flex-end; position: relative; border-bottom: 3px solid var(--gold-light); }
+        .visual-bar { width: 100%; border-radius: 4px 4px 0 0; min-height: 5px; position: relative; }
+        
+        .bar-attendance { background: linear-gradient(to top, #ef233c, #d90429); } 
+        .bar-hifz { background: linear-gradient(to top, #2b2d42, #4a4e69); }       
+        .bar-maani { background: linear-gradient(to top, #8c6d31, #C5A059); }      
+        .bar-shatibiya { background: linear-gradient(to top, #1b4d3e, #2a9d8f); }  
+
+        .visual-bar-lbl { position: absolute; top: -28px; width: 100%; text-align: center; font-size: 14px; font-weight: bold; color: #111; }
+        .class-lbl { text-align: center; font-size: 14px; font-weight: bold; color: #1a1a1a; margin-top: 8px; }
+
+        .notes-zone { background: #fdfbf7; border-radius: 12px; padding: 15px; border: 2px solid var(--border-light); text-align: right; }
+        .notes-zone h4 { margin: 0 0 10px 0; color: var(--gold-dark); font-size: 18px; font-weight: bold; }
+        .notes-content { font-size: 16px; color: #2d3748; font-weight: 600; line-height: 1.6; }
+        .note-line { padding: 8px 12px; border-bottom: 2px dashed #e2e8f0; background-color: #ffffff; margin-bottom: 6px; border-radius: 6px; }
+
+        .footer-txt { text-align: center; color: var(--text-muted); font-size: 13px; font-weight: bold; border-top: 2px solid var(--border-light); padding-top: 12px; margin-top: 10px; }
+        .pdf-hidden-container { position: absolute; left: -9999px; top: 0; width: 800px; overflow: hidden; opacity: 0; }
+    </style>
+</head>
+<body>
+
+    <div class="app-card">
+        <div class="main-header">
+            <h2>لوحة رصد استمارات طلاب أسفار</h2>
+            <p>النسخة الموحدة لتسهيل متابعة الإدارة والمسؤولين</p>
+        </div>
+
+        <div class="form-group">
+            <label>شعار الجمعية الرسمي</label>
+            <label for="logoUpload" class="file-label" id="uploadLabel">
+                📁 اضغط هنا لرفع شعار جمعية أسفار لتثبيته في التقارير
+            </label>
+            <input type="file" id="logoUpload" accept="image/png, image/jpeg, image/jpg" onchange="handleLogoSelect(this)">
+        </div>
+
+        <div class="form-group">
+            <label>اسم الطالب</label>
+            <input type="text" id="studentName" class="input-field" value="محمد بن عبد الله" placeholder="اكتب اسم الطالب الثابت هنا">
+        </div>
+
+        <div class="form-group">
+            <label>نوع الدراسة</label>
+            <div class="options-flex">
+                <label class="custom-radio"><input type="radio" name="studyType" value="حضوري" checked> حضوري</label>
+                <label class="custom-radio"><input type="radio" name="studyType" value="عن بعد"> عن بعد</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>الرواية / القراءة</label>
+            <div class="options-flex">
+                <label class="custom-radio"><input type="radio" name="readType" value="قراءة الإمام عاصم"> قراءة الإمام عاصم</label>
+                <label class="custom-radio"><input type="radio" name="readType" value="حفص" checked> حفص</label>
+                <label class="custom-radio"><input type="radio" name="readType" value="حفص بالقصر"> حفص بالقصر</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>الحضور والغياب اليومي</label>
+            <div class="options-flex">
+                <label class="custom-radio"><input type="radio" name="attendance" value="حاضر" checked> حاضر</label>
+                <label class="custom-radio"><input type="radio" name="attendance" value="غائب"> غائب</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>مقدار الحفظ الفعلي الحالي</label>
+            <select id="hifzPart" class="select-field">
+                <script>
+                    for (let i = 1; i <= 30; i++) {
+                        document.write(`<option value="${i}" ${i === 21 ? 'selected' : ''}>جزء ${i}</option>`);
+                    }
+                </script>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>حفظ المتون: التحفة</label>
+            <div class="options-flex">
+                <label class="custom-radio"><input type="radio" name="tohfa" value="نعم"> نعم</label>
+                <label class="custom-radio"><input type="radio" name="tohfa" value="لا"> لا</label>
+                <label class="custom-radio"><input type="radio" name="tohfa" value="غير مطلوب" checked> غير مطلوب</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>حفظ المتون: الجزرية</label>
+            <div class="options-flex">
+                <label class="custom-radio"><input type="radio" name="jazariya" value="نعم"> نعم</label>
+                <label class="custom-radio"><input type="radio" name="jazariya" value="لا"> لا</label>
+                <label class="custom-radio"><input type="radio" name="jazariya" value="غير مطلوب" checked> غير مطلوب</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>حفظ المتون: شواهد الشاطبية</label>
+            <div class="options-flex">
+                <label class="custom-radio"><input type="radio" name="shatibiyaText" value="نعم"> نعم</label>
+                <label class="custom-radio"><input type="radio" name="shatibiyaText" value="لا"> لا</label>
+                <label class="custom-radio"><input type="radio" name="shatibiyaText" value="غير مطلوب" checked> غير مطلوب</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>إتقان معاني الكلمات</label>
+            <div class="options-flex">
+                <label class="custom-radio"><input type="radio" name="maani" value="متقن" checked> متقن</label>
+                <label class="custom-radio"><input type="radio" name="maani" value="متوسط"> متوسط</label>
+                <label class="custom-radio"><input type="radio" name="maani" value="غير متقن"> غير متقن</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>كفاءة الاستدلال بشواهد الشاطبية (الرسم البياني)</label>
+            <div class="options-flex">
+                <label class="custom-radio"><input type="radio" name="shatibiyaChart" value="مستدعٍ للدليل فوراً"> مستدعٍ للدليل فوراً</label>
+                <label class="custom-radio"><input type="radio" name="shatibiyaChart" value="يستذكر بمساعدة"> يستذكر بمساعدة</label>
+                <label class="custom-radio"><input type="radio" name="shatibiyaChart" value="عاجز عن الاستدلال"> عاجز عن الاستدلال</label>
+                <label class="custom-radio"><input type="radio" name="shatibiyaChart" value="غير مطلوب" checked> غير مطلوب</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>الملاحظة التعليمية والتربوية اليومية</label>
+            <textarea id="notes" class="textarea-field" rows="2" placeholder="اكتب ملاحظة اليوم للطالب هنا..."></textarea>
+        </div>
+
+        <button class="action-btn btn-submit" onclick="saveDailyReport()">💾 حفظ التقرير اليومي للطالب</button>
+    </div>
+
+    <div class="app-card" style="border-color: var(--gold-light);">
+        <div class="main-header" style="border-bottom-color: var(--gold-light);">
+            <h2 style="color: var(--green-dark);">📊 بوابة المسؤول</h2>
+            <p>شاهد، تصفح، وراجع تقارير كافة الطلاب المنمقة هنا مباشرة دون الحاجة لملفات مبعثرة</p>
+        </div>
+
+        <div id="adminNoData" style="text-align: center; color: var(--text-muted); font-weight: bold; padding: 20px;">
+            لا توجد بيانات أو طلاب مرصودين في الذاكرة حالياً. قم بحفظ تقرير طالب ليظهر هنا فوراً.
+        </div>
+
+        <div id="adminTableContainer" style="display: none; overflow-x: auto;">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>اسم الطالب</th>
+                        <th>الأيام المرصودة</th>
+                        <th>أيام الحضور</th>
+                        <th>استعراض سريع منمق</th>
+                        <th>تصدير PDF الرسمي</th>
+                    </tr>
+                </thead>
+                <tbody id="adminTableBody">
+                    </tbody>
+            </table>
+        </div>
+
+        <div id="livePreviewZone">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px;">
+                <span style="font-weight: bold; color: var(--gold-dark); font-size: 18px;">🔍 معاينة حية ومنسقة لتقرير الطالب الحالي:</span>
+                <button onclick="document.getElementById('livePreviewZone').style.display='none'" style="background:#e63946; color:#fff; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">إغلاق المعاينة ×</button>
+            </div>
+            
+            <div id="hiddenReportCard">
+                <div class="card-header-zone">
+                    <img id="asfarLogoImg" class="logo-image-container" src="" alt="شعار جمعية أسفار" style="display:none;">
+                    <h3>التقرير الإحصائي الشهري لحلقات القرآن الكريم</h3>
+                </div>
+
+                <div class="card-title-box">
+                    تقرير أداء الطالب: <span id="cardStudentName" style="color: var(--gold-dark);">-</span>
+                </div>
+
+                <div class="grid-layout">
+                    <div class="block-info">
+                        <h4>📊 سجل الحضور والغياب والموثق</h4>
+                        <p>
+                            • بيئة ونوع الدراسة: <span id="resStudyType" style="color: var(--green-dark); font-weight: bold;">-</span><br>
+                            • أيام الحضور الفعلي: <span id="resAttend">0</span> أيام<br>
+                            • أيام الغياب الفعلي: <span id="resAbsent">0</span> أيام<br>
+                            • الرواية المعتمدة: <span id="resReadType">-</span>
+                        </p>
+                    </div>
+
+                    <div class="block-info">
+                        <h4>🏅 تقييم الحفظ والمتون العلمية</h4>
+                        <p>
+                            • حفظ التحفة: <span id="resTohfa">-</span><br>
+                            • حفظ الجزرية: <span id="resJazariya">-</span><br>
+                            • شواهد الشاطبية: <span id="resShatibiyaText">-</span><br>
+                            • حالة الرصد: <span id="resStatus" style="color: var(--green-dark); font-weight: 800;">مستمر بنجاح</span>
+                        </p>
+                    </div>
+
+                    <div class="chart-area-box">
+                        <h4>📈 الرسوم البيانية والأرقام التراكمية (بناءً على الأيام المرصودة)</h4>
+                        <div class="chart-wrapper-grid">
+                            <div class="chart-column-item">
+                                <div class="bar-container-box">
+                                    <div class="visual-bar bar-attendance" id="barAttendance">
+                                        <div class="visual-bar-lbl" id="lblAttendance">0%</div>
+                                    </div>
+                                </div>
+                                <div class="class-lbl">نسبة الحضور</div>
+                            </div>
+
+                            <div class="chart-column-item">
+                                <div class="bar-container-box">
+                                    <div class="visual-bar bar-hifz" id="barHifz">
+                                        <div class="visual-bar-lbl" id="lblHifz">جزء 0</div>
+                                    </div>
+                                </div>
+                                <div class="class-lbl">مقدار الحفظ</div>
+                            </div>
+
+                            <div class="chart-column-item">
+                                <div class="bar-container-box">
+                                    <div class="visual-bar bar-maani" id="barMaani">
+                                        <div class="visual-bar-lbl" id="lblMaani">0%</div>
+                                    </div>
+                                </div>
+                                <div class="class-lbl">إتقان الكلمات</div>
+                            </div>
+
+                            <div class="chart-column-item" id="shatibiyaChartColumn">
+                                <div class="bar-container-box">
+                                    <div class="visual-bar bar-shatibiya" id="barShatibiya">
+                                        <div class="visual-bar-lbl" id="lblShatibiya">0%</div>
+                                    </div>
+                                </div>
+                                <div class="class-lbl">إتقان الشواهد</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notes-zone">
+                    <h4>📌 ملاحظات المعلم التوجيهية والإرشادية (تفصيلياً):</h4>
+                    <div id="resNotes" class="notes-content">لا توجد ملاحظات مرصودة.</div>
+                </div>
+
+                <div class="footer-txt">جميع الحقوق محفوظة لجمعية أسفار لتعليم القرآن الكريم © 2026</div>
+            </div>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="btn-secure-clear" onclick="showInlineAuthBox()">🔒 مسح تخصصي مشروط بكلمة مرور للمسؤول</button>
+        </div>
+
+        <div id="inlineAuthBox" class="inline-auth-box">
+            <h3 style="margin: 0 0 12px 0; color: #d90429; font-weight: 800; font-size: 18px;">🔑 التحقق المباشر من صلاحية المسؤول</h3>
+            <p style="margin: 0 0 15px 0; color: var(--text-dark); font-size: 15px; font-weight: 600;">يرجى كتابة رمز الأمان لجمعية أسفار لتصفير السجلات التراكمية لبدء شهر جديد:</p>
+            <input type="password" id="inlinePasswordInput" class="input-field" style="max-width: 320px; text-align: center; margin: 0 auto 15px auto; display: block; border-color: var(--gold-light);" placeholder="••••••••">
+            
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button onclick="verifyAndExecuteClear()" style="background:#d90429; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:bold; cursor:pointer; font-size: 15px;">تأكيد المسح النهائي ⚠️</button>
+                <button onclick="document.getElementById('inlineAuthBox').style.display='none'" style="background:#718096; color:white; border:none; padding:12px 24px; border-radius:10px; font-weight:bold; cursor:pointer; font-size: 15px;">إلغاء الأمر</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="pdf-hidden-container" id="pdfBackupContainer"></div>
+
+    <script>
+        let globalLogoData = "";
+
+        function handleLogoSelect(input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    globalLogoData = e.target.result;
+                    const imgElement = document.getElementById('asfarLogoImg');
+                    imgElement.src = globalLogoData;
+                    imgElement.style.display = 'block';
+                    document.getElementById('uploadLabel').innerHTML = "✅ تم دمج الشعار بنجاح وجاهز للعرض والطباعة";
+                    refreshAdminDashboard();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        window.onload = function() {
+            refreshAdminDashboard();
+        };
+
+        function saveDailyReport() {
+            const name = document.getElementById('studentName').value.trim();
+            if(!name){ alert('يرجى كتابة اسم الطالب أولاً'); return; }
+
+            const studyType = document.querySelector('input[name="studyType"]:checked').value;
+            const readType = document.querySelector('input[name="readType"]:checked').value;
+            const attendance = document.querySelector('input[name="attendance"]:checked').value;
+            const hifzPart = parseInt(document.getElementById('hifzPart').value);
+            const tohfa = document.querySelector('input[name="tohfa"]:checked').value;
+            const jazariya = document.querySelector('input[name="jazariya"]:checked').value;
+            const shatibiyaText = document.querySelector('input[name="shatibiyaText"]:checked').value;
+            const maani = document.querySelector('input[name="maani"]:checked').value;
+            const shatibiyaChart = document.querySelector('input[name="shatibiyaChart"]:checked').value;
+            const notes = document.getElementById('notes').value.trim();
+
+            let studentsList = JSON.parse(localStorage.getItem('asfar_students_list')) || [];
+            if(!studentsList.includes(name)) {
+                studentsList.push(name);
+                localStorage.setItem('asfar_students_list', JSON.stringify(studentsList));
+            }
+
+            let database = JSON.parse(localStorage.getItem('student_' + name)) || [];
+            let options = { calendar: 'islamic-umalqura', day: 'numeric', month: 'long', year: 'numeric' };
+            let hijriDate = new Intl.DateTimeFormat('ar-SA-u-ca-islamic-umalqura', options).format(new Date());
+
+            database.push({ 
+                studyType, readType, attendance, hifzPart, tohfa, jazariya, shatibiyaText, maani, shatibiyaChart, notes, date: hijriDate
+            });
+
+            localStorage.setItem('student_' + name, JSON.stringify(database));
+            alert(`تم حفظ سجل اليوم بنجاح للطالب: ${name} (إجمالي الأيام: ${database.length})`);
+            document.getElementById('notes').value = "";
+            refreshAdminDashboard();
+        }
+
+        function refreshAdminDashboard() {
+            const studentsList = JSON.parse(localStorage.getItem('asfar_students_list')) || [];
+            const noDataDiv = document.getElementById('adminNoData');
+            const tableContainer = document.getElementById('adminTableContainer');
+            const tbody = document.getElementById('adminTableBody');
+
+            if(studentsList.length === 0) {
+                noDataDiv.style.display = "block";
+                tableContainer.style.display = "none";
+                return;
+            }
+
+            noDataDiv.style.display = "none";
+            tableContainer.style.display = "block";
+            tbody.innerHTML = "";
+
+            studentsList.forEach(name => {
+                let database = JSON.parse(localStorage.getItem('student_' + name)) || [];
+                if(database.length === 0) return;
+
+                let totalDays = database.length;
+                let attendCount = database.filter(item => item.attendance === "حاضر").length;
+
+                let tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="text-align:right; font-weight:bold; color:var(--text-dark);">${name}</td>
+                    <td>${totalDays} أيام</td>
+                    <td style="color:var(--green-dark); font-weight:bold;">${attendCount} أيام</td>
+                    <td><button class="view-btn" onclick="previewStudentReport('${name}')">🔍 تصفح منمق</button></td>
+                    <td><button class="pdf-btn" onclick="downloadSinglePDF('${name}')">📄 تحميل PDF</button></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function calculateReportData(name) {
+            let database = JSON.parse(localStorage.getItem('student_' + name)) || [];
+            if(database.length === 0) return null;
+
+            let totalDays = database.length;
+            let attendCount = database.filter(item => item.attendance === "حاضر").length;
+            let absentCount = database.filter(item => item.attendance === "غائب").length;
+            let attendancePercentage = totalDays > 0 ? ((attendCount / totalDays) * 100).toFixed(0) : 0;
+
+            let maaniScore = 0;
+            let shatibiyaScore = 0;
+            let isShatibiyaChartRequired = true;
+
+            database.forEach(day => {
+                if(day.maani === "متقن") maaniScore += 100;
+                else if(day.maani === "متوسط") maaniScore += 70;
+                else maaniScore += 40;
+
+                if(day.shatibiyaChart === "غير مطلوب") {
+                    isShatibiyaChartRequired = false;
+                } else {
+                    if(day.shatibiyaChart === "مستدعٍ للدليل فوراً") shatibiyaScore += 100;
+                    else if(day.shatibiyaChart === "يستذكر بمساعدة") shatibiyaScore += 70;
+                    else shatibiyaScore += 40;
+                }
+            });
+
+            let finalMaaniPercent = (maaniScore / totalDays).toFixed(0);
+            let finalShatibiyaPercent = isShatibiyaChartRequired ? (shatibiyaScore / totalDays).toFixed(0) : 0;
+            let latest = database[database.length - 1];
+
+            return {
+                totalDays, attendCount, absentCount, attendancePercentage,
+                finalMaaniPercent, finalShatibiyaPercent, isShatibiyaChartRequired,
+                latest, database
+            };
+        }
+
+        function previewStudentReport(name) {
+            let data = calculateReportData(name);
+            if(!data) return;
+
+            document.getElementById('livePreviewZone').style.display = "block";
+            document.getElementById('cardStudentName').innerText = name;
+            document.getElementById('resAttend').innerText = data.attendCount;
+            document.getElementById('resAbsent').innerText = data.absentCount;
+            document.getElementById('resStudyType').innerText = data.latest.studyType;
+            document.getElementById('resReadType').innerText = data.latest.readType;
+
+            document.getElementById('resTohfa').innerText = data.latest.tohfa === "غير مطلوب" ? "غير مقرر حالياً" : data.latest.tohfa;
+            document.getElementById('resJazariya').innerText = data.latest.jazariya === "غير مطلوب" ? "غير مقرر حالياً" : data.latest.jazariya;
+            document.getElementById('resShatibiyaText').innerText = data.latest.shatibiyaText === "غير مطلوب" ? "غير مقرر حالياً" : data.latest.shatibiyaText;
+
+            let allNotesArr = data.database.map((item, idx) => {
+                if (item.notes) return `<div class="note-line"><strong>• يوم ${idx+1} (${item.date || ''}):</strong> ${item.notes}</div>`;
+                return "";
+            }).filter(n => n !== "");
+            document.getElementById('resNotes').innerHTML = allNotesArr.length > 0 ? allNotesArr.join('') : "لا توجد ملاحظات مسجلة.";
+
+            document.getElementById('barAttendance').style.height = data.attendancePercentage + "%";
+            document.getElementById('lblAttendance').innerText = data.attendancePercentage + "%";
+
+            // تثبيت وتأكيد قراءة مقدار الحفظ لعرضه في الرسم البياني بشكل سليم ومستقر
+            let currentPart = data.latest.hifzPart || 21;
+            let hifzHeight = (currentPart / 30) * 100;
+            document.getElementById('barHifz').style.height = hifzHeight + "%";
+            document.getElementById('lblHifz').innerText = "جزء " + currentPart;
+
+            document.getElementById('barMaani').style.height = data.finalMaaniPercent + "%";
+            document.getElementById('lblMaani').innerText = data.finalMaaniPercent + "%";
+
+            const shatibiyaColumn = document.getElementById('shatibiyaChartColumn');
+            if (data.isShatibiyaChartRequired) {
+                shatibiyaColumn.style.display = "flex";
+                document.getElementById('barShatibiya').style.height = data.finalShatibiyaPercent + "%";
+                document.getElementById('lblShatibiya').innerText = data.finalShatibiyaPercent + "%";
+            } else {
+                shatibiyaColumn.style.display = "none";
+            }
+
+            document.getElementById('livePreviewZone').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function downloadSinglePDF(name) {
+            previewStudentReport(name);
+
+            setTimeout(() => {
+                const originCard = document.getElementById('hiddenReportCard');
+                const backupContainer = document.getElementById('pdfBackupContainer');
+                
+                const clonedCard = originCard.cloneNode(true);
+                backupContainer.innerHTML = "";
+                backupContainer.appendChild(clonedCard);
+
+                html2canvas(clonedCard, { 
+                    scale: 2, 
+                    backgroundColor: "#ffffff",
+                    logging: false,
+                    useCORS: true,
+                    allowTaint: true,
+                    width: 800,            
+                    height: clonedCard.offsetHeight
+                }).then(canvas => {
+                    const imgData = canvas.toDataURL('image/png');
+                    const { jsPDF } = window.jspdf;
+                    const computedPdfHeight = (clonedCard.offsetHeight * 210) / 800;
+                    const pdf = new jsPDF('p', 'mm', [210, computedPdfHeight]);
+                    pdf.addImage(imgData, 'PNG', 0, 0, 210, computedPdfHeight, undefined, 'FAST');
+                    pdf.save(`تقرير_حلقات_أسفار_${name}.pdf`);
+                    backupContainer.innerHTML = "";
+                });
+            }, 300);
+        }
+
+        function showInlineAuthBox() {
+            const authBox = document.getElementById('inlineAuthBox');
+            authBox.style.display = "block";
+            document.getElementById('inlinePasswordInput').value = ""; 
+            authBox.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function verifyAndExecuteClear() {
+            const enteredPass = document.getElementById('inlinePasswordInput').value;
+
+            if (enteredPass === 'asfar2026') {
+                localStorage.clear();
+                alert('✅ تم تصفير الذاكرة التراكمية، وإعادة تهيئة نظام الحلقات بنجاح لبدء شهر جديد.');
+                location.reload(); 
+            } else {
+                alert('❌ رمز صلاحية المسؤول غير صحيح! تم حظر الإجراء وحماية بيانات الطلاب من الحذف.');
+            }
+        }
+    </script>
+</body>
+</html>
