@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منصة أسفار - لوحة التوجيه الإدارية</title>
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
     <style>
         :root {
             --primary-color: #bc9c64;
@@ -18,150 +16,56 @@
             --success: #27ae60;
             --danger: #c0392b;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            direction: rtl;
-        }
-
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; direction: rtl; }
         .container { max-width: 1100px; margin: 0 auto; }
-
-        /* الهيدر الإداري الفخم */
-        .admin-header {
-            background: linear-gradient(135deg, var(--secondary-color) 0%, #1a252f 100%);
-            color: white;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-            border-bottom: 4px solid var(--primary-color);
-        }
-
+        .admin-header { background: linear-gradient(135deg, var(--secondary-color) 0%, #1a252f 100%); color: white; border-radius: 15px; padding: 30px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-bottom: 4px solid var(--primary-color); }
         .admin-header h1 { margin: 0; font-size: 26px; }
         .admin-header p { margin: 8px 0 0 0; color: #bbb; font-size: 14px; }
-
-        /* بطاقات الإحصائيات التلقائية */
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-            border: 1px solid #eef0f2;
-            border-top: 4px solid var(--primary-color);
-        }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: var(--card-bg); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #eef0f2; border-top: 4px solid var(--primary-color); }
         .stat-card.total { border-top-color: var(--secondary-color); }
         .stat-card.present { border-top-color: var(--success); }
         .stat-card.absent { border-top-color: var(--danger); }
         .stat-card .num { font-size: 28px; font-weight: bold; color: var(--secondary-color); margin-top: 5px; }
         .stat-card.present .num { color: var(--success); }
         .stat-card.absent .num { color: var(--danger); }
-
-        /* لوحة التحكم والجدول الرئيسي */
-        .main-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
-            border: 1px solid #eef0f2;
-        }
-
-        .card-title-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #f1f2f6;
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
+        .main-card { background: var(--card-bg); border-radius: 15px; padding: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.03); border: 1px solid #eef0f2; }
+        .card-title-bar { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f2f6; padding-bottom: 15px; margin-bottom: 20px; }
         .card-title-bar h2 { margin: 0; font-size: 20px; color: var(--secondary-color); }
-
-        /* الأزرار المخصصة لشاشات الآيباد والجوالات */
-        .btn {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
+        .btn { background-color: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
         .btn:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
         .btn-secondary { background-color: var(--secondary-color); }
         .btn-secondary:hover { background-color: #1a252f; }
         .btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--secondary-color); }
         .btn-outline:hover { background: #fdfaf4; }
-
-        /* تصميم الجداول المنظم */
         .table-responsive { overflow-x: auto; border-radius: 10px; border: 1px solid #eef0f2; }
         table { width: 100%; border-collapse: collapse; text-align: right; background: white; }
         th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 700; padding: 15px 12px; border-bottom: 2px solid #eef0f2; text-align: center; }
         td { padding: 14px 12px; border-bottom: 1px solid #f1f2f6; text-align: center; color: #555; font-size: 15px; }
-        tr:hover td { background-color: #fafbfc; }
-
-        /* شارات الحالة الملونة */
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block; }
         .badge-present { background-color: #d4edda; color: var(--success); }
         .badge-absent { background-color: #f8d7da; color: var(--danger); }
         .badge-read { background-color: #fff6e6; color: #b07d22; border: 1px solid #ffe8cc; }
-
-        /* لوحة معاينة واعتماد الـ PDF للطباعة */
-        #preview-section {
-            background: white;
-            padding: 40px;
-            border: 2px solid var(--primary-color);
-            border-radius: 12px;
-            margin-top: 30px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            display: none;
-        }
+        #preview-section { background: white; padding: 40px; border: 2px solid var(--primary-color); border-radius: 12px; margin-top: 30px; display: none; }
         .preview-header { text-align: center; border-bottom: 3px double var(--primary-color); padding-bottom: 20px; margin-bottom: 25px; }
         .preview-table { width: 100%; margin-top: 15px; border: 1px solid #ddd; border-collapse: collapse; }
         .preview-table td { padding: 12px 15px; text-align: right; border: 1px solid #eee; }
         .preview-table td.label { background-color: #f9f9f9; width: 30%; font-weight: bold; color: var(--secondary-color); }
-
         .status-msg { text-align: center; padding: 30px; color: #777; font-style: italic; }
     </style>
 </head>
 <body>
 
 <div class="container">
-
     <div class="admin-header">
         <h1>⚜️ مَركز أَسْفَار لِعُلُوم القُرآن ⚜️</h1>
         <p>لوحة التحكم والتوجيه الإدارية المعتمدة - جلب مباشر وحي للبيانات</p>
     </div>
 
     <div class="stats-grid">
-        <div class="stat-card total">
-            <div>إجمالي التقارير المرصودة</div>
-            <div class="num" id="stat-total">0</div>
-        </div>
-        <div class="stat-card present">
-            <div>عدد الطلاب الحاضرين</div>
-            <div class="num" id="stat-present">0</div>
-        </div>
-        <div class="stat-card absent">
-            <div>عدد الطلاب الغائبين</div>
-            <div class="num" id="stat-absent">0</div>
-        </div>
+        <div class="stat-card total"><div>إجمالي التقارير المرصودة</div><div class="num" id="stat-total">0</div></div>
+        <div class="stat-card present"><div>عدد الطلاب الحاضرين</div><div class="num" id="stat-present">0</div></div>
+        <div class="stat-card absent"><div>عدد الطلاب الغائبين</div><div class="num" id="stat-absent">0</div></div>
     </div>
 
     <div class="main-card">
@@ -184,7 +88,7 @@
                     </tr>
                 </thead>
                 <tbody id="admin-table-body">
-                    <tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري ربط البيانات السحابية الحية وعرض السجلات...</td></tr>
+                    <tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">اضغط على زر التحديث الفوري بالأعلى لمزامنة السجلات الحية...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -196,9 +100,7 @@
             <p style="margin:6px 0; font-size:16px; color: var(--primary-color); font-weight:bold;">التقرير الإحصائي المعتمد لأداء الطالب اليومي</p>
             <p id="preview-date" style="font-size:13px; color:#666; margin:0;"></p>
         </div>
-        
         <div id="preview-content"></div>
-        
         <div style="margin-top: 40px; display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 20px;">
             <div style="text-align: center; color: var(--secondary-color);"><strong>توقيع الشيخ المعلم</strong><br><br>...........................</div>
             <div style="text-align: center; color: var(--secondary-color);"><strong>اعتماد إدارة المركز</strong><br><br>...........................</div>
@@ -206,11 +108,10 @@
         <br>
         <button class="btn btn-secondary" onclick="closePreview()">إغلاق لوحة المعاينة ×</button>
     </div>
-
 </div>
 
 <script>
-    // الرابط السحابي الصافي والمباشر المربوط بجدول البيانات
+    // الرابط البرمجي المباشر والمشترك مع المعلم
     const databaseURL = "https://script.google.com/macros/s/AKfycbzE8ZfQ8e5S_P6E9RGoO-v-B0O8tS6f18nbe9jG_j2vG8LgYwA3t9B8N-V3fXvF3g/exec";
     let reportsData = [];
 
@@ -218,47 +119,52 @@
 
     async function fetchReports() {
         const tbody = document.getElementById('admin-table-body');
-        tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري جلب البيانات المباشرة بدون جدران حماية...</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري الاتصال بالسيرفر وجلب البيانات...⏳</td></tr>`;
         
         try {
-            // استخدام جلب مباشر وصافي بدون تعقيدات هيدرز أو قيود متصفح
+            // جلب البيانات كنص خام أولاً لتفادي حظر المتصفحات، ثم معالجتها كـ JSON بشكل آمن
             const response = await fetch(databaseURL);
-            reportsData = await response.json();
-            calculateStats(reportsData);
-            renderAdminTable(reportsData);
+            const textData = await response.text();
+            
+            // تحويل النص إلى مصفوفة برمجية صالحة للعرض
+            reportsData = JSON.parse(textData);
+            
+            if (Array.isArray(reportsData) && reportsData.length > 0) {
+                calculateStats(reportsData);
+                renderAdminTable(reportsData);
+            } else {
+                tbody.innerHTML = `<tr><td colspan="7" class="status-msg">المستودع متصل بنجاح، ولكن لا توجد بيانات مرصودة مسجلة حتى الآن.</td></tr>`;
+            }
         } catch (error) {
-            // في حال واجه الآيباد أو المتصفح أي قيد محلي، الكود سيعالج الأمر تلقائياً ويعرض البيانات المتاحة
-            tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color:red; font-weight: bold;">برجاء الضغط على زر "تحديث البيانات الفوري" بالأعلى لتنشيط الجلب والمزامنة.</td></tr>`;
+            console.error(error);
+            tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color:red; font-weight: bold;">فشل الاتصال التلقائي. يرجى إعادة المحاولة بالضغط على "تحديث البيانات الفوري".</td></tr>`;
         }
     }
 
     function calculateStats(data) {
-        if(!data || !Array.isArray(data)) return;
         document.getElementById('stat-total').innerText = data.length;
-        document.getElementById('stat-present').innerText = data.filter(s => s.attendance === 'حاضر').length;
-        document.getElementById('stat-absent').innerText = data.filter(s => s.attendance === 'غائب').length;
+        document.getElementById('stat-present').innerText = data.filter(s => s.attendance === 'حاضر' || s.attendance === 'حاضرا').length;
+        document.getElementById('stat-absent').innerText = data.filter(s => s.attendance === 'غائب' || s.attendance === 'غائبا').length;
     }
 
     function renderAdminTable(data) {
         const tbody = document.getElementById('admin-table-body');
         tbody.innerHTML = '';
 
-        if(!data || data.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="status-msg">لا توجد تقارير مرصودة في النظام حالياً.</td></tr>`;
-            return;
-        }
-
         data.forEach((student, index) => {
-            const attClass = student.attendance === 'حاضر' ? 'badge-present' : 'badge-absent';
+            const isAbsent = student.attendance === 'غائب' || student.attendance === 'غائبا';
+            const attClass = isAbsent ? 'badge-absent' : 'badge-present';
+            const attText = isAbsent ? 'غائب' : 'حاضر';
+            
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td style="font-weight: bold; color: var(--secondary-color); text-align: right;">${student.studentName || 'غير مسجل'}</td>
                 <td>${student.studyType || 'حضوري'}</td>
                 <td><span class="badge badge-read">${student.readType || 'حفص'}</span></td>
-                <td><span class="badge ${attClass}">${student.attendance || 'حاضر'}</span></td>
-                <td style="font-size: 13px; color: #666;">${student.hifzPart || ''} <small style="color:var(--primary-color);">(${student.texts || 'لا يوجد'})</small></td>
+                <td><span class="badge ${attClass}">${attText}</span></td>
+                <td style="font-size: 13px; color: #666;">${student.hifzPart || 'لم يحدد'} <small style="color:var(--primary-color);">(${student.texts || 'لا يوجد'})</small></td>
                 <td><button class="btn btn-outline" onclick="viewReport(${index})">🔍 معاينة</button></td>
-                <td><button class="btn" onclick="downloadPDF(${index})">📄 تصدير PDF</button></td>
+                <td><button class="btn" onclick="downloadPDF(${index})">📄 PDF</button></td>
             `;
             tbody.appendChild(row);
         });
@@ -270,10 +176,10 @@
         document.getElementById('preview-content').innerHTML = `
             <table class="preview-table">
                 <tr><td class="label">اسم الطالب الكامل:</td><td style="font-weight:bold; color:var(--secondary-color);">${student.studentName}</td></tr>
-                <tr><td class="label">نوع وبيئة الدراسة:</td><td>${student.studyType}</td></tr>
-                <tr><td class="label">الرواية / القراءة الحالية:</td><td>${student.readType}</td></tr>
-                <tr><td class="label">حالة الحضور والانتظام:</td><td>${student.attendance}</td></tr>
-                <tr><td class="label">مقدار الحفظ الفعلي الحالي:</td><td>${student.hifzPart}</td></tr>
+                <tr><td class="label">نوع وبيئة الدراسة:</td><td>${student.studyType || 'حضوري'}</td></tr>
+                <tr><td class="label">الرواية / القراءة الحالية:</td><td>${student.readType || 'حفص'}</td></tr>
+                <tr><td class="label">حالة الحضور والانتظام:</td><td>${student.attendance || 'حاضر'}</td></tr>
+                <tr><td class="label">مقدار الحفظ الفعلي الحالي:</td><td>${student.hifzPart || 'لا يوجد'}</td></tr>
                 <tr><td class="label">شواهد المتون المحفوظة:</td><td>${student.texts || 'لا يوجد'}</td></tr>
                 <tr><td class="label">توجيهات وملاحظات المعلم:</td><td style="color:#555; font-style:italic;">"${student.notes || 'لا توجد ملاحظات إضافية.'}"</td></tr>
             </table>
