@@ -85,7 +85,8 @@
 </div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQ-Gh67WTge4p2N2C5hx4m7AW9X3Ws-4kEGxNhzgXX-ZiNLhCST9_I4sHwvW32nh9kpA/exec";
+    // [سطر 80] تم دمج رابطك المستقر الجديد هنا تلقائياً ليعمل فوراً مع الكود
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzejnZhYoKZ8kzeq7Gbo7X9DG5VmSQPxsCsuzz8WslzKQcVL4ItNYdRiOTHgluX2x9e2w/exec";
 
     document.getElementById('report-form').addEventListener('submit', function(e) {
         e.preventDefault();
@@ -98,32 +99,44 @@
         if(document.querySelector('input[name="jazariya"]:checked').value === "نعم") activeTexts.push("الجزرية");
         if(document.querySelector('input[name="shatibiya"]:checked').value === "نعم") activeTexts.push("الشاطبية");
 
-        const studentName = encodeURIComponent(document.getElementById('student-name').value.trim());
-        const studyType = encodeURIComponent(document.querySelector('input[name="study-type"]:checked').value);
-        const readType = encodeURIComponent(document.querySelector('input[name="read-type"]:checked').value);
-        const attendance = encodeURIComponent(document.querySelector('input[name="attendance"]:checked').value);
-        const hifzPart = encodeURIComponent(document.getElementById('hifz-part').value);
-        const texts = encodeURIComponent(activeTexts.length > 0 ? activeTexts.join(' و ') : "لا يوجد");
-        const notes = encodeURIComponent(document.getElementById('teacher-notes').value || "لا توجد ملاحظات.");
-        const date = encodeURIComponent(new Date().toLocaleDateString('ar-SA'));
+        const today = new Date();
+        const dateStr = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
 
-        const script = document.createElement('script');
-        script.src = `${SCRIPT_URL}?action=insert&date=${date}&studentName=${studentName}&studyType=${studyType}&readType=${readType}&attendance=${attendance}&hifzPart=${hifzPart}&texts=${texts}&notes=${notes}&callback=renderData`;
-        document.body.appendChild(script);
-    });
+        const payload = {
+            date: dateStr,
+            studentName: document.getElementById('student-name').value.trim(),
+            studyType: document.querySelector('input[name="study-type"]:checked').value,
+            readType: document.querySelector('input[name="read-type"]:checked').value,
+            attendance: document.querySelector('input[name="attendance"]:checked').value,
+            hifzPart: document.getElementById('hifz-part').value,
+            texts: activeTexts.length > 0 ? activeTexts.join(' و ') : "لا يوجد",
+            notes: document.getElementById('teacher-notes').value || "لا توجد ملاحظات."
+        };
 
-    window.renderData = function(response) {
-        if(response.status === "success") {
+        // الإرسال بتقنية fetch المتوافقة تماماً مع الأجهزة المحمولة والآيباد لمنع تعليق الزر
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(() => {
             const alertBox = document.getElementById('alert-box');
             alertBox.style.display = 'block';
             document.getElementById('report-form').reset();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            const btn = document.getElementById('submit-btn');
+            
             btn.disabled = false;
             btn.innerText = "💾 حفظ وإرسال التقرير تلقائياً";
             setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
-        }
-    }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('حدث خطأ أثناء الاتصال، يرجى المحاولة مجدداً.');
+            btn.disabled = false;
+            btn.innerText = "💾 حفظ وإرسال التقرير تلقائياً";
+        });
+    });
 </script>
 </body>
 </html>
