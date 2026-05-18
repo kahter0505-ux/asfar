@@ -87,7 +87,7 @@
 
 <script>
     const dbAPI = "https://api.jsonbin.io/v3/b/6648ef0eacc3466885661413";
-    const apiKey = "$2a$10$w82vAofg6w8f6X5WqK890uE1r5sUq5e5M4aA2bC3dE4fG5h6i7j8k";
+    const masterKey = "$2a$10$w82vAofg6w8f6X5WqK890uE1r5sUq5e5M4aA2bC3dE4fG5h6i7j8k";
     const form = document.getElementById('report-form');
 
     form.addEventListener('submit', async function(e) {
@@ -114,16 +114,14 @@
         };
 
         try {
-            // جلب البيانات الحالية أولاً لإضافة التقرير الجديد عليها
-            const getRes = await fetch(`${dbAPI}/latest`, { headers: { "X-Master-Key": apiKey } });
+            const getRes = await fetch(`${dbAPI}/latest`, { headers: { "X-Master-Key": masterKey, "X-Bin-Meta": "false" } });
             const currentData = await getRes.json();
-            let reportsList = currentData.record.reports || [];
+            let reportsList = currentData.reports || [];
             reportsList.push(newReport);
 
-            // تحديث الحوض السحابي بالكامل
             await fetch(dbAPI, {
                 method: "PUT",
-                headers: { "Content-Type": "application/json", "X-Master-Key": apiKey },
+                headers: { "Content-Type": "application/json", "X-Master-Key": masterKey },
                 body: JSON.stringify({ reports: reportsList })
             });
 
