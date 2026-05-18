@@ -20,7 +20,6 @@
         .container { max-width: 1100px; margin: 0 auto; }
         .admin-header { background: linear-gradient(135deg, var(--secondary-color) 0%, #1a252f 100%); color: white; border-radius: 15px; padding: 30px; text-align: center; margin-bottom: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.08); border-bottom: 4px solid var(--primary-color); }
         .admin-header h1 { margin: 0; font-size: 26px; }
-        .admin-header p { margin: 8px 0 0 0; color: #bbb; font-size: 14px; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: var(--card-bg); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.02); border: 1px solid #eef0f2; border-top: 4px solid var(--primary-color); }
         .stat-card.total { border-top-color: var(--secondary-color); }
@@ -35,7 +34,6 @@
         .btn { background-color: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
         .btn:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
         .btn-secondary { background-color: var(--secondary-color); }
-        .btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--secondary-color); }
         .table-responsive { overflow-x: auto; border-radius: 10px; border: 1px solid #eef0f2; }
         table { width: 100%; border-collapse: collapse; text-align: right; background: white; }
         th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 700; padding: 15px 12px; border-bottom: 2px solid #eef0f2; text-align: center; }
@@ -57,7 +55,7 @@
 <div class="container">
     <div class="admin-header">
         <h1>⚜️ مَركز أَسْفَار لِعُلُوم القُرآن ⚜️</h1>
-        <p>لوحة التحكم والتوجيه الإدارية المعتمدة - جلب فوري من جدول البيانات</p>
+        <p>لوحة التحكم والتوجيه الإدارية المعتمدة - تحديث فوري مستقر</p>
     </div>
 
     <div class="stats-grid">
@@ -86,7 +84,7 @@
                     </tr>
                 </thead>
                 <tbody id="admin-table-body">
-                    <tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">اضغط على زر التحديث الفوري بالأعلى لعرض السجلات...</td></tr>
+                    <tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">اضغط على زر التحديث الفوري لجلب البيانات المباشرة...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -109,85 +107,52 @@
 </div>
 
 <script>
-    // جلب مباشر وآمن عبر سحب مخرجات الجدول المحدثة
-    const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Y8FAn6U7THeqF-jV2Yor_89ZcoFkGfcl_zZ5M0g9G8U-9MhWvFzYt-2_XgR_V8LhD-wL200Y6ZzF/pub?output=csv";
+    // تم استخدام رابط القراءة العام لتفادي حظر الحماية نهائياً
+    const dbAPI = "https://api.jsonbin.io/v3/qs/6648ef0eacc3466885661413";
     let reportsData = [];
 
     window.onload = fetchReports;
 
     async function fetchReports() {
         const tbody = document.getElementById('admin-table-body');
-        tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري معالجة ومزامنة البيانات حياً...⏳</td></tr>`;
-        
+        tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري جلب البيانات وعرض السجلات الحية...</td></tr>`;
         try {
-            const response = await fetch(csvURL + "&cache_bust=" + new Date().getTime());
-            const data = await response.text();
+            const response = await fetch(dbAPI, { method: "GET" });
+            const resData = await response.json();
             
-            // تحويل مخرجات الجدول النصية إلى مصفوفة ذكية
-            reportsData = parseCSV(data);
+            // استخراج المصفوفة مباشرة وبشكل متوافق مع كود المعلم
+            reportsData = resData.record.reports || [];
             
-            if (reportsData.length > 0) {
-                calculateStats(reportsData);
-                renderAdminTable(reportsData);
-            } else {
-                tbody.innerHTML = `<tr><td colspan="7" class="status-msg">الربط مستقر، ولكن لا توجد أسماء مرصودة بالجدول حالياً.</td></tr>`;
-            }
+            calculateStats(reportsData);
+            renderAdminTable(reportsData);
         } catch (error) {
-            tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color:red; font-weight: bold;">برجاء الضغط على زر "تحديث البيانات الفوري" بالأعلى لتنشيط العرض والمزامنة.</td></tr>`;
+            console.error(error);
+            tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color:red; font-weight: bold;">فشل جلب البيانات. يرجى التأكد من إرسال تقرير واحد على الأقل من صفحة المعلم أولاً.</td></tr>`;
         }
-    }
-
-    function parseCSV(text) {
-        const lines = text.split('\n');
-        const result = [];
-        if (lines.length <= 1) return result;
-        
-        // قراءة الأعمدة المربوطة بجدول البيانات الأساسي
-        for (let i = 1; i < lines.length; i++) {
-            if (!lines[i].trim()) continue;
-            const currentline = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            
-            // تنظيف النص من علامات الاقتباس الزائدة
-            const clean = (val) => val ? val.replace(/^"|"$/g, '').trim() : '';
-            
-            if(clean(currentline[1])) {
-                result.push({
-                    date: clean(currentline[0]),
-                    studentName: clean(currentline[1]),
-                    studyType: clean(currentline[2]),
-                    readType: clean(currentline[3]),
-                    attendance: clean(currentline[4]),
-                    hifzPart: clean(currentline[5]),
-                    texts: clean(currentline[6]),
-                    notes: clean(currentline[7])
-                });
-            }
-        }
-        return result.reverse(); // عرض الأحدث أولاً
     }
 
     function calculateStats(data) {
         document.getElementById('stat-total').innerText = data.length;
-        document.getElementById('stat-present').innerText = data.filter(s => s.attendance.includes('حاضر')).length;
-        document.getElementById('stat-absent').innerText = data.filter(s => s.attendance.includes('غائب')).length;
+        document.getElementById('stat-present').innerText = data.filter(s => s.attendance === 'حاضر').length;
+        document.getElementById('stat-absent').innerText = data.filter(s => s.attendance === 'غائب').length;
     }
 
     function renderAdminTable(data) {
         const tbody = document.getElementById('admin-table-body');
         tbody.innerHTML = '';
-
+        if(data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" class="status-msg">لا توجد تقارير مرصودة حالياً في النظام.</td></tr>`;
+            return;
+        }
         data.forEach((student, index) => {
-            const isAbsent = student.attendance.includes('غائب');
-            const attClass = isAbsent ? 'badge-absent' : 'badge-present';
-            const attText = isAbsent ? 'غائب' : 'حاضر';
-            
+            const attClass = student.attendance === 'حاضر' ? 'badge-present' : 'badge-absent';
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td style="font-weight: bold; color: var(--secondary-color); text-align: right;">${student.studentName}</td>
-                <td>${student.studyType || 'حضوري'}</td>
-                <td><span class="badge badge-read">${student.readType || 'حفص'}</span></td>
-                <td><span class="badge ${attClass}">${attText}</span></td>
-                <td style="font-size: 13px; color: #666;">${student.hifzPart || 'لم يحدد'} <small style="color:var(--primary-color);">(${student.texts || 'لا يوجد'})</small></td>
+                <td>${student.studyType}</td>
+                <td><span class="badge badge-read">${student.readType}</span></td>
+                <td><span class="badge ${attClass}">${student.attendance}</span></td>
+                <td style="font-size: 13px; color: #666;">${student.hifzPart} <small style="color:var(--primary-color);">(${student.texts})</small></td>
                 <td><button class="btn btn-outline" onclick="viewReport(${index})">🔍 معاينة</button></td>
                 <td><button class="btn" onclick="downloadPDF(${index})">📄 PDF</button></td>
             `;
@@ -197,16 +162,16 @@
 
     function viewReport(index) {
         const student = reportsData[index];
-        document.getElementById('preview-date').innerText = `تاريخ وثيقة الرصد: ${student.date}`;
+        document.getElementById('preview-date').innerText = `تاريخ وثيقة الرصد: ${student.date || new Date().toLocaleDateString('ar-SA')}`;
         document.getElementById('preview-content').innerHTML = `
             <table class="preview-table">
                 <tr><td class="label">اسم الطالب الكامل:</td><td style="font-weight:bold; color:var(--secondary-color);">${student.studentName}</td></tr>
-                <tr><td class="label">نوع وبيئة الدراسة:</td><td>${student.studyType || 'حضوري'}</td></tr>
-                <tr><td class="label">الرواية / القراءة الحالية:</td><td>${student.readType || 'حفص'}</td></tr>
-                <tr><td class="label">حالة الحضور والانتظام:</td><td>${student.attendance || 'حاضر'}</td></tr>
-                <tr><td class="label">مقدار الحفظ الفعلي الحالي:</td><td>${student.hifzPart || 'لا يوجد'}</td></tr>
-                <tr><td class="label">شواهد المتون المحفوظة:</td><td>${student.texts || 'لا يوجد'}</td></tr>
-                <tr><td class="label">توجيهات وملاحظات المعلم:</td><td style="color:#555; font-style:italic;">"${student.notes || 'لا توجد ملاحظات إضافية.'}"</td></tr>
+                <tr><td class="label">نوع الدراسة والبيئة:</td><td>${student.studyType}</td></tr>
+                <tr><td class="label">الرواية / القراءة الحالية:</td><td>${student.readType}</td></tr>
+                <tr><td class="label">حالة الحضور والانتظام:</td><td>${student.attendance}</td></tr>
+                <tr><td class="label">مقدار الحفظ الفعلي الحالي:</td><td>${student.hifzPart}</td></tr>
+                <tr><td class="label">شواهد المتون المحفوظة:</td><td>${student.texts}</td></tr>
+                <tr><td class="label">ملاحظات الشيخ المعلم:</td><td style="color:#555; font-style:italic;">"${student.notes}"</td></tr>
             </table>
         `;
         const viewSec = document.getElementById('preview-section');
@@ -220,10 +185,7 @@
         viewReport(index);
         const element = document.getElementById('preview-section');
         const student = reportsData[index];
-        const opt = {
-            margin: 12, filename: `تقرير_مركز_أسفار_${student.studentName}.pdf`,
-            html2canvas: { scale: 2 }, jsPDF: { format: 'a4', orientation: 'portrait' }
-        };
+        const opt = { margin: 12, filename: `تقرير_مركز_أسفار_${student.studentName}.pdf`, html2canvas: { scale: 2 }, jsPDF: { format: 'a4', orientation: 'portrait' } };
         const btn = element.querySelector('.btn-secondary');
         btn.style.display = 'none';
         html2pdf().set(opt).from(element).save().then(() => { btn.style.display = 'block'; closePreview(); });
