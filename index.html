@@ -107,13 +107,11 @@
         const notes = encodeURIComponent(document.getElementById('teacher-notes').value || "لا توجد ملاحظات.");
         const date = encodeURIComponent(new Date().toLocaleDateString('ar-SA'));
 
-        // هنا تم تصحيح اسم دالة الـ Callback لـ renderData لتتوافق مع دالة استقبال البيانات
         const script = document.createElement('script');
         script.src = `${SCRIPT_URL}?action=insert&date=${date}&studentName=${studentName}&studyType=${studyType}&readType=${readType}&attendance=${attendance}&hifzPart=${hifzPart}&texts=${texts}&notes=${notes}&callback=renderData`;
         document.body.appendChild(script);
     });
 
-    // دالة الاستقبال الصحيحة التي تنهي دوران الزر وتظهر النجاح
     window.renderData = function(response) {
         if(response.status === "success") {
             const alertBox = document.getElementById('alert-box');
