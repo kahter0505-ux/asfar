@@ -35,9 +35,7 @@
         .btn { background-color: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
         .btn:hover { background-color: var(--primary-dark); transform: translateY(-2px); }
         .btn-secondary { background-color: var(--secondary-color); }
-        .btn-secondary:hover { background-color: #1a252f; }
         .btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--secondary-color); }
-        .btn-outline:hover { background: #fdfaf4; }
         .table-responsive { overflow-x: auto; border-radius: 10px; border: 1px solid #eef0f2; }
         table { width: 100%; border-collapse: collapse; text-align: right; background: white; }
         th { background-color: #f8f9fa; color: var(--secondary-color); font-weight: 700; padding: 15px 12px; border-bottom: 2px solid #eef0f2; text-align: center; }
@@ -59,7 +57,7 @@
 <div class="container">
     <div class="admin-header">
         <h1>⚜️ مَركز أَسْفَار لِعُلُوم القُرآن ⚜️</h1>
-        <p>لوحة التحكم والتوجيه الإدارية المعتمدة - جلب مباشر وحي للبيانات</p>
+        <p>لوحة التحكم والتوجيه الإدارية المعتمدة - جلب فوري من جدول البيانات</p>
     </div>
 
     <div class="stats-grid">
@@ -88,7 +86,7 @@
                     </tr>
                 </thead>
                 <tbody id="admin-table-body">
-                    <tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">اضغط على زر التحديث الفوري بالأعلى لمزامنة السجلات الحية...</td></tr>
+                    <tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">اضغط على زر التحديث الفوري بالأعلى لعرض السجلات...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -111,40 +109,67 @@
 </div>
 
 <script>
-    // الرابط البرمجي المباشر والمشترك مع المعلم
-    const databaseURL = "https://script.google.com/macros/s/AKfycbzE8ZfQ8e5S_P6E9RGoO-v-B0O8tS6f18nbe9jG_j2vG8LgYwA3t9B8N-V3fXvF3g/exec";
+    // جلب مباشر وآمن عبر سحب مخرجات الجدول المحدثة
+    const csvURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vS7Y8FAn6U7THeqF-jV2Yor_89ZcoFkGfcl_zZ5M0g9G8U-9MhWvFzYt-2_XgR_V8LhD-wL200Y6ZzF/pub?output=csv";
     let reportsData = [];
 
     window.onload = fetchReports;
 
     async function fetchReports() {
         const tbody = document.getElementById('admin-table-body');
-        tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري الاتصال بالسيرفر وجلب البيانات...⏳</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري معالجة ومزامنة البيانات حياً...⏳</td></tr>`;
         
         try {
-            // جلب البيانات كنص خام أولاً لتفادي حظر المتصفحات، ثم معالجتها كـ JSON بشكل آمن
-            const response = await fetch(databaseURL);
-            const textData = await response.text();
+            const response = await fetch(csvURL + "&cache_bust=" + new Date().getTime());
+            const data = await response.text();
             
-            // تحويل النص إلى مصفوفة برمجية صالحة للعرض
-            reportsData = JSON.parse(textData);
+            // تحويل مخرجات الجدول النصية إلى مصفوفة ذكية
+            reportsData = parseCSV(data);
             
-            if (Array.isArray(reportsData) && reportsData.length > 0) {
+            if (reportsData.length > 0) {
                 calculateStats(reportsData);
                 renderAdminTable(reportsData);
             } else {
-                tbody.innerHTML = `<tr><td colspan="7" class="status-msg">المستودع متصل بنجاح، ولكن لا توجد بيانات مرصودة مسجلة حتى الآن.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="status-msg">الربط مستقر، ولكن لا توجد أسماء مرصودة بالجدول حالياً.</td></tr>`;
             }
         } catch (error) {
-            console.error(error);
-            tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color:red; font-weight: bold;">فشل الاتصال التلقائي. يرجى إعادة المحاولة بالضغط على "تحديث البيانات الفوري".</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color:red; font-weight: bold;">برجاء الضغط على زر "تحديث البيانات الفوري" بالأعلى لتنشيط العرض والمزامنة.</td></tr>`;
         }
+    }
+
+    function parseCSV(text) {
+        const lines = text.split('\n');
+        const result = [];
+        if (lines.length <= 1) return result;
+        
+        // قراءة الأعمدة المربوطة بجدول البيانات الأساسي
+        for (let i = 1; i < lines.length; i++) {
+            if (!lines[i].trim()) continue;
+            const currentline = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            
+            // تنظيف النص من علامات الاقتباس الزائدة
+            const clean = (val) => val ? val.replace(/^"|"$/g, '').trim() : '';
+            
+            if(clean(currentline[1])) {
+                result.push({
+                    date: clean(currentline[0]),
+                    studentName: clean(currentline[1]),
+                    studyType: clean(currentline[2]),
+                    readType: clean(currentline[3]),
+                    attendance: clean(currentline[4]),
+                    hifzPart: clean(currentline[5]),
+                    texts: clean(currentline[6]),
+                    notes: clean(currentline[7])
+                });
+            }
+        }
+        return result.reverse(); // عرض الأحدث أولاً
     }
 
     function calculateStats(data) {
         document.getElementById('stat-total').innerText = data.length;
-        document.getElementById('stat-present').innerText = data.filter(s => s.attendance === 'حاضر' || s.attendance === 'حاضرا').length;
-        document.getElementById('stat-absent').innerText = data.filter(s => s.attendance === 'غائب' || s.attendance === 'غائبا').length;
+        document.getElementById('stat-present').innerText = data.filter(s => s.attendance.includes('حاضر')).length;
+        document.getElementById('stat-absent').innerText = data.filter(s => s.attendance.includes('غائب')).length;
     }
 
     function renderAdminTable(data) {
@@ -152,13 +177,13 @@
         tbody.innerHTML = '';
 
         data.forEach((student, index) => {
-            const isAbsent = student.attendance === 'غائب' || student.attendance === 'غائبا';
+            const isAbsent = student.attendance.includes('غائب');
             const attClass = isAbsent ? 'badge-absent' : 'badge-present';
             const attText = isAbsent ? 'غائب' : 'حاضر';
             
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td style="font-weight: bold; color: var(--secondary-color); text-align: right;">${student.studentName || 'غير مسجل'}</td>
+                <td style="font-weight: bold; color: var(--secondary-color); text-align: right;">${student.studentName}</td>
                 <td>${student.studyType || 'حضوري'}</td>
                 <td><span class="badge badge-read">${student.readType || 'حفص'}</span></td>
                 <td><span class="badge ${attClass}">${attText}</span></td>
@@ -172,7 +197,7 @@
 
     function viewReport(index) {
         const student = reportsData[index];
-        document.getElementById('preview-date').innerText = `تاريخ وثيقة الرصد: ${student.date || new Date().toLocaleDateString('ar-SA')}`;
+        document.getElementById('preview-date').innerText = `تاريخ وثيقة الرصد: ${student.date}`;
         document.getElementById('preview-content').innerHTML = `
             <table class="preview-table">
                 <tr><td class="label">اسم الطالب الكامل:</td><td style="font-weight:bold; color:var(--secondary-color);">${student.studentName}</td></tr>
