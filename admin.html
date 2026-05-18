@@ -7,14 +7,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         :root {
-            --primary-color: #bc9c64;
-            --primary-dark: #a38450;
-            --secondary-color: #2c3e50;
-            --bg-color: #f4f6f9;
-            --card-bg: #ffffff;
-            --text-main: #333333;
-            --success: #27ae60;
-            --danger: #c0392b;
+            --primary-color: #bc9c64; --primary-dark: #a38450; --secondary-color: #2c3e50;
+            --bg-color: #f4f6f9; --card-bg: #ffffff; --text-main: #333333; --success: #27ae60; --danger: #c0392b;
         }
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; direction: rtl; }
         .container { max-width: 1100px; margin: 0 auto; }
@@ -51,11 +45,10 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <div class="admin-header">
         <h1>⚜️ مَركز أَسْفَار لِعُلُوم القُرآن ⚜️</h1>
-        <p>لوحة التحكم والتوجيه الإدارية المعتمدة - تحديث فوري مستقر</p>
+        <p>لوحة التحكم والتوجيه الإدارية المعتمدة - ربط جوجل الفوري المستقر</p>
     </div>
 
     <div class="stats-grid">
@@ -66,10 +59,9 @@
 
     <div class="main-card">
         <div class="card-title-bar">
-            <h2>📊 سجل أداء الطلاب اليومي الحقيقي</h2>
+            <h2>📊 سجل أداء الطلاب اليومي التلقائي</h2>
             <button class="btn btn-secondary" onclick="fetchReports()">🔄 تحديث البيانات الفوري</button>
         </div>
-
         <div class="table-responsive">
             <table>
                 <thead>
@@ -84,7 +76,7 @@
                     </tr>
                 </thead>
                 <tbody id="admin-table-body">
-                    <tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">اضغط على زر التحديث الفوري لجلب البيانات المباشرة...</td></tr>
+                    <tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري جلب السجلات الحية...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -107,44 +99,35 @@
 </div>
 
 <script>
-    // تم استخدام رابط القراءة العام لتفادي حظر الحماية نهائياً
-    const dbAPI = "https://api.jsonbin.io/v3/qs/6648ef0eacc3466885661413";
+    // الرابط السحابي المستخرج والجاهز للعمل المباشر لصفحة الإدارة
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQ-Gh67WTge4p2N2C5hx4m7AW9X3Ws-4kEGxNhzgXX-ZiNLhCST9_I4sHwvW32nh9kpA/exec";
     let reportsData = [];
 
     window.onload = fetchReports;
 
-    async function fetchReports() {
+    function fetchReports() {
         const tbody = document.getElementById('admin-table-body');
-        tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري جلب البيانات وعرض السجلات الحية...</td></tr>`;
-        try {
-            const response = await fetch(dbAPI, { method: "GET" });
-            const resData = await response.json();
-            
-            // استخراج المصفوفة مباشرة وبشكل متوافق مع كود المعلم
-            reportsData = resData.record.reports || [];
-            
-            calculateStats(reportsData);
-            renderAdminTable(reportsData);
-        } catch (error) {
-            console.error(error);
-            tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color:red; font-weight: bold;">فشل جلب البيانات. يرجى التأكد من إرسال تقرير واحد على الأقل من صفحة المعلم أولاً.</td></tr>`;
-        }
+        tbody.innerHTML = `<tr><td colspan="7" class="status-msg" style="color: var(--primary-color); font-weight: bold;">جاري تحديث البيانات من سحابة جوجل...</td></tr>`;
+        
+        // جلب البيانات بدون قيود CORS المتصفحات
+        const script = document.createElement('script');
+        script.src = SCRIPT_URL + "?callback=renderData&t=" + new Date().getTime();
+        document.body.appendChild(script);
     }
 
-    function calculateStats(data) {
-        document.getElementById('stat-total').innerText = data.length;
-        document.getElementById('stat-present').innerText = data.filter(s => s.attendance === 'حاضر').length;
-        document.getElementById('stat-absent').innerText = data.filter(s => s.attendance === 'غائب').length;
-    }
-
-    function renderAdminTable(data) {
+    function renderData(data) {
+        reportsData = data;
+        calculateStats(data);
         const tbody = document.getElementById('admin-table-body');
         tbody.innerHTML = '';
+        
         if(data.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" class="status-msg">لا توجد تقارير مرصودة حالياً في النظام.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="7" class="status-msg">لا توجد تقارير مرصودة حالياً في الجدول.</td></tr>`;
             return;
         }
-        data.forEach((student, index) => {
+        
+        [...data].reverse().forEach((student, index) => {
+            const originalIndex = data.length - 1 - index;
             const attClass = student.attendance === 'حاضر' ? 'badge-present' : 'badge-absent';
             const row = document.createElement('tr');
             row.innerHTML = `
@@ -153,16 +136,22 @@
                 <td><span class="badge badge-read">${student.readType}</span></td>
                 <td><span class="badge ${attClass}">${student.attendance}</span></td>
                 <td style="font-size: 13px; color: #666;">${student.hifzPart} <small style="color:var(--primary-color);">(${student.texts})</small></td>
-                <td><button class="btn btn-outline" onclick="viewReport(${index})">🔍 معاينة</button></td>
-                <td><button class="btn" onclick="downloadPDF(${index})">📄 PDF</button></td>
+                <td><button class="btn btn-outline" onclick="viewReport(${originalIndex})">🔍 معاينة</button></td>
+                <td><button class="btn" onclick="downloadPDF(${originalIndex})">📄 PDF</button></td>
             `;
             tbody.appendChild(row);
         });
     }
 
+    function calculateStats(data) {
+        document.getElementById('stat-total').innerText = data.length;
+        document.getElementById('stat-present').innerText = data.filter(s => s.attendance === 'حاضر').length;
+        document.getElementById('stat-absent').innerText = data.filter(s => s.attendance === 'غائب').length;
+    }
+
     function viewReport(index) {
         const student = reportsData[index];
-        document.getElementById('preview-date').innerText = `تاريخ وثيقة الرصد: ${student.date || new Date().toLocaleDateString('ar-SA')}`;
+        document.getElementById('preview-date').innerText = `تاريخ وثيقة الرصد: ${student.date}`;
         document.getElementById('preview-content').innerHTML = `
             <table class="preview-table">
                 <tr><td class="label">اسم الطالب الكامل:</td><td style="font-weight:bold; color:var(--secondary-color);">${student.studentName}</td></tr>
