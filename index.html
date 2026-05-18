@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة أسفار لتعليم القرآن - النظام السحابي المتكامل</title>
+    <title>منصة أسفار لتعليم القرآن - النظام السحابي التلقائي</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
@@ -31,7 +30,6 @@
             margin: 0 auto;
         }
 
-        /* الهيدر والشعار */
         .header-card {
             background: var(--card-bg);
             border: 2px solid var(--primary-color);
@@ -42,20 +40,9 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
 
-        .logo-placeholder {
-            font-size: 24px;
-            font-weight: bold;
-            color: var(--secondary-color);
-            margin-bottom: 10px;
-        }
+        .logo-placeholder { font-size: 24px; font-weight: bold; color: var(--secondary-color); margin-bottom: 10px; }
+        .main-title { color: var(--secondary-color); margin: 10px 0; font-size: 22px; }
 
-        .main-title {
-            color: var(--secondary-color);
-            margin: 10px 0;
-            font-size: 22px;
-        }
-
-        /* الكروت والقوائم */
         .card {
             background: var(--card-bg);
             border-radius: 12px;
@@ -65,157 +52,44 @@
             border: 1px solid #eef0f2;
         }
 
-        h2 {
-            color: var(--secondary-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 8px;
-            margin-top: 0;
-            font-size: 18px;
-        }
-
-        /* عناصر الإدخال */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
+        h2 { color: var(--secondary-color); border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; margin-top: 0; font-size: 18px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; }
 
         input[type="text"], select, textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 15px;
+            width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px;
         }
 
-        /* الراديو والخيارات المنسقة */
-        .radio-group {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .radio-btn {
-            flex: 1;
-            min-width: 120px;
-            position: relative;
-        }
-
-        .radio-btn input {
-            display: none;
-        }
-
+        .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .radio-btn { flex: 1; min-width: 120px; position: relative; }
+        .radio-btn input { display: none; }
         .radio-btn label {
-            display: block;
-            background: #fff;
-            border: 2px solid #e0e0e0;
-            padding: 12px;
-            text-align: center;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
+            display: block; background: #fff; border: 2px solid #e0e0e0; padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; transition: all 0.3s;
         }
 
         .radio-btn input:checked + label {
-            border-color: var(--primary-color);
-            background: #fdfaf4;
-            color: var(--secondary-color);
-            font-weight: bold;
+            border-color: var(--primary-color); background: #fdfaf4; color: var(--secondary-color); font-weight: bold;
         }
 
-        /* الأزرار */
         .btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            width: 100%;
-            transition: background 0.3s;
+            background: var(--primary-color); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background 0.3s;
         }
+        .btn:hover { background: #a38450; }
+        .btn-secondary { background: var(--secondary-color); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary-color); color: var(--secondary-color); }
 
-        .btn:hover {
-            background: #a38450;
-        }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { border: 1px solid #e0e0e0; padding: 12px; text-align: center; }
+        th { background-color: #f5f6f8; color: var(--secondary-color); }
 
-        .btn-secondary {
-            background: var(--secondary-color);
-        }
+        #preview-section { background: white; padding: 30px; border: 1px solid #ccc; border-radius: 8px; margin-top: 20px; display: none; }
+        .preview-header { text-align: center; border-bottom: 3px double var(--primary-color); padding-bottom: 15px; margin-bottom: 20px; }
 
-        .btn-secondary:hover {
-            background: #1a252f;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 2px solid var(--primary-color);
-            color: var(--secondary-color);
-        }
-
-        .grid-buttons {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        /* الجداول */
-        .table-container {
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 15px;
-        }
-
-        th, td {
-            border: 1px solid #e0e0e0;
-            padding: 12px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f5f6f8;
-            color: var(--secondary-color);
-        }
-
-        /* لوحة المعاينة المستهدفة للتصدير */
-        #preview-section {
-            background: white;
-            padding: 30px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-top: 20px;
-            display: none;
-        }
-
-        .preview-header {
-            text-align: center;
-            border-bottom: 3px double var(--primary-color);
-            padding-bottom: 15px;
-            margin-bottom: 20px;
-        }
-
-        /* التنبيهات */
-        .alert {
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-            display: none;
-        }
+        .alert { padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; display: none; }
         .alert-success { background: #d4edda; color: #155724; }
+        .loading-text { color: var(--primary-color); font-weight: bold; animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
     </style>
 </head>
 <body>
@@ -224,8 +98,8 @@
 
     <div class="header-card">
         <div class="logo-placeholder">⚜️ مَركز أَسْفَار لِعُلُوم القُرآن ⚜️</div>
-        <h1 class="main-title">النظام الإحصائي السحابي الموحد للمتابعة والرصد</h1>
-        <p style="color: #666; font-size: 14px; margin: 0;">الإصدار v4.0 المطور - دمج الإدارة والمعلمين سحابياً</p>
+        <h1 class="main-title">النظام الإحصائي السحابي الفوري للمتابعة والرصد</h1>
+        <p style="color: #666; font-size: 14px; margin: 0;">تحديث تلقائي كامل ومباشر بين المعلم والمسؤول</p>
     </div>
 
     <div class="alert alert-success" id="global-alert">تمت العملية بنجاح!</div>
@@ -241,46 +115,25 @@
         <div class="form-group">
             <label>نوع الدراسة:</label>
             <div class="radio-group">
-                <div class="radio-btn">
-                    <input type="radio" name="study-type" id="s-type-1" value="حضوري" checked>
-                    <label for="s-type-1">حضوري</label>
-                </div>
-                <div class="radio-btn">
-                    <input type="radio" name="study-type" id="s-type-2" value="عن بعد">
-                    <label for="s-type-2">عن بعد</label>
-                </div>
+                <div class="radio-btn"><input type="radio" name="study-type" id="s-type-1" value="حضوري" checked><label for="s-type-1">حضوري</label></div>
+                <div class="radio-btn"><input type="radio" name="study-type" id="s-type-2" value="عن بعد"><label for="s-type-2">عن بعد</label></div>
             </div>
         </div>
 
         <div class="form-group">
             <label>الرواية / القراءة الحالية:</label>
             <div class="radio-group">
-                <div class="radio-btn">
-                    <input type="radio" name="read-type" id="r-type-1" value="حفص" checked>
-                    <label for="r-type-1">حفص</label>
-                </div>
-                <div class="radio-btn">
-                    <input type="radio" name="read-type" id="r-type-2" value="حفص بالقصر">
-                    <label for="r-type-2">حفص بالقصر</label>
-                </div>
-                <div class="radio-btn">
-                    <input type="radio" name="read-type" id="r-type-3" value="قراءة الإمام عاصم">
-                    <label for="r-type-3">قراءة الإمام عاصم</label>
-                </div>
+                <div class="radio-btn"><input type="radio" name="read-type" id="r-type-1" value="حفص" checked><label for="r-type-1">حفص</label></div>
+                <div class="radio-btn"><input type="radio" name="read-type" id="r-type-2" value="حفص بالقصر"><label for="r-type-2">حفص بالقصر</label></div>
+                <div class="radio-btn"><input type="radio" name="read-type" id="r-type-3" value="قراءة الإمام عاصم"><label for="r-type-3">قراءة الإمام عاصم</label></div>
             </div>
         </div>
 
         <div class="form-group">
             <label>الحضور والغياب اليومي:</label>
             <div class="radio-group">
-                <div class="radio-btn">
-                    <input type="radio" name="attendance" id="att-1" value="حاضر" checked>
-                    <label for="att-1">حاضر</label>
-                </div>
-                <div class="radio-btn">
-                    <input type="radio" name="attendance" id="att-2" value="غائب">
-                    <label for="att-2">غائب</label>
-                </div>
+                <div class="radio-btn"><input type="radio" name="attendance" id="att-1" value="حاضر" checked><label for="att-1">حاضر</label></div>
+                <div class="radio-btn"><input type="radio" name="attendance" id="att-2" value="غائب"><label for="att-2">غائب</label></div>
             </div>
         </div>
 
@@ -298,51 +151,28 @@
         <div class="form-group">
             <label>شواهد المتون العلمية المحفوظة:</label>
             <table style="margin-top: 5px;">
-                <tr>
-                    <th>المتن</th>
-                    <th>نعم</th>
-                    <th>لا</th>
-                    <th>غير مطلوب</th>
-                </tr>
-                <tr>
-                    <td>تحفة الأطفال</td>
-                    <td><input type="radio" name="tohfa" value="نعم"></td>
-                    <td><input type="radio" name="tohfa" value="لا"></td>
-                    <td><input type="radio" name="tohfa" value="غير مطلوب" checked></td>
-                </tr>
-                <tr>
-                    <td>الجزرية</td>
-                    <td><input type="radio" name="jazariya" value="نعم"></td>
-                    <td><input type="radio" name="jazariya" value="لا"></td>
-                    <td><input type="radio" name="jazariya" value="غير مطلوب" checked></td>
-                </tr>
-                <tr>
-                    <td>متن الشاطبية</td>
-                    <td><input type="radio" name="shatibiya" value="نعم"></td>
-                    <td><input type="radio" name="shatibiya" value="لا"></td>
-                    <td><input type="radio" name="shatibiya" value="غير مطلوب" checked></td>
-                </tr>
+                <tr><th>المتن</th><th>نعم</th><th>لا</th><th>غير مطلوب</th></tr>
+                <tr><td>تحفة الأطفال</td><td><input type="radio" name="tohfa" value="نعم"></td><td><input type="radio" name="tohfa" value="لا"></td><td><input type="radio" name="tohfa" value="غير مطلوب" checked></td></tr>
+                <tr><td>الجزرية</td><td><input type="radio" name="jazariya" value="نعم"></td><td><input type="radio" name="jazariya" value="لا"></td><td><input type="radio" name="jazariya" value="غير مطلوب" checked></td></tr>
+                <tr><td>متن الشاطبية</td><td><input type="radio" name="shatibiya" value="نعم"></td><td><input type="radio" name="shatibiya" value="لا"></td><td><input type="radio" name="shatibiya" value="غير مطلوب" checked></td></tr>
             </table>
         </div>
 
         <div class="form-group">
             <label>ملاحظات وتوجيهات الشيخ المعلم:</label>
-            <textarea id="teacher-notes" rows="3" placeholder="أكتب أي ملاحظات تخص أداء الطالب التجويدي أو السلوكي..."></textarea>
+            <textarea id="teacher-notes" rows="3" placeholder="أكتب ملاحظات الأداء هنا..."></textarea>
         </div>
 
-        <button class="btn" onclick="saveData()">💾 حفظ تقرير الطالب اليومي وتأكيده</button>
+        <button class="btn" id="btn-save" onclick="saveDataToServer()">💾 حفظ وإرسال التقرير سحابياً فوراً</button>
     </div>
 
     <div class="card">
-        <h2>📊 بوابة المسؤول الإدارية الكبرى</h2>
-        <p style="font-size: 14px; color: #555; margin-top: -5px;">شاهد وتصفح، وراجع تقارير كافة الطلاب المنمقة هنا مباشرة دون الحاجة لملفات مبعثرة.</p>
-        
-        <div class="grid-buttons">
-            <button class="btn btn-secondary" onclick="exportCloudData()">🔗 نسخ كود المزامنة للمسؤول</button>
-            <button class="btn btn-outline" onclick="importCloudData()">📥 استيراد كود المزامنة من المعلم</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; margin-bottom: 15px;">
+            <h2 style="border:none; margin:0;">📊 لوحة المسؤول الإدارية الحية</h2>
+            <button class="btn btn-secondary" style="width:auto; padding: 6px 15px; font-size:13px;" onclick="loadDataFromServer()">🔄 تحديث البيانات الحية</button>
         </div>
-
-        <div class="table-container" style="margin-top: 20px;">
+        
+        <div class="table-container">
             <table>
                 <thead>
                     <tr>
@@ -350,13 +180,14 @@
                         <th>نوع الدراسة</th>
                         <th>الرواية</th>
                         <th>الحالة</th>
-                        <th>المتن المحفوظ</th>
-                        <th>استعراض سريع</th>
+                        <th>المتن والحفظ</th>
+                        <th>معاينة</th>
                         <th>تصدير PDF</th>
                     </tr>
                 </thead>
                 <tbody id="students-table-body">
-                    </tbody>
+                    <tr><td colspan="7" class="loading-text">جاري جلب البيانات الحية من السحاب...</td></tr>
+                </tbody>
             </table>
         </div>
     </div>
@@ -364,30 +195,80 @@
     <div id="preview-section">
         <div class="preview-header">
             <h2 style="border:none; margin:0; font-size: 26px; color:#2c3e50;">مَركز أَسْفَار لِعُلُوم القُرآن</h2>
-            <p style="margin:5px 0; font-size:16px; color:#bc9c64; font-weight:bold;">التقرير الإحصائي الفردي المعتمد لأداء الطالب</p>
+            <p style="margin:5px 0; font-size:16px; color:#bc9c64; font-weight:bold;">التقرير الإحصائي الشهري المعتمد لأداء الطالب</p>
             <p id="preview-date" style="font-size:12px; color:#666; margin:0;"></p>
         </div>
-        
         <div id="preview-content"></div>
-        
         <div style="margin-top: 30px; display: flex; justify-content: space-around; border-top: 1px solid #eee; padding-top: 15px;">
             <div style="text-align: center;"><strong>توقيع الشيخ المعلم</strong><br><br>...........................</div>
             <div style="text-align: center;"><strong>اعتماد إدارة المركز</strong><br><br>...........................</div>
         </div>
         <br>
-        <button class="btn btn-secondary" onclick="closePreview()">إغلاق المعاينة الحالية ×</button>
+        <button class="btn btn-secondary" onclick="closePreview()">إغلاق المعاينة ×</button>
     </div>
 
 </div>
 
 <script>
-    // مصفوفة حفظ البيانات محلياً وسحابياً
-    let studentsData = JSON.parse(localStorage.getItem('asfar_records')) || [];
+    // الإعدادات السحابية المدمجة والجاهزة مجاناً
+    const apiKey = "6648cd2595914101e4a7cd24";
+    const apiUrl = "https://asfar-db73.restdb.io/rest/records";
+    let cachedData = [];
 
-    // دالة حفظ التقرير من قبل المعلم
-    function saveData() {
+    // جلب البيانات تلقائياً للمسؤول عند فتح الصفحة
+    window.onload = function() { loadDataFromServer(); };
+
+    function loadDataFromServer() {
+        const tbody = document.getElementById('students-table-body');
+        tbody.innerHTML = `<tr><td colspan="7" class="loading-text">جاري تحديث لوحة الإدارة تلقائياً...</td></tr>`;
+
+        fetch(apiUrl, {
+            method: "GET",
+            headers: { "x-apikey": apiKey, "Cache-Control": "no-cache", "Content-Type": "application/json" }
+        })
+        .then(res => res.json())
+        .then(data => {
+            cachedData = data;
+            renderTable(data);
+        })
+        .catch(err => {
+            tbody.innerHTML = `<tr><td colspan="7" style="color:red;">فشل التحديث التلقائي. اضغط على زر التحديث بالأعلى.</td></tr>`;
+        });
+    }
+
+    function renderTable(data) {
+        const tbody = document.getElementById('students-table-body');
+        tbody.innerHTML = '';
+
+        if(!data || data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7" style="color:#999;">لا توجد تقارير مرصودة في السحاب حالياً.</td></tr>`;
+            return;
+        }
+
+        // ترتيب التقارير من الأحدث للأقدم
+        data.reverse().forEach(student => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td style="font-weight:bold; color:#2c3e50;">${student.name}</td>
+                <td>${student.studyType}</td>
+                <td><span style="background:#fff6e6; color:#b07d22; padding:3px 8px; border-radius:4px; font-size:13px;">${student.readType}</span></td>
+                <td><span style="color:${student.attendance === 'حاضر' ? '#27ae60':'#c0392b'}; font-weight:bold;">${student.attendance}</span></td>
+                <td><span style="font-size:13px; color:#555;">${student.hifzPart} (${student.texts})</span></td>
+                <td><button class="btn btn-outline" style="padding:5px 10px; font-size:13px;" onclick="viewStudent('${student._id}')">🔍 تصفح منمق</button></td>
+                <td><button class="btn btn-secondary" style="padding:5px 10px; font-size:13px;" onclick="downloadPDF('${student._id}')">📄 تحميل PDF</button></td>
+            `;
+            tbody.appendChild(row);
+        });
+    }
+
+    // إرسال البيانات للسحاب فوراً من قبل المعلم
+    function saveDataToServer() {
         const name = document.getElementById('student-name').value.trim();
         if(!name) { alert('الرجاء كتابة اسم الطالب أولاً!'); return; }
+
+        const btn = document.getElementById('btn-save');
+        btn.disabled = true;
+        btn.innerText = "جاري الإرسال للسحاب... ⏳";
 
         const studyType = document.querySelector('input[name="study-type"]:checked').value;
         const readType = document.querySelector('input[name="read-type"]:checked').value;
@@ -405,80 +286,34 @@
         if(shatibiya === "نعم") activeTexts.push("الشاطبية");
         const textsResult = activeTexts.length > 0 ? activeTexts.join(' و ') : "لا يوجد";
 
-        const newRecord = {
-            id: Date.now(),
-            name: name,
-            studyType: studyType,
-            readType: readType,
-            attendance: attendance,
-            hifzPart: hifzPart,
-            texts: textsResult,
-            notes: notes,
-            date: new Date().toLocaleDateString('ar-SA')
+        const payload = {
+            name: name, studyType: studyType, readType: readType, attendance: attendance,
+            hifzPart: hifzPart, texts: textsResult, notes: notes, date: new Date().toLocaleDateString('ar-SA')
         };
 
-        studentsData.push(newRecord);
-        localStorage.setItem('asfar_records', JSON.stringify(studentsData));
-        
-        // إعادة تعيين الحقول
-        document.getElementById('student-name').value = '';
-        document.getElementById('teacher-notes').value = '';
-        
-        showAlert('تم حفظ تقرير الطالب بنجاح وإدراجه في كود المزامنة!');
-        renderTable();
-    }
-
-    // عرض وتحديث جدول المسؤول
-    function renderTable() {
-        const tbody = document.getElementById('students-table-body');
-        tbody.innerHTML = '';
-
-        if(studentsData.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="7" style="color:#999;">لا توجد تقارير مرصودة حالياً.</td></tr>`;
-            return;
-        }
-
-        studentsData.forEach(student => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td style="font-weight:bold; color:#2c3e50;">${student.name}</td>
-                <td>${student.studyType}</td>
-                <td><span style="background:#fff6e6; color:#b07d22; padding:3px 8px; border-radius:4px; font-size:13px;">${student.readType}</span></td>
-                <td><span style="color:${student.attendance === 'حاضر' ? '#27ae60':'#c0392b'}; font-weight:bold;">${student.attendance}</span></td>
-                <td><span style="font-size:13px; color:#555;">${student.hifzPart} (${student.texts})</span></td>
-                <td><button class="btn btn-outline" style="padding:5px 10px; font-size:13px;" onclick="viewStudent(${student.id})">🔍 تصفح منمق</button></td>
-                <td><button class="btn btn-secondary" style="padding:5px 10px; font-size:13px;" onclick="downloadPDF(${student.id})">📄 تحميل PDF</button></td>
-            `;
-            tbody.appendChild(row);
+        fetch(apiUrl, {
+            method: "POST",
+            headers: { "x-apikey": apiKey, "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(result => {
+            btn.disabled = false;
+            btn.innerText = "💾 حفظ وإرسال التقرير سحابياً فوراً";
+            document.getElementById('student-name').value = '';
+            document.getElementById('teacher-notes').value = '';
+            showAlert('✅ تم إرسال التقرير وتحديث لوحة المسؤول تلقائياً بلمحة بصر!');
+            loadDataFromServer();
+        })
+        .catch(err => {
+            btn.disabled = false;
+            btn.innerText = "💾 حفظ وإرسال التقرير سحابياً فوراً";
+            alert('فشل الإرسال، تأكد من اتصال الإنترنت.');
         });
     }
 
-    // آلية المزامنة السحابية الذكية السهلة جداً للمسؤولين والمعلمين
-    function exportCloudData() {
-        if(studentsData.length === 0) { alert('لا توجد بيانات حالية لنسخها!'); return; }
-        const encryptedData = btoa(unescape(encodeURIComponent(JSON.stringify(studentsData))));
-        navigator.clipboard.writeText(encryptedData).then(() => {
-            alert('تم نسخ كود المزامنة السحابي بنجاح! أرسله للمسؤول عبر الواتساب ليفتحه من جهازه فوراً في ثوانٍ.');
-        });
-    }
-
-    function importCloudData() {
-        const code = prompt('الرجاء لصق كود المزامنة المستلم من المعلم هنا لفتح التقارير حياً:');
-        if(!code) return;
-        try {
-            const decodedData = JSON.parse(decodeURIComponent(escape(atob(code))));
-            if(Array.isArray(decodedData)) {
-                studentsData = decodedData;
-                localStorage.setItem('asfar_records', JSON.stringify(studentsData));
-                renderTable();
-                showAlert('تمت المزامنة سحابياً بنجاح وظهرت كافة التقارير الإدارية حية أمامك!');
-            } else { alert('كود المزامنة غير صحيح!'); }
-        } catch(e) { alert('فشلت عملية المزامنة، تأكد من نسخ الكود بالكامل.'); }
-    }
-
-    // المعاينة والتصفح المنمق للمسؤول
     function viewStudent(id) {
-        const student = studentsData.find(s => s.id === id);
+        const student = cachedData.find(s => s._id === id);
         if(!student) return;
 
         document.getElementById('preview-date').innerText = `تاريخ الرصد: ${student.date}`;
@@ -493,31 +328,21 @@
                 <tr><td style="background:#f9f9f9;"><strong>توجيهات الشيخ المعلم:</strong></td><td style="color:#555; font-style:italic;">"${student.notes}"</td></tr>
             </table>
         `;
-        
         const previewSection = document.getElementById('preview-section');
         previewSection.style.display = 'block';
         previewSection.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function closePreview() {
-        document.getElementById('preview-section').style.display = 'none';
-    }
+    function closePreview() { document.getElementById('preview-section').style.display = 'none'; }
 
-    // تصدير وتحميل التقرير الرسمي كـ PDF بجودة عالية للمسؤول
     function downloadPDF(id) {
         viewStudent(id);
         const element = document.getElementById('preview-section');
-        const student = studentsData.find(s => s.id === id);
-        
+        const student = cachedData.find(s => s._id === id);
         const opt = {
-            margin:       10,
-            filename:     `تقرير_طالب_أسفار_${student.name}.pdf`,
-            image:        { type: 'jpeg', quality: 0.98 },
-            html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            margin: 10, filename: `تقرير_طالب_أسفار_${student.name}.pdf`, image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 }, jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
         };
-
-        // إخفاء زر الإغلاق مؤقتاً أثناء الطباعة
         const closeBtn = element.querySelector('.btn-secondary');
         closeBtn.style.display = 'none';
 
@@ -529,14 +354,9 @@
 
     function showAlert(msg) {
         const alertBox = document.getElementById('global-alert');
-        alertBox.innerText = msg;
-        alertBox.style.display = 'block';
+        alertBox.innerText = msg; alertBox.style.display = 'block';
         setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
     }
-
-    // التشغيل الأولي عند فتح الصفحة
-    renderTable();
 </script>
-
 </body>
 </html>
