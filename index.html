@@ -85,13 +85,11 @@
 </div>
 
 <script>
-    // الرابط السحابي المستخرج والجاهز للعمل المباشر
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxQ-Gh67WTge4p2N2C5hx4m7AW9X3Ws-4kEGxNhzgXX-ZiNLhCST9_I4sHwvW32nh9kpA/exec";
 
     document.getElementById('report-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const btn = document.getElementById('submit-btn');
-        const alertBox = document.getElementById('alert-box');
         btn.disabled = true;
         btn.innerText = "جاري الحفظ والرفع التلقائي... ⏳";
 
@@ -109,20 +107,22 @@
         const notes = encodeURIComponent(document.getElementById('teacher-notes').value || "لا توجد ملاحظات.");
         const date = encodeURIComponent(new Date().toLocaleDateString('ar-SA'));
 
-        // آلية JSONP الآمنة للتخطي الفوري لحظر متصفحات الآيباد وسفاري
+        // هنا تم تصحيح اسم دالة الـ Callback لـ renderData لتتوافق مع دالة استقبال البيانات
         const script = document.createElement('script');
-        script.src = `${SCRIPT_URL}?action=insert&date=${date}&studentName=${studentName}&studyType=${studyType}&readType=${readType}&attendance=${attendance}&hifzPart=${hifzPart}&texts=${texts}&notes=${notes}&callback=onSuccess`;
+        script.src = `${SCRIPT_URL}?action=insert&date=${date}&studentName=${studentName}&studyType=${studyType}&readType=${readType}&attendance=${attendance}&hifzPart=${hifzPart}&texts=${texts}&notes=${notes}&callback=renderData`;
         document.body.appendChild(script);
     });
 
-    function onSuccess(response) {
+    // دالة الاستقبال الصحيحة التي تنهي دوران الزر وتظهر النجاح
+    window.renderData = function(response) {
         if(response.status === "success") {
             const alertBox = document.getElementById('alert-box');
             alertBox.style.display = 'block';
             document.getElementById('report-form').reset();
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            document.getElementById('submit-btn').disabled = false;
-            document.getElementById('submit-btn').innerText = "💾 حفظ وإرسال التقرير تلقائياً";
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = false;
+            btn.innerText = "💾 حفظ وإرسال التقرير تلقائياً";
             setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
         }
     }
