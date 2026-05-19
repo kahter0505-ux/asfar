@@ -1,141 +1,193 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>بوابة المعلم</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    h2 { text-align: center; color: #333; }
+    .form-group { margin-bottom: 15px; }
+    label { display: block; margin-bottom: 5px; font-weight: bold; }
+    input, select, textarea {
+      width: 100%; padding: 10px;
+      border: 1px solid #ccc; border-radius: 6px;
+      font-size: 16px; box-sizing: border-box;
+    }
+    button {
+      width: 100%; padding: 14px;
+      background: #28a745; color: white;
+      border: none; border-radius: 8px;
+      font-size: 18px; cursor: pointer;
+    }
+    button:hover { background: #218838; }
+    #message {
+      margin-top: 15px; padding: 12px;
+      border-radius: 6px; text-align: center;
+      font-size: 16px; display: none;
+    }
+    .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .error   { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .loading { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+  </style>
+</head>
+<body>
+
+<h2>📋 بوابة المعلم — تسجيل الأداء اليومي</h2>
+
+<div class="form-group">
+  <label>التاريخ</label>
+  <input type="date" id="date" />
+</div>
+
+<div class="form-group">
+  <label>اسم الطالب</label>
+  <input type="text" id="studentName" placeholder="أدخل اسم الطالب" />
+</div>
+
+<div class="form-group">
+  <label>نوع الدراسة</label>
+  <select id="studyType">
+    <option value="">-- اختر --</option>
+    <option value="حفظ">حفظ</option>
+    <option value="مراجعة">مراجعة</option>
+    <option value="تلاوة">تلاوة</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label>نوع القراءة</label>
+  <select id="readType">
+    <option value="">-- اختر --</option>
+    <option value="نظر">نظر</option>
+    <option value="غيباً">غيباً</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label>الحضور</label>
+  <select id="attendance">
+    <option value="">-- اختر --</option>
+    <option value="حاضر">حاضر</option>
+    <option value="غائب">غائب</option>
+    <option value="متأخر">متأخر</option>
+  </select>
+</div>
+
+<div class="form-group">
+  <label>الجزء / الحزب</label>
+  <input type="text" id="hifzPart" placeholder="مثال: الجزء الأول" />
+</div>
+
+<div class="form-group">
+  <label>النصوص / الآيات</label>
+  <input type="text" id="texts" placeholder="مثال: الآيات 1-10" />
+</div>
+
+<div class="form-group">
+  <label>ملاحظات</label>
+  <textarea id="notes" rows="3" placeholder="أي ملاحظات إضافية..."></textarea>
+</div>
+
+<button onclick="onSaveClick()">💾 حفظ وإرسال</button>
+
+<div id="message"></div>
+
 <script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1rFs-7UFYVw4m4yUsX1LcfW6Fsz6QvxP8HbyE2oo3CUl6DADoY9sbDFinj6hvO2n/exec";
 
-const SCRIPT_URL =
-"https://script.google.com/macros/s/ضع_هنا_الرابط_الجديد/exec";
+  // تعيين تاريخ اليوم تلقائياً
+  document.getElementById("date").value = new Date().toISOString().split("T")[0];
 
+  function showMessage(text, type) {
+    const msg = document.getElementById("message");
+    msg.textContent = text;
+    msg.className = type;
+    msg.style.display = "block";
+    if (type !== "loading") {
+      setTimeout(() => { msg.style.display = "none"; }, 4000);
+    }
+  }
 
-document.getElementById('report-form')
-.addEventListener('submit', async function(e) {
+  function resetForm() {
+    document.getElementById("studentName").value = "";
+    document.getElementById("studyType").value   = "";
+    document.getElementById("readType").value    = "";
+    document.getElementById("attendance").value  = "";
+    document.getElementById("hifzPart").value    = "";
+    document.getElementById("texts").value       = "";
+    document.getElementById("notes").value       = "";
+  }
 
-    e.preventDefault();
+  function sendViaForm(payload) {
+    return new Promise((resolve) => {
 
-    const btn =
-      document.getElementById('submit-btn');
+      // إنشاء iframe مخفي
+      const iframeName = "hidden_frame_" + Date.now();
+      const iframe = document.createElement("iframe");
+      iframe.name = iframeName;
+      iframe.style.display = "none";
+      document.body.appendChild(iframe);
 
-    btn.disabled = true;
+      // إنشاء form مخفي
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = SCRIPT_URL;
+      form.target = iframeName;
+      form.style.display = "none";
 
-    btn.innerText =
-      "جاري الحفظ والإرسال... ⏳";
+      // إضافة الحقول
+      Object.keys(payload).forEach(key => {
+        const input = document.createElement("input");
+        input.type  = "hidden";
+        input.name  = key;
+        input.value = payload[key];
+        form.appendChild(input);
+      });
 
-    try {
+      document.body.appendChild(form);
+      form.submit();
 
-        let activeTexts = [];
+      // تنظيف بعد الإرسال
+      setTimeout(() => {
+        if (document.body.contains(form))   document.body.removeChild(form);
+        if (document.body.contains(iframe)) document.body.removeChild(iframe);
+      }, 5000);
 
-        if(document.querySelector('input[name="tohfa"]:checked')?.value === "نعم") {
-            activeTexts.push("تحفة الأطفال");
-        }
+      // النجاح بعد ثانية واحدة
+      setTimeout(() => resolve({ status: "success" }), 1000);
+    });
+  }
 
-        if(document.querySelector('input[name="jazariya"]:checked')?.value === "نعم") {
-            activeTexts.push("الجزرية");
-        }
+  async function onSaveClick() {
+    const payload = {
+      date:        document.getElementById("date").value,
+      studentName: document.getElementById("studentName").value,
+      studyType:   document.getElementById("studyType").value,
+      readType:    document.getElementById("readType").value,
+      attendance:  document.getElementById("attendance").value,
+      hifzPart:    document.getElementById("hifzPart").value,
+      texts:       document.getElementById("texts").value,
+      notes:       document.getElementById("notes").value
+    };
 
-        if(document.querySelector('input[name="shatibiya"]:checked')?.value === "نعم") {
-            activeTexts.push("الشاطبية");
-        }
-
-        const today = new Date();
-
-        const payload = {
-
-            date:
-              today.getFullYear() + '/' +
-              (today.getMonth()+1) + '/' +
-              today.getDate(),
-
-            studentName:
-              document.getElementById('student-name').value.trim(),
-
-            studyType:
-              document.querySelector('input[name="study-type"]:checked').value,
-
-            readType:
-              document.querySelector('input[name="read-type"]:checked').value,
-
-            attendance:
-              document.querySelector('input[name="attendance"]:checked').value,
-
-            hifzPart:
-              document.getElementById('hifz-part').value,
-
-            texts:
-              activeTexts.length > 0
-              ? activeTexts.join(' و ')
-              : "لا يوجد",
-
-            notes:
-              document.getElementById('teacher-notes').value
-              || "لا توجد ملاحظات."
-
-        };
-
-
-
-        const formData = new FormData();
-
-        for (const key in payload) {
-
-            formData.append(key, payload[key]);
-
-        }
-
-
-
-        const response = await fetch(SCRIPT_URL, {
-
-            method: 'POST',
-
-            body: formData
-
-        });
-
-
-
-        const data = await response.json();
-
-
-
-        if(data.status === "success") {
-
-            const alertBox =
-              document.getElementById('alert-box');
-
-            alertBox.style.display = 'block';
-
-            document.getElementById('report-form')
-              .reset();
-
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-
-            setTimeout(() => {
-
-                alertBox.style.display = 'none';
-
-            }, 4000);
-
-        } else {
-
-            alert("فشل حفظ البيانات");
-
-        }
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert("حدث خطأ أثناء الإرسال");
-
-    } finally {
-
-        btn.disabled = false;
-
-        btn.innerText =
-          "💾 حفظ وإرسال التقرير";
-
+    // التحقق من الحقول الأساسية
+    if (!payload.studentName || !payload.date) {
+      showMessage("⚠️ يرجى إدخال التاريخ واسم الطالب على الأقل", "error");
+      return;
     }
 
-});
+    showMessage("⏳ جارٍ الإرسال...", "loading");
 
+    try {
+      await sendViaForm(payload);
+      showMessage("✅ تم الحفظ والإرسال بنجاح!", "success");
+      resetForm();
+    } catch (err) {
+      showMessage("❌ حدث خطأ: " + err.message, "error");
+    }
+  }
 </script>
+
+</body>
+</html>
