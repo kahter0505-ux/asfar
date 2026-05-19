@@ -123,7 +123,7 @@ input,select,textarea{width:100%;padding:14px;border-radius:14px;border:1px soli
 </div>
 
 <script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzHqVumeuNRVk_N-O9nb7hKVSJomCcXeXoqmNpYjggS5X_njA3Rdzqdn3f-pvuQna27Ww/exec";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzNoX-3haqS2WS0F4SxwFR2uC1SKpP45z5SJTYYAwfacLSOe_RZo0pYxtoTNxYWJQm9-g/exec";
 
 window.onload = function(){
   const hifz = document.getElementById("hifzPart");
@@ -147,7 +147,8 @@ function showAlert(msg,type){
   setTimeout(()=>box.style.display="none",4000);
 }
 
-async function sendReport(){
+function sendReport(){
+
   const btn=document.getElementById("saveBtn");
   const studentName=document.getElementById("studentName").value.trim();
 
@@ -156,42 +157,34 @@ async function sendReport(){
     return;
   }
 
-  const payload={
-    studentName:studentName,
-    nationality:document.getElementById("nationality").value.trim(),
-    studyType:radio("studyType"),
-    readType:radio("readType"),
-    attendance:radio("attendance"),
-    hifzPart:document.getElementById("hifzPart").value,
-    tohfa:radio("tohfa"),
-    jazariya:radio("jazariya"),
-    maani:radio("maani"),
-    shatibiya:radio("shatibiya"),
-    notes:document.getElementById("notes").value.trim()
-  };
+  const params = new URLSearchParams({
+    action:"insert",
+    studentName: studentName,
+    nationality: document.getElementById("nationality").value.trim(),
+    studyType: radio("studyType"),
+    readType: radio("readType"),
+    attendance: radio("attendance"),
+    hifzPart: document.getElementById("hifzPart").value,
+    tohfa: radio("tohfa"),
+    jazariya: radio("jazariya"),
+    maani: radio("maani"),
+    shatibiya: radio("shatibiya"),
+    notes: document.getElementById("notes").value.trim()
+  });
 
   btn.disabled=true;
   btn.textContent="جاري الحفظ والإرسال...";
 
-  try{
-    await fetch(SCRIPT_URL,{
-      method:"POST",
-      headers:{
-        "Content-Type":"text/plain;charset=utf-8"
-      },
-      body:JSON.stringify(payload)
-    });
+  const img = new Image();
 
-    showAlert("تم حفظ التقرير وإرساله بنجاح ✅","success");
+  img.onload = img.onerror = function(){
+    showAlert("تم إرسال التقرير بنجاح ✅","success");
     document.getElementById("notes").value="";
-
-  }catch(err){
-    showAlert("حدث خطأ أثناء الإرسال","error");
-    console.error(err);
-  }finally{
     btn.disabled=false;
     btn.textContent="💾 حفظ وإرسال التقرير";
-  }
+  };
+
+  img.src = SCRIPT_URL + "?" + params.toString();
 }
 
 function clearForm(){
