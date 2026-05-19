@@ -85,57 +85,58 @@
 </div>
 
 <script>
-    // [سطر 80] تم دمج رابطك المستقر الجديد هنا تلقائياً ليعمل فوراً مع الكود
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzejnZhYoKZ8kzeq7Gbo7X9DG5VmSQPxsCsuzz8WslzKQcVL4ItNYdRiOTHgluX2x9e2w/exec";
+    // تم زرع رابطك المحدث والجديد هنا تلقائياً
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1rFs-7UFYVw4m4yUsX1LcfW6Fsz6QvxP8HbyE2oo3CUl6DADoY9sbDFinj6hvO2n/exec";
 
-    document.getElementById('report-form').addEventListener('submit', function(e) {
+    document.getElementById('report-form').addEventListener('submit', async function(e) {
         e.preventDefault();
         const btn = document.getElementById('submit-btn');
         btn.disabled = true;
-        btn.innerText = "جاري الحفظ والرفع التلقائي... ⏳";
+        btn.innerText = "جاري الحفظ والرفع... ⏳";
 
-        let activeTexts = [];
-        if(document.querySelector('input[name="tohfa"]:checked').value === "نعم") activeTexts.push("تحفة الأطفال");
-        if(document.querySelector('input[name="jazariya"]:checked').value === "نعم") activeTexts.push("الجزرية");
-        if(document.querySelector('input[name="shatibiya"]:checked').value === "نعم") activeTexts.push("الشاطبية");
+        try {
+            let activeTexts = [];
+            if(document.querySelector('input[name="tohfa"]:checked')?.value === "نعم") activeTexts.push("تحفة الأطفال");
+            if(document.querySelector('input[name="jazariya"]:checked')?.value === "نعم") activeTexts.push("الجزرية");
+            if(document.querySelector('input[name="shatibiya"]:checked')?.value === "نعم") activeTexts.push("الشاطبية");
 
-        const today = new Date();
-        const dateStr = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
+            const today = new Date();
+            const dateStr = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
 
-        const payload = {
-            date: dateStr,
-            studentName: document.getElementById('student-name').value.trim(),
-            studyType: document.querySelector('input[name="study-type"]:checked').value,
-            readType: document.querySelector('input[name="read-type"]:checked').value,
-            attendance: document.querySelector('input[name="attendance"]:checked').value,
-            hifzPart: document.getElementById('hifz-part').value,
-            texts: activeTexts.length > 0 ? activeTexts.join(' و ') : "لا يوجد",
-            notes: document.getElementById('teacher-notes').value || "لا توجد ملاحظات."
-        };
+            const payload = {
+                date: dateStr,
+                studentName: document.getElementById('student-name').value.trim(),
+                studyType: document.querySelector('input[name="study-type"]:checked').value,
+                readType: document.querySelector('input[name="read-type"]:checked').value,
+                attendance: document.querySelector('input[name="attendance"]:checked').value,
+                hifzPart: document.getElementById('hifz-part').value,
+                texts: activeTexts.length > 0 ? activeTexts.join(' و ') : "لا يوجد",
+                notes: document.getElementById('teacher-notes').value || "لا توجد ملاحظات."
+            };
 
-        // الإرسال بتقنية fetch المتوافقة تماماً مع الأجهزة المحمولة والآيباد لمنع تعليق الزر
-        fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        })
-        .then(() => {
-            const alertBox = document.getElementById('alert-box');
-            alertBox.style.display = 'block';
-            document.getElementById('report-form').reset();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
+            const response = await fetch(SCRIPT_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if(data.status === "success") {
+                document.getElementById('alert-box').style.display = 'block';
+                document.getElementById('report-form').reset();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setTimeout(() => { document.getElementById('alert-box').style.display = 'none'; }, 4000);
+            } else {
+                alert("فشل الحفظ على السيرفر: " + data.message);
+            }
+        } catch(error) {
+            console.error(error);
+            alert("حدث خطأ في الاتصال أثناء الإرسال");
+        } finally {
             btn.disabled = false;
             btn.innerText = "💾 حفظ وإرسال التقرير تلقائياً";
-            setTimeout(() => { alertBox.style.display = 'none'; }, 4000);
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('حدث خطأ أثناء الاتصال، يرجى المحاولة مجدداً.');
-            btn.disabled = false;
-            btn.innerText = "💾 حفظ وإرسال التقرير تلقائياً";
-        });
+        }
     });
 </script>
 </body>
