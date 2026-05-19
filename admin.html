@@ -4,449 +4,253 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>لوحة المسؤولين - منصة أسفار</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:'Cairo',sans-serif;
-  background:#f5f1ea;
-  color:#172233;
-  padding:18px;
-}
+body{font-family:'Cairo',sans-serif;background:#f5f1ea;color:#172233;padding:18px}
 .container{max-width:1200px;margin:auto}
-.header{
-  background:#fff;
-  border-radius:28px;
-  padding:35px 25px;
-  text-align:center;
-  margin-bottom:22px;
-  box-shadow:0 10px 30px rgba(0,0,0,.05);
-}
-.logo{width:110px;height:110px;object-fit:contain;margin-bottom:12px}
+.header,.search-box,.student-card,.profile{background:#fff;border-radius:28px;box-shadow:0 10px 30px rgba(0,0,0,.05)}
+.header{text-align:center;padding:38px 25px;margin-bottom:22px}
+.logo{width:105px;height:105px;object-fit:contain;margin-bottom:10px}
 .header h1{color:#a77b2d;font-size:42px;font-weight:800}
-.header p{color:#777;font-size:18px;margin-top:5px}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-  gap:16px;
-  margin-bottom:22px;
-}
-.stat{
-  background:#fff7e8;
-  border:1px solid #e7dcc7;
-  border-radius:22px;
-  padding:22px;
-  text-align:center;
-}
-.stat strong{
-  display:block;
-  font-size:36px;
-  color:#a77b2d;
-}
+.header p{color:#777;font-size:18px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;margin-bottom:22px}
+.stat{background:#fff7e8;border:1px solid #e7dcc7;border-radius:22px;padding:22px;text-align:center}
+.stat strong{display:block;font-size:36px;color:#a77b2d}
 .stat span{font-weight:700}
-
-.search-box{
-  background:#fff;
-  border-radius:22px;
-  padding:18px;
-  margin-bottom:22px;
-}
-.search-box input{
-  width:100%;
-  padding:16px;
-  border:1px solid #ddd;
-  border-radius:16px;
-  font-size:17px;
-  font-family:'Cairo',sans-serif;
-}
-
-.students{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:18px;
-}
-.student-card{
-  background:#fff;
-  border:1px solid #e7dcc7;
-  border-radius:24px;
-  padding:22px;
-  box-shadow:0 8px 22px rgba(0,0,0,.04);
-}
-.student-card h2{
-  color:#a77b2d;
-  font-size:30px;
-  margin-bottom:12px;
-}
-.row{
-  display:flex;
-  justify-content:space-between;
-  border-bottom:1px dashed #eee;
-  padding:8px 0;
-  font-size:15px;
-}
-.row b{color:#172233}
-.btn{
-  width:100%;
-  border:0;
-  border-radius:15px;
-  padding:14px;
-  margin-top:15px;
-  background:#a77b2d;
-  color:white;
-  font-family:'Cairo',sans-serif;
-  font-weight:800;
-  font-size:16px;
-  cursor:pointer;
-}
-
-/* صفحة الطالب */
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.55);
-  z-index:999;
-  overflow:auto;
-  padding:18px;
-}
-.profile{
-  max-width:980px;
-  margin:auto;
-  background:#fffdf8;
-  border-radius:28px;
-  padding:24px;
-  border:6px solid #c8a45d;
-}
-.close{
-  background:#b42318;
-  color:white;
-  border:0;
-  border-radius:12px;
-  padding:10px 18px;
-  font-family:'Cairo',sans-serif;
-  font-weight:800;
-  margin-bottom:12px;
-}
-.profile-header{
-  text-align:center;
-  border-bottom:2px solid #c8a45d;
-  padding-bottom:14px;
-  margin-bottom:18px;
-}
-.profile-header img{
-  width:90px;
-  height:90px;
-  object-fit:contain;
-}
-.profile-header h2{
-  color:#a77b2d;
-  font-size:36px;
-  margin-top:8px;
-}
-.profile-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
-  gap:14px;
-  margin-bottom:18px;
-}
-.info-box{
-  background:#fff;
-  border:1px solid #e7dcc7;
-  border-radius:18px;
-  padding:16px;
-}
-.info-box span{
-  color:#777;
-  font-size:14px;
-}
-.info-box strong{
-  display:block;
-  font-size:24px;
-  color:#a77b2d;
-  margin-top:4px;
-}
-.section{
-  background:#fff;
-  border:1px solid #e7dcc7;
-  border-radius:20px;
-  padding:18px;
-  margin-bottom:16px;
-}
-.section h3{
-  color:#a77b2d;
-  margin-bottom:12px;
-  border-bottom:1px solid #c8a45d;
-  padding-bottom:7px;
-}
-.progress{
-  height:18px;
-  background:#eee3cf;
-  border-radius:20px;
-  overflow:hidden;
-  margin-top:8px;
-}
-.progress div{
-  height:100%;
-  background:linear-gradient(90deg,#9b7332,#d8b76b);
-  color:white;
-  text-align:center;
-  font-size:11px;
-  font-weight:bold;
-}
-.timeline{
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-}
-.day{
-  background:#fffaf2;
-  border:1px solid #eadcc4;
-  border-radius:16px;
-  padding:12px;
-}
-.day-title{
-  color:#a77b2d;
-  font-weight:800;
-  margin-bottom:7px;
-}
-.badge{
-  display:inline-block;
-  padding:4px 10px;
-  border-radius:14px;
-  font-size:12px;
-  font-weight:bold;
-}
-.good{background:#e8f8f1;color:#087653}
-.mid{background:#fff7df;color:#9b7332}
-.bad{background:#fdeaea;color:#b42318}
-.neutral{background:#eef2f7;color:#34495e}
-
-@media(max-width:768px){
-  .header h1{font-size:30px}
-  .profile-header h2{font-size:27px}
-}
+.search-box{padding:18px;margin-bottom:22px}
+.search-box input{width:100%;padding:16px;border:1px solid #ddd;border-radius:16px;font-size:17px;font-family:'Cairo'}
+.students{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
+.student-card{border:1px solid #e7dcc7;padding:22px}
+.student-card h2{color:#a77b2d;font-size:30px;margin-bottom:12px}
+.row{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #eee;padding:9px 0;font-size:15px}
+.row b{color:#172233;text-align:left}
+.btn{width:100%;border:0;border-radius:15px;padding:14px;margin-top:15px;background:#a77b2d;color:white;font-family:'Cairo';font-weight:800;font-size:16px;cursor:pointer}
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;overflow:auto;padding:18px}
+.profile{max-width:980px;margin:auto;background:#fffdf8;border:6px solid #c8a45d;padding:24px}
+.close{background:#b42318;color:white;border:0;border-radius:12px;padding:10px 18px;font-family:'Cairo';font-weight:800;margin-bottom:12px}
+.profile-header{text-align:center;border-bottom:2px solid #c8a45d;padding-bottom:14px;margin-bottom:18px}
+.profile-header img{width:90px;height:90px;object-fit:contain}
+.profile-header h2{color:#a77b2d;font-size:38px;margin-top:6px}
+.profile-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-bottom:18px}
+.info-box{background:#fff;border:1px solid #e7dcc7;border-radius:18px;padding:16px}
+.info-box span{color:#777;font-size:14px}
+.info-box strong{display:block;font-size:23px;color:#a77b2d;margin-top:4px}
+.section{background:#fff;border:1px solid #e7dcc7;border-radius:20px;padding:18px;margin-bottom:16px}
+.section h3{color:#a77b2d;margin-bottom:12px;border-bottom:1px solid #c8a45d;padding-bottom:7px}
+.progress{height:18px;background:#eee3cf;border-radius:20px;overflow:hidden;margin-top:8px}
+.progress div{height:100%;background:linear-gradient(90deg,#9b7332,#d8b76b);color:white;text-align:center;font-size:11px;font-weight:bold}
+.mini-bars{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:end;height:140px;border-bottom:2px solid #c8a45d;padding-bottom:5px;direction:ltr}
+.bar-wrap{text-align:center}
+.bar{width:42px;margin:auto;min-height:20px;border-radius:10px 10px 0 0;color:white;font-size:11px;font-weight:bold;padding-top:4px}
+.b1{background:#12664f}.b2{background:#c8a45d}.b3{background:#172233}.b4{background:#b42318}
+.bar-label{font-size:11px;font-weight:700;margin-top:5px}
+.timeline{display:flex;flex-direction:column;gap:10px}
+.day{background:#fffaf2;border:1px solid #eadcc4;border-radius:16px;padding:12px}
+.day-title{color:#a77b2d;font-weight:800;margin-bottom:7px}
+.badge{display:inline-block;padding:4px 10px;border-radius:14px;font-size:12px;font-weight:bold}
+.good{background:#e8f8f1;color:#087653}.mid{background:#fff7df;color:#9b7332}.bad{background:#fdeaea;color:#b42318}.neutral{background:#eef2f7;color:#34495e}
+@media(max-width:768px){.header h1{font-size:30px}.profile-header h2{font-size:28px}.stats{grid-template-columns:1fr 1fr}.mini-bars{grid-template-columns:repeat(4,1fr)}}
 </style>
 </head>
 
 <body>
-
 <div class="container">
 
-  <div class="header">
-    <img src="Asfar_logo_L@4x.png" class="logo">
-    <h1>منصة أسفار لتعليم القرآن</h1>
-    <p>لوحة المسؤولين لمتابعة التقارير التراكمية</p>
-  </div>
+<div class="header">
+<img src="Asfar_logo_L@4x.png" class="logo">
+<h1>منصة أسفار لتعليم القرآن</h1>
+<p>لوحة المسؤولين لمتابعة التقارير التراكمية</p>
+</div>
 
-  <div class="stats">
-    <div class="stat"><strong id="studentsCount">0</strong><span>عدد الطلاب</span></div>
-    <div class="stat"><strong id="reportsCount">0</strong><span>عدد التقارير</span></div>
-    <div class="stat"><strong id="attendanceAvg">0%</strong><span>متوسط الحضور</span></div>
-    <div class="stat"><strong id="nationalitiesCount">0</strong><span>عدد الجنسيات</span></div>
-  </div>
+<div class="stats">
+<div class="stat"><strong id="studentsCount">0</strong><span>عدد الطلاب</span></div>
+<div class="stat"><strong id="reportsCount">0</strong><span>عدد التقارير</span></div>
+<div class="stat"><strong id="attendanceAvg">0%</strong><span>متوسط الحضور</span></div>
+<div class="stat"><strong id="nationalitiesCount">0</strong><span>عدد الجنسيات</span></div>
+</div>
 
-  <div class="search-box">
-    <input id="searchInput" placeholder="ابحث باسم الطالب أو الجنسية..." oninput="renderStudents()">
-  </div>
+<div class="search-box">
+<input id="searchInput" placeholder="ابحث باسم الطالب أو الجنسية..." oninput="renderStudents()">
+</div>
 
-  <div id="studentsContainer" class="students">جاري تحميل البيانات...</div>
-
+<div id="studentsContainer" class="students">جاري تحميل البيانات...</div>
 </div>
 
 <div id="profileModal" class="modal">
-  <div class="profile">
-    <button class="close" onclick="closeProfile()">إغلاق</button>
+<div class="profile">
+<button class="close" onclick="closeProfile()">إغلاق</button>
 
-    <div class="profile-header">
-      <img src="Asfar_logo_L@4x.png">
-      <h2 id="profileName">اسم الطالب</h2>
-      <p>الملف التراكمي للطالب</p>
-    </div>
+<div class="profile-header">
+<img src="Asfar_logo_L@4x.png">
+<h2 id="profileName">اسم الطالب</h2>
+<p>الملف الفردي التراكمي للطالب</p>
+</div>
 
-    <div class="profile-grid">
-      <div class="info-box"><span>الجنسية</span><strong id="pNationality">-</strong></div>
-      <div class="info-box"><span>نوع الدراسة</span><strong id="pStudy">-</strong></div>
-      <div class="info-box"><span>الرواية</span><strong id="pRead">-</strong></div>
-      <div class="info-box"><span>عدد التقارير</span><strong id="pReports">0</strong></div>
-      <div class="info-box"><span>نسبة الحضور</span><strong id="pAttendance">0%</strong></div>
-      <div class="info-box"><span>آخر حفظ</span><strong id="pHifz">-</strong></div>
-    </div>
+<div class="profile-grid">
+<div class="info-box"><span>الجنسية</span><strong id="pNationality">-</strong></div>
+<div class="info-box"><span>نوع الدراسة</span><strong id="pStudy">-</strong></div>
+<div class="info-box"><span>الرواية</span><strong id="pRead">-</strong></div>
+<div class="info-box"><span>عدد التقارير</span><strong id="pReports">0</strong></div>
+<div class="info-box"><span>نسبة الحضور</span><strong id="pAttendance">0%</strong></div>
+<div class="info-box"><span>آخر حفظ</span><strong id="pHifz">-</strong></div>
+</div>
 
-    <div class="section">
-      <h3>مسار الإنجاز القرآني</h3>
-      <div class="row"><span>المحفوظ</span><b id="pSaved">-</b></div>
-      <div class="row"><span>المتبقي</span><b id="pRemain">-</b></div>
-      <div class="row"><span>الهدف القادم</span><b id="pGoal">-</b></div>
-      <div class="progress"><div id="pProgress" style="width:0%">0%</div></div>
-    </div>
+<div class="section">
+<h3>🏆 مسار الإنجاز القرآني</h3>
+<div class="row"><span>المحفوظ</span><b id="pSaved">-</b></div>
+<div class="row"><span>المتبقي</span><b id="pRemain">-</b></div>
+<div class="row"><span>الهدف القادم</span><b id="pGoal">-</b></div>
+<div class="progress"><div id="pProgress" style="width:0%">0%</div></div>
+</div>
 
-    <div class="section">
-      <h3>ملخص التقييم التراكمي</h3>
-      <div class="row"><span>التحفة</span><b id="pTohfa">-</b></div>
-      <div class="row"><span>الجزرية</span><b id="pJazariya">-</b></div>
-      <div class="row"><span>معاني الكلمات</span><b id="pMaani">-</b></div>
-      <div class="row"><span>الشواهد</span><b id="pShatibiya">-</b></div>
-    </div>
+<div class="section">
+<h3>📊 المؤشرات المختصرة</h3>
+<div class="mini-bars">
+<div class="bar-wrap"><div class="bar b1" id="barAttend"></div><div class="bar-label">الحضور</div></div>
+<div class="bar-wrap"><div class="bar b2" id="barHifz"></div><div class="bar-label">الحفظ</div></div>
+<div class="bar-wrap"><div class="bar b3" id="barMaani"></div><div class="bar-label">الكلمات</div></div>
+<div class="bar-wrap"><div class="bar b4" id="barSh"></div><div class="bar-label">الشواهد</div></div>
+</div>
+</div>
 
-    <div class="section">
-      <h3>السجل الزمني للرصد</h3>
-      <div id="timeline" class="timeline"></div>
-    </div>
+<div class="section">
+<h3>📚 ملخص التقييم التراكمي</h3>
+<div class="row"><span>التحفة</span><b id="pTohfa">-</b></div>
+<div class="row"><span>الجزرية</span><b id="pJazariya">-</b></div>
+<div class="row"><span>معاني الكلمات</span><b id="pMaani">-</b></div>
+<div class="row"><span>الشواهد</span><b id="pShatibiya">-</b></div>
+</div>
 
-  </div>
+<div class="section">
+<h3>📌 التوصية الإدارية</h3>
+<div id="pRecommend" style="background:#fff7e8;padding:12px;border-radius:14px;color:#9b7332;font-weight:800"></div>
+</div>
+
+<div class="section">
+<h3>🗓️ السجل الزمني للرصد</h3>
+<div id="timeline" class="timeline"></div>
+</div>
+
+</div>
 </div>
 
 <script>
-const SHEET_URL = "https://script.google.com/macros/s/AKfycbzNoX-3haqS2WS0F4SxwFR2uC1SKpP45z5SJTYYAwfacLSOe_RZo0pYxtoTNxYWJQm9-g/exec";
-
-let reports = [];
-let grouped = {};
+const SHEET_URL="https://script.google.com/macros/s/AKfycbzNoX-3haqS2WS0F4SxwFR2uC1SKpP45z5SJTYYAwfacLSOe_RZo0pYxtoTNxYWJQm9-g/exec";
+let reports=[], grouped={};
 
 loadData();
 
 async function loadData(){
-  try{
-    const res = await fetch(SHEET_URL);
-    reports = await res.json();
-    reports = reports.filter(r => r.studentName);
-    groupData();
-    renderStats();
-    renderStudents();
-  }catch(e){
-    document.getElementById("studentsContainer").innerHTML = "تعذر تحميل البيانات.";
-  }
+try{
+const res=await fetch(SHEET_URL);
+reports=await res.json();
+reports=reports.filter(r=>r.studentName);
+groupData(); renderStats(); renderStudents();
+}catch(e){studentsContainer.innerHTML="تعذر تحميل البيانات."}
 }
 
 function groupData(){
-  grouped = {};
-  reports.forEach(r=>{
-    if(!grouped[r.studentName]) grouped[r.studentName] = [];
-    grouped[r.studentName].push(r);
-  });
+grouped={};
+reports.forEach(r=>{if(!grouped[r.studentName])grouped[r.studentName]=[];grouped[r.studentName].push(r)});
 }
 
 function renderStats(){
-  const names = Object.keys(grouped);
-  document.getElementById("studentsCount").textContent = names.length;
-  document.getElementById("reportsCount").textContent = reports.length;
-
-  const attend = reports.filter(r=>r.attendance==="حاضر").length;
-  document.getElementById("attendanceAvg").textContent = reports.length ? Math.round(attend/reports.length*100)+"%" : "0%";
-
-  const nationalities = [...new Set(reports.map(r=>r.nationality).filter(Boolean))];
-  document.getElementById("nationalitiesCount").textContent = nationalities.length;
+const names=Object.keys(grouped);
+studentsCount.textContent=names.length;
+reportsCount.textContent=reports.length;
+const attend=reports.filter(r=>r.attendance==="حاضر").length;
+attendanceAvg.textContent=reports.length?Math.round(attend/reports.length*100)+"%":"0%";
+nationalitiesCount.textContent=[...new Set(reports.map(r=>r.nationality).filter(Boolean))].length;
 }
 
 function renderStudents(){
-  const q = document.getElementById("searchInput").value.trim();
-  const container = document.getElementById("studentsContainer");
-  const names = Object.keys(grouped).filter(name=>{
-    const latest = grouped[name][grouped[name].length-1];
-    return !q || name.includes(q) || (latest.nationality || "").includes(q);
-  });
-
-  if(!names.length){
-    container.innerHTML = "لا توجد نتائج.";
-    return;
-  }
-
-  container.innerHTML = names.map(name=>{
-    const db = grouped[name];
-    const latest = db[db.length-1];
-    const attend = db.filter(x=>x.attendance==="حاضر").length;
-    const pct = Math.round(attend/db.length*100);
-
-    return `
-      <div class="student-card">
-        <h2>${name}</h2>
-        <div class="row"><span>الجنسية</span><b>${latest.nationality || "-"}</b></div>
-        <div class="row"><span>الدراسة</span><b>${latest.studyType || "-"}</b></div>
-        <div class="row"><span>الرواية</span><b>${latest.readType || "-"}</b></div>
-        <div class="row"><span>الحفظ</span><b>جزء ${latest.hifzPart || 0}</b></div>
-        <div class="row"><span>الحضور</span><b>${pct}%</b></div>
-        <button class="btn" onclick="openProfile('${name}')">عرض ملف الطالب</button>
-      </div>
-    `;
-  }).join("");
+const q=searchInput.value.trim();
+const names=Object.keys(grouped).filter(name=>{
+const latest=grouped[name][grouped[name].length-1];
+return !q||name.includes(q)||(latest.nationality||"").includes(q);
+});
+if(!names.length){studentsContainer.innerHTML="لا توجد نتائج.";return}
+studentsContainer.innerHTML=names.map(name=>{
+const db=grouped[name], latest=db[db.length-1];
+const attend=db.filter(x=>x.attendance==="حاضر").length;
+const pct=Math.round(attend/db.length*100);
+return `<div class="student-card">
+<h2>${name}</h2>
+<div class="row"><span>الجنسية</span><b>${latest.nationality||"-"}</b></div>
+<div class="row"><span>الدراسة</span><b>${latest.studyType||"-"}</b></div>
+<div class="row"><span>الرواية</span><b>${latest.readType||"-"}</b></div>
+<div class="row"><span>الحفظ</span><b>جزء ${latest.hifzPart||0}</b></div>
+<div class="row"><span>الحضور</span><b>${pct}%</b></div>
+<button class="btn" onclick="openProfile('${name.replace(/'/g,"")}')">عرض ملف الطالب</button>
+</div>`;
+}).join("");
 }
 
-function score(v){
-  if(v==="متقن") return 100;
-  if(v==="متوسط") return 60;
-  if(v==="غير متقن") return 20;
-  return 0;
-}
-
-function countVal(db,field,val){
-  return db.filter(x=>x[field]===val).length;
-}
-
-function avgBadge(avg){
-  if(avg>=85) return `<span class="badge good">ممتاز ${avg}%</span>`;
-  if(avg>=70) return `<span class="badge good">جيد جدًا ${avg}%</span>`;
-  if(avg>=50) return `<span class="badge mid">متوسط ${avg}%</span>`;
-  return `<span class="badge bad">يحتاج متابعة ${avg}%</span>`;
-}
+function score(v){if(v==="متقن")return 100;if(v==="متوسط")return 60;if(v==="غير متقن")return 20;return 0}
+function countVal(db,field,val){return db.filter(x=>x[field]===val).length}
+function avgBadge(avg){if(avg>=85)return `<span class="badge good">ممتاز ${avg}%</span>`;if(avg>=70)return `<span class="badge good">جيد جدًا ${avg}%</span>`;if(avg>=50)return `<span class="badge mid">متوسط ${avg}%</span>`;return `<span class="badge bad">يحتاج متابعة ${avg}%</span>`}
+function setBar(el,text,pct){el.textContent=text;el.style.height=Math.max(20,pct*.95)+"px"}
 
 function openProfile(name){
-  const db = grouped[name];
-  const latest = db[db.length-1];
+const db=grouped[name], latest=db[db.length-1];
+const attend=db.filter(x=>x.attendance==="حاضر").length;
+const attendPct=Math.round(attend/db.length*100);
+const hifz=Number(latest.hifzPart||0), remain=30-hifz, hifzPct=Math.round(hifz/30*100);
+const tohfaPct=Math.round(countVal(db,"tohfa","نعم")/db.length*100);
+const jazPct=Math.round(countVal(db,"jazariya","نعم")/db.length*100);
+const maaniAvg=Math.round(db.reduce((s,x)=>s+score(x.maani),0)/db.length);
+const shValid=db.filter(x=>x.shatibiya!=="غير مطلوب");
+const shAvg=shValid.length?Math.round(shValid.reduce((s,x)=>s+score(x.shatibiya),0)/shValid.length):0;
 
-  const attend = db.filter(x=>x.attendance==="حاضر").length;
-  const absent = db.filter(x=>x.attendance==="غائب").length;
-  const attendPct = Math.round(attend/db.length*100);
+profileName.textContent=name;
+pNationality.textContent=latest.nationality||"-";
+pStudy.textContent=latest.studyType||"-";
+pRead.textContent=latest.readType||"-";
+pReports.textContent=db.length;
+pAttendance.textContent=attendPct+"%";
+pHifz.textContent="جزء "+hifz;
 
-  const hifz = Number(latest.hifzPart || 0);
-  const remain = 30 - hifz;
-  const hifzPct = Math.round(hifz/30*100);
+pSaved.textContent="جزء "+hifz;
+pRemain.textContent=remain===0?"تم الختم":remain+" جزء";
+pGoal.textContent=hifz<30?"إتمام جزء "+(hifz+1):"المراجعة والإتقان";
+pProgress.style.width=hifzPct+"%"; pProgress.textContent=hifzPct+"%";
 
-  const tohfaPct = Math.round(countVal(db,"tohfa","نعم")/db.length*100);
-  const jazPct = Math.round(countVal(db,"jazariya","نعم")/db.length*100);
-  const maaniAvg = Math.round(db.reduce((s,x)=>s+score(x.maani),0)/db.length);
+setBar(barAttend,attendPct+"%",attendPct);
+setBar(barHifz,"ج"+hifz,hifzPct);
+setBar(barMaani,maaniAvg+"%",maaniAvg);
+setBar(barSh,shValid.length?shAvg+"%":"—",shValid.length?shAvg:15);
 
-  const shValid = db.filter(x=>x.shatibiya!=="غير مطلوب");
-  const shAvg = shValid.length ? Math.round(shValid.reduce((s,x)=>s+score(x.shatibiya),0)/shValid.length) : 0;
+pTohfa.innerHTML=avgBadge(tohfaPct);
+pJazariya.innerHTML=avgBadge(jazPct);
+pMaani.innerHTML=avgBadge(maaniAvg);
+pShatibiya.innerHTML=shValid.length?avgBadge(shAvg):`<span class="badge neutral">غير مطلوب</span>`;
 
-  profileName.textContent = name;
-  pNationality.textContent = latest.nationality || "-";
-  pStudy.textContent = latest.studyType || "-";
-  pRead.textContent = latest.readType || "-";
-  pReports.textContent = db.length;
-  pAttendance.textContent = attendPct + "%";
-  pHifz.textContent = "جزء " + hifz;
+pRecommend.textContent=getRecommendation(maaniAvg,shAvg,shValid.length,attendPct,remain);
 
-  pSaved.textContent = "جزء " + hifz;
-  pRemain.textContent = remain === 0 ? "تم الختم" : remain + " جزء";
-  pGoal.textContent = hifz < 30 ? "إتمام جزء " + (hifz + 1) : "المراجعة والإتقان";
-  pProgress.style.width = hifzPct + "%";
-  pProgress.textContent = hifzPct + "%";
+timeline.innerHTML=db.slice().reverse().map((r,i)=>`
+<div class="day">
+<div class="day-title">رصد ${db.length-i}</div>
+<div class="row"><span>الحضور</span><b>${r.attendance||"-"}</b></div>
+<div class="row"><span>الحفظ</span><b>جزء ${r.hifzPart||"-"}</b></div>
+<div class="row"><span>معاني الكلمات</span><b>${r.maani||"-"}</b></div>
+<div class="row"><span>الشواهد</span><b>${r.shatibiya||"-"}</b></div>
+<div class="row"><span>الملاحظات</span><b>${r.notes||"لا توجد"}</b></div>
+</div>`).join("");
 
-  pTohfa.innerHTML = avgBadge(tohfaPct);
-  pJazariya.innerHTML = avgBadge(jazPct);
-  pMaani.innerHTML = avgBadge(maaniAvg);
-  pShatibiya.innerHTML = shValid.length ? avgBadge(shAvg) : `<span class="badge neutral">غير مطلوب</span>`;
-
-  timeline.innerHTML = db.slice().reverse().map((r,i)=>`
-    <div class="day">
-      <div class="day-title">رصد ${db.length - i}</div>
-      <div class="row"><span>الحضور</span><b>${r.attendance || "-"}</b></div>
-      <div class="row"><span>الحفظ</span><b>جزء ${r.hifzPart || "-"}</b></div>
-      <div class="row"><span>معاني الكلمات</span><b>${r.maani || "-"}</b></div>
-      <div class="row"><span>الشواهد</span><b>${r.shatibiya || "-"}</b></div>
-      <div class="row"><span>الملاحظات</span><b>${r.notes || "لا توجد"}</b></div>
-    </div>
-  `).join("");
-
-  profileModal.style.display = "block";
+profileModal.style.display="block";
 }
 
-function closeProfile(){
-  profileModal.style.display = "none";
+function getRecommendation(maaniAvg,shAvg,shCount,attendPct,remain){
+if(attendPct<75)return "التوصية: متابعة انتظام الحضور؛ لأن ضعف الالتزام يؤثر على ثبات الحفظ.";
+if(maaniAvg<50)return "التوصية: العناية بمعاني الكلمات وربطها بالمراجعة اليومية.";
+if(shCount>0&&shAvg<50)return "التوصية: تقوية استحضار الشواهد وربطها بمواضعها التطبيقية.";
+if(remain===0)return "التوصية: الانتقال إلى المراجعة الشاملة وضبط المتون والأدلة.";
+return "التوصية: الاستمرار في المراجعة اليومية والضبط حتى إتمام الهدف القادم.";
 }
+
+function closeProfile(){profileModal.style.display="none"}
 </script>
-
 </body>
 </html>
