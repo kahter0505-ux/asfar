@@ -1,58 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة المسؤول</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; background: #f4f4f4; }
+    h2 { text-align: center; color: #333; }
+    .controls { text-align: center; margin-bottom: 20px; }
+    button {
+      padding: 10px 24px; background: #007bff;
+      color: white; border: none; border-radius: 6px;
+      font-size: 16px; cursor: pointer; margin: 5px;
+    }
+    button:hover { background: #0056b3; }
+    #status {
+      text-align: center; margin: 10px 0;
+      font-size: 14px; color: #666;
+    }
+    .table-wrapper { overflow-x: auto; }
+    table {
+      width: 100%; border-collapse: collapse;
+      background: white; border-radius: 8px;
+      overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    th {
+      background: #343a40; color: white;
+      padding: 12px 10px; text-align: center; font-size: 14px;
+    }
+    td {
+      padding: 10px; text-align: center;
+      border-bottom: 1px solid #eee; font-size: 14px;
+    }
+    tr:hover { background: #f1f3f5; }
+    .badge-present  { background: #d4edda; color: #155724; padding: 3px 8px; border-radius: 12px; }
+    .badge-absent   { background: #f8d7da; color: #721c24; padding: 3px 8px; border-radius: 12px; }
+    .badge-late     { background: #fff3cd; color: #856404; padding: 3px 8px; border-radius: 12px; }
+    #noData { text-align: center; padding: 40px; color: #999; display: none; }
+  </style>
+</head>
+<body>
+
+<h2>🖥️ لوحة المسؤول — متابعة الطلاب</h2>
+
+<div class="controls">
+  <button onclick="loadReports()">🔄 تحديث البيانات</button>
+</div>
+
+<div id="status">جارٍ تحميل البيانات...</div>
+
+<div class="table-wrapper">
+  <table id="reportsTable">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>التاريخ</th>
+        <th>اسم الطالب</th>
+        <th>نوع الدراسة</th>
+        <th>نوع القراءة</th>
+        <th>الحضور</th>
+        <th>الجزء / الحزب</th>
+        <th>النصوص</th>
+        <th>الملاحظات</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+    </tbody>
+  </table>
+  <div id="noData">📭 لا توجد بيانات حتى الآن</div>
+</div>
+
 <script>
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1rFs-7UFYVw4m4yUsX1LcfW6Fsz6QvxP8HbyE2oo3CUl6DADoY9sbDFinj6hvO2n/exec";
 
-const SCRIPT_URL =
-"https://script.google.com/macros/s/ضع_هنا_الرابط_الجديد/exec";
+  function getAttendanceBadge(val) {
+    if (val === "حاضر")  return `<span class="badge-present">✅ حاضر</span>`;
+    if (val === "غائب")  return `<span class="badge-absent">❌ غائب</span>`;
+    if (val === "متأخر") return `<span class="badge-late">⏰ متأخر</span>`;
+    return val || "—";
+  }
 
+  function renderTable(reports) {
+    const tbody  = document.getElementById("tableBody");
+    const noData = document.getElementById("noData");
+    tbody.innerHTML = "";
 
-
-async function loadReports() {
-
-    try {
-
-        const response =
-          await fetch(SCRIPT_URL);
-
-        const reports =
-          await response.json();
-
-        const tableBody =
-          document.getElementById('table-body');
-
-        tableBody.innerHTML = "";
-
-
-
-        reports.forEach(report => {
-
-            const row = `
-            <tr>
-                <td>${report.date}</td>
-                <td>${report.studentName}</td>
-                <td>${report.studyType}</td>
-                <td>${report.readType}</td>
-                <td>${report.attendance}</td>
-                <td>${report.hifzPart}</td>
-                <td>${report.texts}</td>
-                <td>${report.notes}</td>
-            </tr>
-            `;
-
-            tableBody.innerHTML += row;
-
-        });
-
-    } catch(error) {
-
-        console.error(error);
-
-        alert("فشل تحميل البيانات");
-
+    if (!reports || reports.length === 0) {
+      noData.style.display = "block";
+      document.getElementById("status").textContent = "لا توجد بيانات";
+      return;
     }
 
-}
+    noData.style.display = "none";
 
+    // عرض من الأحدث للأقدم
+    const reversed = [...reports].reverse();
 
+    reversed.forEach((r, i) => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${r.date        || "—"}</td>
+        <td><strong>${r.studentName || "—"}</strong></td>
+        <td>${r.studyType   || "—"}</td>
+        <td>${r.readType    || "—"}</td>
+        <td>${getAttendanceBadge(r.attendance)}</td>
+        <td>${r.hifzPart    || "—"}</td>
+        <td>${r.texts       || "—"}</td>
+        <td>${r.notes       || "—"}</td>
+      `;
+      tbody.appendChild(row);
+    });
 
-loadReports();
+    const now = new Date().toLocaleTimeString("ar-SA");
+    document.getElementById("status").textContent =
+      `✅ تم التحديث — ${reports.length} سجل — آخر تحديث: ${now}`;
+  }
 
+  function loadReports() {
+    document.getElementById("status").textContent = "⏳ جارٍ تحميل البيانات...";
+
+    // timestamp يمنع Safari من استخدام cache قديم
+    const url = SCRIPT_URL + "?t=" + Date.now();
+
+    fetch(url, {
+      method: 'GET',
+      cache: 'no-store'
+    })
+    .then(res => res.json())
+    .then(reports => {
+      renderTable(reports);
+    })
+    .catch(err => {
+      console.error("خطأ:", err);
+      document.getElementById("status").textContent =
+        "❌ تعذّر تحميل البيانات — تحقق من الاتصال وأعد المحاولة";
+    });
+  }
+
+  // تحميل عند فتح الصفحة
+  loadReports();
+
+  // تحديث تلقائي كل 60 ثانية
+  setInterval(loadReports, 60000);
 </script>
+
+</body>
+</html>
