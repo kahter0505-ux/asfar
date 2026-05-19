@@ -1,143 +1,141 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة أسفار - بوابة المعلم</title>
-    <style>
-        :root { --primary-color: #bc9c64; --secondary-color: #2c3e50; --bg-color: #f8f9fa; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg-color); padding: 20px; direction: rtl; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .card { background: white; border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eef0f2; }
-        .header { text-align: center; border-bottom: 2px solid var(--primary-color); padding-bottom: 15px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: var(--secondary-color); }
-        input[type="text"], select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 15px; }
-        .radio-group { display: flex; gap: 10px; flex-wrap: wrap; }
-        .radio-btn { flex: 1; min-width: 120px; }
-        .radio-btn input { display: none; }
-        .radio-btn label { display: block; background: #fff; border: 2px solid #e0e0e0; padding: 12px; text-align: center; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-        .radio-btn input:checked + label { border-color: var(--primary-color); background: #fdfaf4; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin-top: 5px; }
-        th, td { border: 1px solid #e0e0e0; padding: 8px; text-align: center; }
-        th { background: #f5f6f8; }
-        .btn { background: var(--primary-color); color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background 0.3s; margin-top: 15px; }
-        .btn:hover { background: #a38450; }
-        .alert { padding: 12px; border-radius: 8px; margin-bottom: 15px; text-align: center; font-weight: bold; display: none; background: #d4edda; color: #155724; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <div class="card">
-        <div class="header">
-            <h2 style="margin:0; color:var(--secondary-color);">⚜️ مَركز أَسْفَار لِعُلُوم القُرآن ⚜️</h2>
-            <p style="margin:5px 0 0 0; color:#666; font-size:14px;">استمارة رصد أداء الطالب اليومي (خاص بالمعلم)</p>
-        </div>
-        <div class="alert" id="alert-box">تم إرسال التقرير وحفظه في جوجل شيت بنجاح! 🎉</div>
-
-        <form id="report-form">
-            <div class="form-group"><label>اسم الطالب ثلاثي:</label><input type="text" id="student-name" required placeholder="أدخل اسم الطالب الكامل"></div>
-            <div class="form-group">
-                <label>نوع الدراسة:</label>
-                <div class="radio-group">
-                    <div class="radio-btn"><input type="radio" name="study-type" id="s1" value="حضوري" checked><label for="s1">حضوري</label></div>
-                    <div class="radio-btn"><input type="radio" name="study-type" id="s2" value="عن بعد"><label for="s2">عن بعد</label></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>الرواية / القراءة الحالية:</label>
-                <div class="radio-group">
-                    <div class="radio-btn"><input type="radio" name="read-type" id="r1" value="حفص" checked><label for="r1">حفص</label></div>
-                    <div class="radio-btn"><input type="radio" name="read-type" id="r2" value="حفص بالقصر"><label for="r2">حفص بالقصر</label></div>
-                    <div class="radio-btn"><input type="radio" name="read-type" id="r3" value="قراءة الإمام عاصم"><label for="r3">قراءة الإمام عاصم</label></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>الحضور والغياب اليومي:</label>
-                <div class="radio-group">
-                    <div class="radio-btn"><input type="radio" name="attendance" id="a1" value="حاضر" checked><label for="a1">حاضر</label></div>
-                    <div class="radio-btn"><input type="radio" name="attendance" id="a2" value="غائب"><label for="a2">غائب</label></div>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>مقدار الحفظ الفعلي الحالي:</label>
-                <select id="hifz-part">
-                    <option value="جزء 30">جزء 30 (عمّ)</option>
-                    <option value="جزء 29">جزء 29 (تبارك)</option>
-                    <option value="أكثر من 5 أجزاء">أكثر من 5 أجزاء</option>
-                    <option value="أكثر من 10 أجزاء">أكثر من 10 أجزاء</option>
-                    <option value="القرآن كاملاً">القرآن كاملاً</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>شواهد المتون العلمية المحفوظة:</label>
-                <table>
-                    <tr><th>المتن</th><th>نعم</th><th>لا</th><th>غير مطلوب</th></tr>
-                    <tr><td>تحفة الأطفال</td><td><input type="radio" name="tohfa" value="نعم"></td><td><input type="radio" name="tohfa" value="لا"></td><td><input type="radio" name="tohfa" value="غير مطلوب" checked></td></tr>
-                    <tr><td>الجزرية</td><td><input type="radio" name="jazariya" value="نعم"></td><td><input type="radio" name="jazariya" value="لا"></td><td><input type="radio" name="jazariya" value="غير مطلوب" checked></td></tr>
-                    <tr><td>متن الشاطبية</td><td><input type="radio" name="shatibiya" value="نعم"></td><td><input type="radio" name="shatibiya" value="لا"></td><td><input type="radio" name="shatibiya" value="غير مطلوب" checked></td></tr>
-                </table>
-            </div>
-            <div class="form-group"><label>ملاحظات وتوجيهات الشيخ المعلم:</label><textarea id="teacher-notes" rows="3" placeholder="أكتب ملاحظات الأداء هنا..."></textarea></div>
-            <button type="submit" class="btn" id="submit-btn">💾 حفظ وإرسال التقرير تلقائياً</button>
-        </form>
-    </div>
-</div>
-
 <script>
-    // تم زرع رابطك المحدث والجديد هنا تلقائياً
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1rFs-7UFYVw4m4yUsX1LcfW6Fsz6QvxP8HbyE2oo3CUl6DADoY9sbDFinj6hvO2n/exec";
 
-    document.getElementById('report-form').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const btn = document.getElementById('submit-btn');
-        btn.disabled = true;
-        btn.innerText = "جاري الحفظ والرفع... ⏳";
+const SCRIPT_URL =
+"https://script.google.com/macros/s/ضع_هنا_الرابط_الجديد/exec";
 
-        try {
-            let activeTexts = [];
-            if(document.querySelector('input[name="tohfa"]:checked')?.value === "نعم") activeTexts.push("تحفة الأطفال");
-            if(document.querySelector('input[name="jazariya"]:checked')?.value === "نعم") activeTexts.push("الجزرية");
-            if(document.querySelector('input[name="shatibiya"]:checked')?.value === "نعم") activeTexts.push("الشاطبية");
 
-            const today = new Date();
-            const dateStr = today.getFullYear() + '/' + (today.getMonth()+1) + '/' + today.getDate();
+document.getElementById('report-form')
+.addEventListener('submit', async function(e) {
 
-            const payload = {
-                date: dateStr,
-                studentName: document.getElementById('student-name').value.trim(),
-                studyType: document.querySelector('input[name="study-type"]:checked').value,
-                readType: document.querySelector('input[name="read-type"]:checked').value,
-                attendance: document.querySelector('input[name="attendance"]:checked').value,
-                hifzPart: document.getElementById('hifz-part').value,
-                texts: activeTexts.length > 0 ? activeTexts.join(' و ') : "لا يوجد",
-                notes: document.getElementById('teacher-notes').value || "لا توجد ملاحظات."
-            };
+    e.preventDefault();
 
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+    const btn =
+      document.getElementById('submit-btn');
+
+    btn.disabled = true;
+
+    btn.innerText =
+      "جاري الحفظ والإرسال... ⏳";
+
+    try {
+
+        let activeTexts = [];
+
+        if(document.querySelector('input[name="tohfa"]:checked')?.value === "نعم") {
+            activeTexts.push("تحفة الأطفال");
+        }
+
+        if(document.querySelector('input[name="jazariya"]:checked')?.value === "نعم") {
+            activeTexts.push("الجزرية");
+        }
+
+        if(document.querySelector('input[name="shatibiya"]:checked')?.value === "نعم") {
+            activeTexts.push("الشاطبية");
+        }
+
+        const today = new Date();
+
+        const payload = {
+
+            date:
+              today.getFullYear() + '/' +
+              (today.getMonth()+1) + '/' +
+              today.getDate(),
+
+            studentName:
+              document.getElementById('student-name').value.trim(),
+
+            studyType:
+              document.querySelector('input[name="study-type"]:checked').value,
+
+            readType:
+              document.querySelector('input[name="read-type"]:checked').value,
+
+            attendance:
+              document.querySelector('input[name="attendance"]:checked').value,
+
+            hifzPart:
+              document.getElementById('hifz-part').value,
+
+            texts:
+              activeTexts.length > 0
+              ? activeTexts.join(' و ')
+              : "لا يوجد",
+
+            notes:
+              document.getElementById('teacher-notes').value
+              || "لا توجد ملاحظات."
+
+        };
+
+
+
+        const formData = new FormData();
+
+        for (const key in payload) {
+
+            formData.append(key, payload[key]);
+
+        }
+
+
+
+        const response = await fetch(SCRIPT_URL, {
+
+            method: 'POST',
+
+            body: formData
+
+        });
+
+
+
+        const data = await response.json();
+
+
+
+        if(data.status === "success") {
+
+            const alertBox =
+              document.getElementById('alert-box');
+
+            alertBox.style.display = 'block';
+
+            document.getElementById('report-form')
+              .reset();
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
             });
 
-            const data = await response.json();
+            setTimeout(() => {
 
-            if(data.status === "success") {
-                document.getElementById('alert-box').style.display = 'block';
-                document.getElementById('report-form').reset();
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                setTimeout(() => { document.getElementById('alert-box').style.display = 'none'; }, 4000);
-            } else {
-                alert("فشل الحفظ على السيرفر: " + data.message);
-            }
-        } catch(error) {
-            console.error(error);
-            alert("حدث خطأ في الاتصال أثناء الإرسال");
-        } finally {
-            btn.disabled = false;
-            btn.innerText = "💾 حفظ وإرسال التقرير تلقائياً";
+                alertBox.style.display = 'none';
+
+            }, 4000);
+
+        } else {
+
+            alert("فشل حفظ البيانات");
+
         }
-    });
+
+    } catch(error) {
+
+        console.error(error);
+
+        alert("حدث خطأ أثناء الإرسال");
+
+    } finally {
+
+        btn.disabled = false;
+
+        btn.innerText =
+          "💾 حفظ وإرسال التقرير";
+
+    }
+
+});
+
 </script>
-</body>
-</html>
