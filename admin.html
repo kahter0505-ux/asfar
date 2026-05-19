@@ -1,85 +1,58 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة أسفار - لوحة المسؤول</title>
-    <style>
-        body { font-family: 'Segoe UI', sans-serif; background-color: #f8f9fa; padding: 20px; direction: rtl; }
-        .container { max-width: 1000px; margin: 0 auto; background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 1px solid #eef0f2; }
-        h2 { text-align: center; color: #2c3e50; border-bottom: 2px solid #bc9c64; padding-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #e0e0e0; padding: 12px; text-align: center; }
-        th { background-color: #f5f6f8; color: #2c3e50; font-weight: bold; }
-        tr:nth-child(even) { background-color: #fafbfc; }
-        .loading { text-align: center; font-weight: bold; color: #666; padding: 20px; }
-    </style>
-</head>
-<body>
-<div class="container">
-    <h2>📋 لوحة تحكم المسؤول - مركز أسفار</h2>
-    <div id="loading-msg" class="loading">جاري جلب بيانات أداء الطلاب الحالية... ⏳</div>
-    
-    <table id="data-table" style="display:none;">
-        <thead>
-            <tr>
-                <th>التاريخ</th>
-                <th>اسم الطالب</th>
-                <th>نوع الدراسة</th>
-                <th>الرواية</th>
-                <th>الحضور</th>
-                <th>مقدار الحفظ</th>
-                <th>المتون المحفوظة</th>
-                <th>الملاحظات</th>
-            </tr>
-        </thead>
-        <tbody id="table-body">
-            </tbody>
-    </table>
-</div>
-
 <script>
-    // تم ربط لوحة المسؤول برابطك الحديث الجديد تلقائياً هنا
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz1rFs-7UFYVw4m4yUsX1LcfW6Fsz6QvxP8HbyE2oo3CUl6DADoY9sbDFinj6hvO2n/exec";
 
-    // جلب البيانات فورا بنمط GET النظيف والمستقر
-    fetch(SCRIPT_URL)
-    .then(response => response.json())
-    .then(reports => {
-        const tableBody = document.getElementById('table-body');
-        const loadingMsg = document.getElementById('loading-msg');
-        const dataTable = document.getElementById('data-table');
-        
+const SCRIPT_URL =
+"https://script.google.com/macros/s/ضع_هنا_الرابط_الجديد/exec";
+
+
+
+async function loadReports() {
+
+    try {
+
+        const response =
+          await fetch(SCRIPT_URL);
+
+        const reports =
+          await response.json();
+
+        const tableBody =
+          document.getElementById('table-body');
+
         tableBody.innerHTML = "";
-        loadingMsg.style.display = "none";
-        dataTable.style.display = "table";
 
-        if(reports.length === 0) {
-            tableBody.innerHTML = "<tr><td colspan='8'>لا توجد بيانات مسجلة حالياً في الجدول</td></tr>";
-            return;
-        }
+
 
         reports.forEach(report => {
+
             const row = `
             <tr>
-                <td>${report.date || '-'}</td>
-                <td><strong>${report.studentName || '-'}</strong></td>
-                <td>${report.studyType || '-'}</td>
-                <td>${report.readType || '-'}</td>
-                <td>${report.attendance || '-'}</td>
-                <td>${report.hifzPart || '-'}</td>
-                <td>${report.texts || '-'}</td>
-                <td>${report.notes || '-'}</td>
+                <td>${report.date}</td>
+                <td>${report.studentName}</td>
+                <td>${report.studyType}</td>
+                <td>${report.readType}</td>
+                <td>${report.attendance}</td>
+                <td>${report.hifzPart}</td>
+                <td>${report.texts}</td>
+                <td>${report.notes}</td>
             </tr>
             `;
+
             tableBody.innerHTML += row;
+
         });
-    })
-    .catch(error => {
+
+    } catch(error) {
+
         console.error(error);
-        document.getElementById('loading-msg').innerText = "❌ فشل تحميل البيانات من السيرفر.";
-        alert("حدث خطأ أثناء مزامنة لوحة المسؤول");
-    });
+
+        alert("فشل تحميل البيانات");
+
+    }
+
+}
+
+
+
+loadReports();
+
 </script>
-</body>
-</html>
