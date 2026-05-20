@@ -281,7 +281,6 @@ font-size:14px;
 <div class="form-group">
 <label>الحفظ / المسار</label>
 <select id="hifzPart">
-
 <option value="جزء 1">جزء 1</option>
 <option value="جزء 2">جزء 2</option>
 <option value="جزء 3">جزء 3</option>
@@ -312,12 +311,10 @@ font-size:14px;
 <option value="جزء 28">جزء 28</option>
 <option value="جزء 29">جزء 29</option>
 <option value="جزء 30">جزء 30</option>
-
 <option value="حافظ كامل">حافظ كامل</option>
 <option value="القرآن كاملاً">القرآن كاملاً</option>
 <option value="ختمة إجازة">ختمة إجازة</option>
 <option value="مراجعة شاملة">مراجعة شاملة</option>
-
 </select>
 </div>
 
@@ -363,10 +360,10 @@ font-size:14px;
 
 <div class="form-group">
 <label>الملاحظات التعليمية</label>
-<textarea id="notes" rows="3" placeholder="اكتب ملاحظتك هنا..."></textarea>
+<textarea id="notes" rows="3"></textarea>
 </div>
 
-<button id="saveBtn" class="btn btn-save" onclick="sendReport()">
+<button class="btn btn-save" onclick="sendReport()">
 💾 حفظ وإرسال التقرير
 </button>
 
@@ -391,12 +388,7 @@ font-size:14px;
 </h2>
 
 <div id="teacherReportsBox" style="text-align:center;color:#777">
-اكتب اسم الطالب ثم اضغط:
-عرض تقارير الطالب
-</div>
-
-<div class="small-note">
-يمكن تعديل أو حذف الرصد الخاطئ من هنا.
+اكتب اسم الطالب ثم اضغط عرض تقارير الطالب
 </div>
 
 </div>
@@ -406,7 +398,7 @@ font-size:14px;
 <script>
 
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxtIn_42KtqRabgKmH2U4TfToHpgl1Y9St4hyPOmPZ91smNtArZpL5UmpK15XngM8PkWA/exec";
+"https://script.google.com/macros/s/AKfycbz0syx6afzjFULWxe8rsPooTkazWzv7_Wu5imJ2he0yqQiW8nr19dCxlgArZTWbLdiSeA/exec";
 
 let editRowNumber = null;
 
