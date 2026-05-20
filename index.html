@@ -8,6 +8,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -44,7 +45,7 @@ margin:auto auto 12px;
 h1{
 text-align:center;
 color:#9b7332;
-font-size:38px;
+font-size:36px;
 margin-bottom:6px;
 }
 
@@ -111,6 +112,13 @@ padding:11px;
 font-size:14px;
 }
 
+.btn-edit{
+background:#12664f;
+color:white;
+padding:11px;
+font-size:14px;
+}
+
 .alert{
 display:none;
 margin-bottom:15px;
@@ -163,15 +171,30 @@ text-align:center;
 margin-top:8px;
 }
 
+.edit-mode{
+background:#fff7df;
+color:#9b7332;
+padding:12px;
+border-radius:14px;
+text-align:center;
+font-weight:800;
+display:none;
+margin-bottom:15px;
+}
+
 @media(max-width:768px){
+
 h1{
 font-size:28px;
 }
+
 .panel,
 .teacher-reports{
 padding:18px;
 }
+
 }
+
 </style>
 </head>
 
@@ -185,9 +208,15 @@ padding:18px;
 
 <h1>منصة أسفار لتعليم القرآن</h1>
 
-<div class="sub">بوابة الرصد اليومي للمعلم</div>
+<div class="sub">
+بوابة الرصد اليومي للمعلم
+</div>
 
 <div id="alertBox" class="alert"></div>
+
+<div id="editModeBox" class="edit-mode">
+أنت الآن تعدّل رصدًا سابقًا
+</div>
 
 <div class="form-group">
 <label>اسم الطالب</label>
@@ -227,6 +256,7 @@ padding:18px;
 <div class="form-group">
 <label>مقدار الحفظ / المسار</label>
 <select id="hifzPart">
+
 <option value="جزء 1">جزء 1</option>
 <option value="جزء 2">جزء 2</option>
 <option value="جزء 3">جزء 3</option>
@@ -257,10 +287,12 @@ padding:18px;
 <option value="جزء 28">جزء 28</option>
 <option value="جزء 29">جزء 29</option>
 <option value="جزء 30">جزء 30</option>
+
 <option value="حافظ كامل">حافظ كامل</option>
 <option value="ختمة إجازة">ختمة إجازة</option>
 <option value="مراجعة شاملة">مراجعة شاملة</option>
 <option value="القرآن كاملاً">القرآن كاملاً</option>
+
 </select>
 </div>
 
@@ -309,11 +341,21 @@ padding:18px;
 <textarea id="notes" rows="3" placeholder="اكتب ملاحظة المعلم هنا..."></textarea>
 </div>
 
-<button id="saveBtn" class="btn btn-save" onclick="sendReport()">💾 حفظ وإرسال التقرير</button>
+<button id="saveBtn" class="btn btn-save" onclick="sendReport()">
+💾 حفظ وإرسال التقرير
+</button>
 
-<button class="btn btn-dark" onclick="loadStudentReports()">📄 عرض تقارير الطالب</button>
+<button id="cancelEditBtn" class="btn btn-clear" style="display:none" onclick="cancelEdit()">
+إلغاء التعديل
+</button>
 
-<button class="btn btn-clear" onclick="clearForm()">مسح الحقول</button>
+<button class="btn btn-dark" onclick="loadStudentReports()">
+📄 عرض تقارير الطالب
+</button>
+
+<button class="btn btn-clear" onclick="clearForm()">
+مسح الحقول
+</button>
 
 </div>
 
@@ -324,11 +366,12 @@ padding:18px;
 </h2>
 
 <div id="teacherReportsBox" style="color:#777;text-align:center">
-اكتب اسم الطالب ثم اضغط: عرض تقارير الطالب
+اكتب اسم الطالب ثم اضغط:
+عرض تقارير الطالب
 </div>
 
 <div class="small-note">
-يمكن حذف الرصد الخاطئ من هنا بعد عرضه.
+يمكن تعديل أو حذف الرصد الخاطئ من هنا.
 </div>
 
 </div>
@@ -336,17 +379,71 @@ padding:18px;
 </div>
 
 <script>
+
 const SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbz8Uoo-NKHXyx66pGp_I4k3VXaFN3zU42UZRz9VTDRFjZSx82LW72Nrh-RFyWMeGyEtYA/exec";
+"https://script.google.com/macros/s/AKfycbxtIn_42KtqRabgKmH2U4TfToHpgl1Y9St4hyPOmPZ91smNtArZpL5UmpK15XngM8PkWA/exec";
+
+let editRowNumber = null;
 
 function showAlert(msg,type){
+
 const box=document.getElementById("alertBox");
+
 box.className="alert "+type;
+
 box.textContent=msg;
+
 box.style.display="block";
+
 setTimeout(()=>{
 box.style.display="none";
 },4000);
+
+}
+
+function buildParams(action){
+
+return new URLSearchParams({
+
+action:action,
+
+rowNumber:editRowNumber || "",
+
+studentName:
+document.getElementById("studentName").value.trim(),
+
+nationality:
+document.getElementById("nationality").value.trim(),
+
+studyType:
+document.getElementById("studyType").value,
+
+readType:
+document.getElementById("readType").value,
+
+attendance:
+document.getElementById("attendance").value,
+
+hifzPart:
+document.getElementById("hifzPart").value,
+
+tohfa:
+document.getElementById("tohfa").value,
+
+jazariya:
+document.getElementById("jazariya").value,
+
+maani:
+document.getElementById("maani").value,
+
+shatibiya:
+document.getElementById("shatibiya").value,
+
+notes:
+document.getElementById("notes").value.trim()
+
+});
+
 }
 
 function sendReport(){
@@ -357,194 +454,55 @@ const studentName=
 document.getElementById("studentName").value.trim();
 
 if(!studentName){
+
 showAlert("يرجى كتابة اسم الطالب","error");
+
 return;
+
 }
 
-const params=new URLSearchParams({
-action:"insert",
-studentName:studentName,
-nationality:document.getElementById("nationality").value.trim(),
-studyType:document.getElementById("studyType").value,
-readType:document.getElementById("readType").value,
-attendance:document.getElementById("attendance").value,
-hifzPart:document.getElementById("hifzPart").value,
-tohfa:document.getElementById("tohfa").value,
-jazariya:document.getElementById("jazariya").value,
-maani:document.getElementById("maani").value,
-shatibiya:document.getElementById("shatibiya").value,
-notes:document.getElementById("notes").value.trim()
-});
+const action =
+editRowNumber ? "update" : "insert";
+
+const params =
+buildParams(action);
 
 btn.disabled=true;
-btn.textContent="جاري الحفظ والإرسال...";
+
+btn.textContent =
+editRowNumber
+? "جاري حفظ التعديل..."
+: "جاري الحفظ والإرسال...";
 
 const img=new Image();
 
 img.onload=img.onerror=function(){
-showAlert("تم إرسال التقرير بنجاح ✅","success");
+
+showAlert(
+editRowNumber
+? "تم تعديل الرصد بنجاح ✅"
+: "تم إرسال التقرير بنجاح ✅",
+"success"
+);
+
 btn.disabled=false;
-btn.textContent="💾 حفظ وإرسال التقرير";
+
+btn.textContent =
+"💾 حفظ وإرسال التقرير";
+
+cancelEdit(false);
+
 document.getElementById("notes").value="";
+
 loadStudentReports();
+
 };
 
-img.src=SCRIPT_URL+"?"+params.toString();
+img.src=
+SCRIPT_URL+"?"+params.toString();
 
 }
 
-async function loadStudentReports(){
-
-const name=
-document.getElementById("studentName").value.trim();
-
-if(!name){
-showAlert("اكتب اسم الطالب أولًا","error");
-return;
-}
-
-const box=document.getElementById("teacherReportsBox");
-
-box.innerHTML="جاري تحميل التقارير...";
-
-try{
-
-const res=await fetch(SCRIPT_URL);
-
-const allReports=await res.json();
-
-const data=
-allReports.filter(r=>r.studentName===name);
-
-if(!data.length){
-box.innerHTML="لا توجد تقارير لهذا الطالب.";
-return;
-}
-
-const latest=data[data.length-1];
-
-box.innerHTML=`
-
-<div class="report-card">
-<h3>${name}</h3>
-
-<div class="row">
-<span>عدد التقارير</span>
-<b>${data.length}</b>
-</div>
-
-<div class="row">
-<span>آخر حفظ / مسار</span>
-<b>${latest.hifzPart || "-"}</b>
-</div>
-
-<div class="row">
-<span>الرواية</span>
-<b>${latest.readType || "-"}</b>
-</div>
-
-<div class="row">
-<span>آخر ملاحظة</span>
-<b>${latest.notes || "لا توجد"}</b>
-</div>
-</div>
-
-<h3 style="margin-top:18px;color:#9b7332;text-align:right">
-آخر التقارير
-</h3>
-
-${data.slice().reverse().map((r,index)=>`
-<div class="report-card">
-
-<h3>رصد ${data.length-index}</h3>
-
-<div class="row">
-<span>الحضور</span>
-<b>${r.attendance || "-"}</b>
-</div>
-
-<div class="row">
-<span>الحفظ / المسار</span>
-<b>${r.hifzPart || "-"}</b>
-</div>
-
-<div class="row">
-<span>التحفة</span>
-<b>${r.tohfa || "-"}</b>
-</div>
-
-<div class="row">
-<span>الجزرية</span>
-<b>${r.jazariya || "-"}</b>
-</div>
-
-<div class="row">
-<span>معاني الكلمات</span>
-<b>${r.maani || "-"}</b>
-</div>
-
-<div class="row">
-<span>الشواهد</span>
-<b>${r.shatibiya || "-"}</b>
-</div>
-
-<div class="row">
-<span>الملاحظات</span>
-<b>${r.notes || "لا توجد"}</b>
-</div>
-
-<button class="btn btn-delete" onclick="deleteReport('${r.rowNumber}', '${name}')">
-🗑️ حذف هذا الرصد
-</button>
-
-</div>
-`).join("")}
-`;
-
-}catch(e){
-
-box.innerHTML="تعذر تحميل التقارير.";
-
-}
-
-}
-
-function deleteReport(rowNumber, studentName){
-
-if(!rowNumber || rowNumber==="undefined"){
-showAlert("لا يمكن حذف هذا الرصد؛ رقم الصف غير موجود","error");
-return;
-}
-
-const ok=confirm("هل أنت متأكد من حذف هذا الرصد؟ لا يمكن التراجع بعد الحذف.");
-
-if(!ok){
-return;
-}
-
-const params=new URLSearchParams({
-action:"delete",
-rowNumber:rowNumber
-});
-
-const img=new Image();
-
-img.onload=img.onerror=function(){
-showAlert("تم حذف الرصد بنجاح ✅","success");
-loadStudentReports();
-};
-
-img.src=SCRIPT_URL+"?"+params.toString();
-
-}
-
-function clearForm(){
-document.getElementById("studentName").value="";
-document.getElementById("nationality").value="";
-document.getElementById("notes").value="";
-document.getElementById("teacherReportsBox").innerHTML=
-"اكتب اسم الطالب ثم اضغط: عرض تقارير الطالب";
-}
 </script>
 
 </body>
