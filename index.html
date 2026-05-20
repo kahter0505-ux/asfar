@@ -1,3 +1,510 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>منصة أسفار - بوابة المعلم</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#f3efe7;
+font-family:'Cairo',sans-serif;
+padding:15px;
+color:#172233;
+}
+
+.app{
+max-width:1000px;
+margin:auto;
+}
+
+.panel,
+.teacher-reports{
+background:white;
+padding:24px;
+border-radius:30px;
+box-shadow:0 10px 30px rgba(0,0,0,.05);
+margin-bottom:20px;
+}
+
+.logo{
+width:95px;
+display:block;
+margin:auto auto 10px;
+}
+
+h1{
+text-align:center;
+color:#9b7332;
+font-size:38px;
+margin-bottom:6px;
+}
+
+.sub{
+text-align:center;
+color:#777;
+margin-bottom:25px;
+}
+
+.form-group{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+font-weight:700;
+font-size:15px;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:15px;
+border-radius:18px;
+border:1px solid #ddd;
+font-size:15px;
+font-family:'Cairo',sans-serif;
+background:white;
+}
+
+textarea{
+resize:none;
+}
+
+.btn{
+width:100%;
+padding:16px;
+border:none;
+border-radius:18px;
+font-size:16px;
+font-weight:800;
+font-family:'Cairo',sans-serif;
+cursor:pointer;
+margin-top:10px;
+transition:.2s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+.btn-save{
+background:#a97b2f;
+color:white;
+}
+
+.btn-dark{
+background:#172233;
+color:white;
+}
+
+.btn-clear{
+background:white;
+border:2px dashed #d64545;
+color:#d64545;
+}
+
+.btn-edit{
+background:#12664f;
+color:white;
+padding:12px;
+font-size:14px;
+flex:1;
+}
+
+.btn-delete{
+background:#c0392b;
+color:white;
+padding:12px;
+font-size:14px;
+flex:1;
+}
+
+.alert{
+display:none;
+padding:14px;
+border-radius:16px;
+margin-bottom:15px;
+font-weight:bold;
+text-align:center;
+}
+
+.success{
+background:#e7f8ef;
+color:#0c7b51;
+}
+
+.error{
+background:#fdeaea;
+color:#b42318;
+}
+
+.edit-mode{
+display:none;
+background:#fff6dc;
+color:#9b7332;
+padding:14px;
+border-radius:16px;
+margin-bottom:14px;
+text-align:center;
+font-weight:800;
+}
+
+.report-card{
+border:1px solid #eadcc4;
+border-radius:24px;
+padding:20px;
+margin-top:18px;
+background:#fffdf8;
+}
+
+.report-card h3{
+color:#9b7332;
+margin-bottom:14px;
+font-size:22px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+padding:9px 0;
+border-bottom:1px dashed #eee;
+font-size:15px;
+}
+
+.row b{
+font-weight:800;
+}
+
+.actions{
+display:flex;
+gap:10px;
+margin-top:16px;
+}
+
+.small-note{
+text-align:center;
+margin-top:12px;
+color:#777;
+font-size:13px;
+}
+
+@media(max-width:768px){
+
+h1{
+font-size:30px;
+}
+
+.panel,
+.teacher-reports{
+padding:18px;
+}
+
+.row{
+font-size:14px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<div class="panel">
+
+<img src="Asfar_logo_L@4x.png" class="logo">
+
+<h1>منصة أسفار لتعليم القرآن</h1>
+
+<div class="sub">
+بوابة الرصد اليومي للمعلم
+</div>
+
+<div id="alertBox" class="alert"></div>
+
+<div id="editModeBox" class="edit-mode">
+أنت الآن تعدّل رصدًا سابقًا
+</div>
+
+<div class="form-group">
+<label>اسم الطالب</label>
+<input id="studentName" placeholder="اكتب اسم الطالب">
+</div>
+
+<div class="form-group">
+<label>الجنسية</label>
+<input id="nationality" placeholder="مثال: سعودي">
+</div>
+
+<div class="form-group">
+<label>نوع الدراسة</label>
+<select id="studyType">
+<option value="حضوري">حضوري</option>
+<option value="عن بعد">عن بعد</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الرواية</label>
+<select id="readType">
+<option value="حفص">حفص</option>
+<option value="حفص بالقصر">حفص بالقصر</option>
+<option value="شعبة">شعبة</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الحضور</label>
+<select id="attendance">
+<option value="حاضر">حاضر</option>
+<option value="غائب">غائب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الحفظ / المسار</label>
+<select id="hifzPart">
+
+<option value="جزء 1">جزء 1</option>
+<option value="جزء 2">جزء 2</option>
+<option value="جزء 3">جزء 3</option>
+<option value="جزء 4">جزء 4</option>
+<option value="جزء 5">جزء 5</option>
+<option value="جزء 6">جزء 6</option>
+<option value="جزء 7">جزء 7</option>
+<option value="جزء 8">جزء 8</option>
+<option value="جزء 9">جزء 9</option>
+<option value="جزء 10">جزء 10</option>
+<option value="جزء 11">جزء 11</option>
+<option value="جزء 12">جزء 12</option>
+<option value="جزء 13">جزء 13</option>
+<option value="جزء 14">جزء 14</option>
+<option value="جزء 15">جزء 15</option>
+<option value="جزء 16">جزء 16</option>
+<option value="جزء 17">جزء 17</option>
+<option value="جزء 18">جزء 18</option>
+<option value="جزء 19">جزء 19</option>
+<option value="جزء 20">جزء 20</option>
+<option value="جزء 21">جزء 21</option>
+<option value="جزء 22">جزء 22</option>
+<option value="جزء 23">جزء 23</option>
+<option value="جزء 24">جزء 24</option>
+<option value="جزء 25">جزء 25</option>
+<option value="جزء 26">جزء 26</option>
+<option value="جزء 27">جزء 27</option>
+<option value="جزء 28">جزء 28</option>
+<option value="جزء 29">جزء 29</option>
+<option value="جزء 30">جزء 30</option>
+
+<option value="حافظ كامل">حافظ كامل</option>
+<option value="القرآن كاملاً">القرآن كاملاً</option>
+<option value="ختمة إجازة">ختمة إجازة</option>
+<option value="مراجعة شاملة">مراجعة شاملة</option>
+
+</select>
+</div>
+
+<div class="form-group">
+<label>التحفة</label>
+<select id="tohfa">
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>غير مطلوب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الجزرية</label>
+<select id="jazariya">
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>غير مطلوب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>معاني الكلمات</label>
+<select id="maani">
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>غير مطلوب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الشواهد</label>
+<select id="shatibiya">
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>غير مطلوب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الملاحظات التعليمية</label>
+<textarea id="notes" rows="3" placeholder="اكتب ملاحظتك هنا..."></textarea>
+</div>
+
+<button id="saveBtn" class="btn btn-save" onclick="sendReport()">
+💾 حفظ وإرسال التقرير
+</button>
+
+<button class="btn btn-dark" onclick="loadStudentReports()">
+📄 عرض تقارير الطالب
+</button>
+
+<button id="cancelEditBtn" class="btn btn-clear" style="display:none" onclick="cancelEdit()">
+إلغاء التعديل
+</button>
+
+<button class="btn btn-clear" onclick="clearForm()">
+مسح الحقول
+</button>
+
+</div>
+
+<div class="teacher-reports">
+
+<h2 style="text-align:center;color:#9b7332;margin-bottom:10px">
+تقارير الطالب للمعلم
+</h2>
+
+<div id="teacherReportsBox" style="text-align:center;color:#777">
+اكتب اسم الطالب ثم اضغط:
+عرض تقارير الطالب
+</div>
+
+<div class="small-note">
+يمكن تعديل أو حذف الرصد الخاطئ من هنا.
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbxtIn_42KtqRabgKmH2U4TfToHpgl1Y9St4hyPOmPZ91smNtArZpL5UmpK15XngM8PkWA/exec";
+
+let editRowNumber = null;
+
+function showAlert(msg,type){
+
+const box=document.getElementById("alertBox");
+
+box.className="alert "+type;
+
+box.textContent=msg;
+
+box.style.display="block";
+
+setTimeout(()=>{
+box.style.display="none";
+},4000);
+
+}
+
+function sendReport(){
+
+const studentName=
+document.getElementById("studentName").value.trim();
+
+if(!studentName){
+
+showAlert("يرجى كتابة اسم الطالب","error");
+
+return;
+
+}
+
+const action=
+editRowNumber ? "update" : "insert";
+
+const params=new URLSearchParams({
+
+action:action,
+
+rowNumber:editRowNumber || "",
+
+studentName:
+document.getElementById("studentName").value,
+
+nationality:
+document.getElementById("nationality").value,
+
+studyType:
+document.getElementById("studyType").value,
+
+readType:
+document.getElementById("readType").value,
+
+attendance:
+document.getElementById("attendance").value,
+
+hifzPart:
+document.getElementById("hifzPart").value,
+
+tohfa:
+document.getElementById("tohfa").value,
+
+jazariya:
+document.getElementById("jazariya").value,
+
+maani:
+document.getElementById("maani").value,
+
+shatibiya:
+document.getElementById("shatibiya").value,
+
+notes:
+document.getElementById("notes").value
+
+});
+
+const img=new Image();
+
+img.onload=img.onerror=function(){
+
+showAlert(
+editRowNumber
+? "تم تعديل الرصد بنجاح ✅"
+: "تم إرسال التقرير بنجاح ✅",
+"success"
+);
+
+cancelEdit();
+
+loadStudentReports();
+
+};
+
+img.src=
+SCRIPT_URL+"?"+params.toString();
+
+}
+
 function loadStudentReports(){
 
 const studentName=
@@ -28,8 +535,7 @@ encodeURIComponent(studentName)
 
 if(!data.length){
 
-box.innerHTML=
-"لا توجد تقارير لهذا الطالب";
+box.innerHTML="لا توجد تقارير لهذا الطالب";
 
 return;
 
@@ -72,17 +578,17 @@ box.innerHTML+=`
 <b>${report.notes || "لا توجد"}</b>
 </div>
 
-<div style="display:flex;gap:10px;margin-top:15px">
+<div class="actions">
 
 <button
-class="btn btn-edit"
+class="btn-edit"
 onclick='editReport(${JSON.stringify(report)})'
 >
 تعديل
 </button>
 
 <button
-class="btn btn-delete"
+class="btn-delete"
 onclick='deleteReport(${report.rowNumber})'
 >
 حذف
@@ -149,7 +655,7 @@ behavior:"smooth"
 
 }
 
-function cancelEdit(clear=true){
+function cancelEdit(){
 
 editRowNumber=null;
 
@@ -157,11 +663,7 @@ document.getElementById("editModeBox").style.display="none";
 
 document.getElementById("cancelEditBtn").style.display="none";
 
-if(clear){
-
 clearForm();
-
-}
 
 }
 
@@ -196,3 +698,8 @@ document.getElementById("nationality").value="";
 document.getElementById("notes").value="";
 
 }
+
+</script>
+
+</body>
+</html>
