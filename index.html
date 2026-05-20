@@ -5,34 +5,208 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة أسفار - بوابة المعلم</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;padding:14px;background:#f3efe7;font-family:Tahoma,Arial,sans-serif;color:#172233}
-.app{max-width:900px;margin:auto}
-.panel,.teacher-reports{background:white;padding:24px;border-radius:24px;box-shadow:0 10px 25px rgba(0,0,0,.07);margin-bottom:18px}
-.logo{width:95px;display:block;margin:0 auto 10px}
-h1{text-align:center;color:#9b7332;margin:0 0 8px}
-.sub{text-align:center;color:#777;margin-bottom:25px}
-.form-group{margin-bottom:18px}
-label{display:block;margin-bottom:8px;font-weight:bold}
-input,select,textarea{width:100%;padding:14px;border-radius:14px;border:1px solid #ddd;box-sizing:border-box;font-size:15px}
-.options{display:flex;flex-wrap:wrap;gap:10px}
-.option{padding:10px 16px;border-radius:14px;border:1px solid #ddd;background:#fff;cursor:pointer}
-.option input{width:auto;margin-left:6px}
-.btn{width:100%;padding:15px;border:none;border-radius:16px;font-size:16px;font-weight:bold;cursor:pointer;margin-top:10px}
-.btn-save{background:#9b7332;color:white}
-.btn-dark{background:#172233;color:white}
-.btn-clear{background:white;border:1px dashed #c0392b;color:#c0392b}
-.alert{display:none;margin-bottom:15px;padding:13px;border-radius:14px;text-align:center;font-weight:bold}
-.success{background:#e8f8f1;color:#087653}
-.error{background:#fdeaea;color:#b42318}
-.report-card{border:1px solid #eadcc4;border-radius:18px;padding:15px;margin-top:12px;background:#fffdf8}
-.report-card h3{color:#9b7332;margin-bottom:8px}
-.row{display:flex;justify-content:space-between;border-bottom:1px dashed #eee;padding:7px 0;font-size:14px}
-.badge{display:inline-block;padding:4px 10px;border-radius:14px;font-size:12px;font-weight:bold}
-.good{background:#e8f8f1;color:#087653}
-.mid{background:#fff7df;color:#9b7332}
-.bad{background:#fdeaea;color:#b42318}
-.neutral{background:#eef2f7;color:#34495e}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#f3efe7;
+font-family:'Cairo',sans-serif;
+padding:15px;
+color:#172233;
+}
+
+.app{
+max-width:950px;
+margin:auto;
+}
+
+.panel,
+.teacher-reports{
+background:white;
+padding:24px;
+border-radius:28px;
+box-shadow:0 10px 30px rgba(0,0,0,.05);
+margin-bottom:20px;
+}
+
+.logo{
+width:100px;
+display:block;
+margin:auto auto 12px;
+}
+
+h1{
+text-align:center;
+color:#9b7332;
+font-size:38px;
+margin-bottom:6px;
+}
+
+.sub{
+text-align:center;
+color:#777;
+margin-bottom:25px;
+}
+
+.form-group{
+margin-bottom:18px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+font-weight:700;
+font-size:15px;
+}
+
+input,
+select,
+textarea{
+width:100%;
+padding:15px;
+border-radius:16px;
+border:1px solid #ddd;
+font-size:15px;
+font-family:'Cairo',sans-serif;
+}
+
+.options{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
+
+.option{
+padding:10px 16px;
+border-radius:14px;
+border:1px solid #ddd;
+background:#fff;
+cursor:pointer;
+font-size:14px;
+}
+
+.option input{
+width:auto;
+margin-left:6px;
+}
+
+.btn{
+width:100%;
+padding:16px;
+border:none;
+border-radius:18px;
+font-size:16px;
+font-weight:800;
+font-family:'Cairo',sans-serif;
+cursor:pointer;
+margin-top:10px;
+}
+
+.btn-save{
+background:#9b7332;
+color:white;
+}
+
+.btn-dark{
+background:#172233;
+color:white;
+}
+
+.btn-clear{
+background:white;
+border:1px dashed #c0392b;
+color:#c0392b;
+}
+
+.alert{
+display:none;
+margin-bottom:15px;
+padding:13px;
+border-radius:14px;
+text-align:center;
+font-weight:bold;
+}
+
+.success{
+background:#e8f8f1;
+color:#087653;
+}
+
+.error{
+background:#fdeaea;
+color:#b42318;
+}
+
+.report-card{
+border:1px solid #eadcc4;
+border-radius:20px;
+padding:16px;
+margin-top:14px;
+background:#fffdf8;
+}
+
+.report-card h3{
+color:#9b7332;
+margin-bottom:10px;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+gap:10px;
+border-bottom:1px dashed #eee;
+padding:8px 0;
+font-size:14px;
+}
+
+.badge{
+display:inline-block;
+padding:4px 10px;
+border-radius:14px;
+font-size:12px;
+font-weight:bold;
+}
+
+.good{
+background:#e8f8f1;
+color:#087653;
+}
+
+.mid{
+background:#fff7df;
+color:#9b7332;
+}
+
+.bad{
+background:#fdeaea;
+color:#b42318;
+}
+
+.neutral{
+background:#eef2f7;
+color:#34495e;
+}
+
+@media(max-width:768px){
+
+h1{
+font-size:28px;
+}
+
+.panel,
+.teacher-reports{
+padding:18px;
+}
+
+}
+
 </style>
 </head>
 
@@ -41,9 +215,14 @@ input,select,textarea{width:100%;padding:14px;border-radius:14px;border:1px soli
 <div class="app">
 
 <div class="panel">
+
 <img src="Asfar_logo_L@4x.png" class="logo">
+
 <h1>منصة أسفار لتعليم القرآن</h1>
-<div class="sub">بوابة الرصد اليومي للمعلم</div>
+
+<div class="sub">
+بوابة الرصد اليومي للمعلم
+</div>
 
 <div id="alertBox" class="alert"></div>
 
@@ -59,211 +238,417 @@ input,select,textarea{width:100%;padding:14px;border-radius:14px;border:1px soli
 
 <div class="form-group">
 <label>نوع الدراسة</label>
+
 <div class="options">
-<label class="option"><input type="radio" name="studyType" value="حضوري" checked>حضوري</label>
-<label class="option"><input type="radio" name="studyType" value="عن بعد">عن بعد</label>
+<label class="option">
+<input type="radio" name="studyType" value="حضوري" checked>
+حضوري
+</label>
+
+<label class="option">
+<input type="radio" name="studyType" value="عن بعد">
+عن بعد
+</label>
 </div>
 </div>
 
 <div class="form-group">
 <label>الرواية</label>
+
 <div class="options">
-<label class="option"><input type="radio" name="readType" value="حفص" checked>حفص</label>
-<label class="option"><input type="radio" name="readType" value="حفص بالقصر">حفص بالقصر</label>
-<label class="option"><input type="radio" name="readType" value="قراءة الإمام عاصم">قراءة الإمام عاصم</label>
+
+<label class="option">
+<input type="radio" name="readType" value="حفص" checked>
+حفص
+</label>
+
+<label class="option">
+<input type="radio" name="readType" value="حفص بالقصر">
+حفص بالقصر
+</label>
+
+<label class="option">
+<input type="radio" name="readType" value="قراءة الإمام عاصم">
+قراءة الإمام عاصم
+</label>
+
 </div>
 </div>
 
 <div class="form-group">
 <label>الحضور</label>
+
 <div class="options">
-<label class="option"><input type="radio" name="attendance" value="حاضر" checked>حاضر</label>
-<label class="option"><input type="radio" name="attendance" value="غائب">غائب</label>
+
+<label class="option">
+<input type="radio" name="attendance" value="حاضر" checked>
+حاضر
+</label>
+
+<label class="option">
+<input type="radio" name="attendance" value="غائب">
+غائب
+</label>
+
 </div>
 </div>
 
 <div class="form-group">
 <label>مقدار الحفظ / المسار</label>
-<select id="hifzPart"></select>
+
+<select id="hifzPart">
+
+<option value="جزء 1">جزء 1</option>
+<option value="جزء 2">جزء 2</option>
+<option value="جزء 3">جزء 3</option>
+<option value="جزء 4">جزء 4</option>
+<option value="جزء 5">جزء 5</option>
+<option value="جزء 6">جزء 6</option>
+<option value="جزء 7">جزء 7</option>
+<option value="جزء 8">جزء 8</option>
+<option value="جزء 9">جزء 9</option>
+<option value="جزء 10">جزء 10</option>
+
+<option value="حافظ كامل">حافظ كامل</option>
+
+<option value="ختمة إجازة">
+ختمة إجازة
+</option>
+
+<option value="مراجعة شاملة">
+مراجعة شاملة
+</option>
+
+<option value="القرآن كاملاً">
+القرآن كاملاً
+</option>
+
+</select>
 </div>
 
 <div class="form-group">
 <label>التحفة</label>
-<div class="options">
-<label class="option"><input type="radio" name="tohfa" value="متقن">متقن</label>
-<label class="option"><input type="radio" name="tohfa" value="متوسط">متوسط</label>
-<label class="option"><input type="radio" name="tohfa" value="يحتاج متابعة">يحتاج متابعة</label>
-<label class="option"><input type="radio" name="tohfa" value="غير مطلوب" checked>غير مطلوب</label>
-</div>
+
+<select name="tohfa">
+
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>
+غير مطلوب
+</option>
+
+</select>
 </div>
 
 <div class="form-group">
 <label>الجزرية</label>
-<div class="options">
-<label class="option"><input type="radio" name="jazariya" value="متقن">متقن</label>
-<label class="option"><input type="radio" name="jazariya" value="متوسط">متوسط</label>
-<label class="option"><input type="radio" name="jazariya" value="يحتاج متابعة">يحتاج متابعة</label>
-<label class="option"><input type="radio" name="jazariya" value="غير مطلوب" checked>غير مطلوب</label>
-</div>
+
+<select name="jazariya">
+
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>
+غير مطلوب
+</option>
+
+</select>
 </div>
 
 <div class="form-group">
 <label>معاني الكلمات</label>
-<div class="options">
-<label class="option"><input type="radio" name="maani" value="متقن">متقن</label>
-<label class="option"><input type="radio" name="maani" value="متوسط" checked>متوسط</label>
-<label class="option"><input type="radio" name="maani" value="غير متقن">غير متقن</label>
-</div>
+
+<select name="maani">
+
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>
+غير مطلوب
+</option>
+
+</select>
 </div>
 
 <div class="form-group">
 <label>الشواهد</label>
-<div class="options">
-<label class="option"><input type="radio" name="shatibiya" value="متقن">متقن</label>
-<label class="option"><input type="radio" name="shatibiya" value="متوسط">متوسط</label>
-<label class="option"><input type="radio" name="shatibiya" value="غير متقن">غير متقن</label>
-<label class="option"><input type="radio" name="shatibiya" value="غير مطلوب" checked>غير مطلوب</label>
-</div>
+
+<select name="shatibiya">
+
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>
+غير مطلوب
+</option>
+
+</select>
 </div>
 
 <div class="form-group">
 <label>الملاحظات التعليمية</label>
-<textarea id="notes" rows="3" placeholder="اكتب ملاحظة المعلم هنا..."></textarea>
+
+<textarea id="notes" rows="3"
+placeholder="اكتب ملاحظة المعلم هنا..."></textarea>
 </div>
 
-<button id="saveBtn" class="btn btn-save" onclick="sendReport()">💾 حفظ وإرسال التقرير</button>
-<button class="btn btn-dark" onclick="loadStudentReports()">📄 عرض تقارير هذا الطالب</button>
-<button class="btn btn-clear" onclick="clearForm()">مسح الحقول</button>
+<button id="saveBtn"
+class="btn btn-save"
+onclick="sendReport()">
+
+💾 حفظ وإرسال التقرير
+
+</button>
+
+<button class="btn btn-dark"
+onclick="loadStudentReports()">
+
+📄 عرض تقارير الطالب
+
+</button>
+
+<button class="btn btn-clear"
+onclick="clearForm()">
+
+مسح الحقول
+
+</button>
+
 </div>
 
 <div class="teacher-reports">
-<h2 style="color:#9b7332;text-align:center;margin-bottom:10px">تقارير الطالب للمعلم</h2>
-<div id="teacherReportsBox" style="color:#777;text-align:center">اكتب اسم الطالب ثم اضغط: عرض تقارير هذا الطالب</div>
+
+<h2 style="color:#9b7332;text-align:center;margin-bottom:10px">
+تقارير الطالب للمعلم
+</h2>
+
+<div id="teacherReportsBox"
+style="color:#777;text-align:center">
+
+اكتب اسم الطالب ثم اضغط:
+عرض تقارير الطالب
+
+</div>
+
 </div>
 
 </div>
 
 <script>
-const SCRIPT_URL="https://script.google.com/macros/s/AKfycbzNoX-3haqS2WS0F4SxwFR2uC1SKpP45z5SJTYYAwfacLSOe_RZo0pYxtoTNxYWJQm9-g/exec";
-let allReports=[];
 
-window.onload=function(){
-const hifz=document.getElementById("hifzPart");
-for(let i=1;i<=30;i++){
-let op=document.createElement("option");
-op.value=i;
-op.textContent="جزء "+i;
-hifz.appendChild(op);
-}
-["القرآن كاملاً","حافظ كامل","ختمة إجازة","مراجعة شاملة"].forEach(v=>{
-let op=document.createElement("option");
-op.value=v;
-op.textContent=v;
-hifz.appendChild(op);
-});
-};
-
-function radio(name){return document.querySelector(`input[name="${name}"]:checked`).value}
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbzNoX-3haqS2WS0F4SxwFR2uC1SKpP45z5SJTYYAwfacLSOe_RZo0pYxtoTNxYWJQm9-g/exec";
 
 function showAlert(msg,type){
+
 const box=document.getElementById("alertBox");
+
 box.className="alert "+type;
+
 box.textContent=msg;
+
 box.style.display="block";
-setTimeout(()=>box.style.display="none",4000);
+
+setTimeout(()=>{
+box.style.display="none";
+},4000);
+
+}
+
+function radio(name){
+
+return document.querySelector(
+`input[name="${name}"]:checked`
+).value;
+
 }
 
 function sendReport(){
+
 const btn=document.getElementById("saveBtn");
-const studentName=document.getElementById("studentName").value.trim();
+
+const studentName=
+document.getElementById("studentName")
+.value.trim();
 
 if(!studentName){
-showAlert("يرجى كتابة اسم الطالب","error");
+
+showAlert(
+"يرجى كتابة اسم الطالب",
+"error"
+);
+
 return;
+
 }
 
 const params=new URLSearchParams({
+
 action:"insert",
+
 studentName:studentName,
-nationality:document.getElementById("nationality").value.trim(),
+
+nationality:
+document.getElementById("nationality")
+.value.trim(),
+
 studyType:radio("studyType"),
+
 readType:radio("readType"),
+
 attendance:radio("attendance"),
-hifzPart:document.getElementById("hifzPart").value,
-tohfa:radio("tohfa"),
-jazariya:radio("jazariya"),
-maani:radio("maani"),
-shatibiya:radio("shatibiya"),
-notes:document.getElementById("notes").value.trim()
+
+hifzPart:
+document.getElementById("hifzPart")
+.value,
+
+tohfa:
+document.querySelector(
+'select[name="tohfa"]'
+).value,
+
+jazariya:
+document.querySelector(
+'select[name="jazariya"]'
+).value,
+
+maani:
+document.querySelector(
+'select[name="maani"]'
+).value,
+
+shatibiya:
+document.querySelector(
+'select[name="shatibiya"]'
+).value,
+
+notes:
+document.getElementById("notes")
+.value.trim()
+
 });
 
 btn.disabled=true;
-btn.textContent="جاري الحفظ والإرسال...";
+
+btn.textContent=
+"جاري الحفظ والإرسال...";
 
 const img=new Image();
+
 img.onload=img.onerror=function(){
-showAlert("تم إرسال التقرير بنجاح ✅","success");
-document.getElementById("notes").value="";
+
+showAlert(
+"تم إرسال التقرير بنجاح ✅",
+"success"
+);
+
 btn.disabled=false;
-btn.textContent="💾 حفظ وإرسال التقرير";
+
+btn.textContent=
+"💾 حفظ وإرسال التقرير";
+
 loadStudentReports();
+
 };
-img.src=SCRIPT_URL+"?"+params.toString();
+
+img.src=
+SCRIPT_URL+"?"+params.toString();
+
 }
 
 async function loadStudentReports(){
-const name=document.getElementById("studentName").value.trim();
-if(!name){showAlert("اكتب اسم الطالب أولًا","error");return;}
 
-const box=document.getElementById("teacherReportsBox");
-box.innerHTML="جاري تحميل تقارير الطالب...";
+const name=
+document.getElementById("studentName")
+.value.trim();
+
+if(!name){
+
+showAlert(
+"اكتب اسم الطالب أولًا",
+"error"
+);
+
+return;
+
+}
+
+const box=
+document.getElementById("teacherReportsBox");
+
+box.innerHTML=
+"جاري تحميل التقارير...";
 
 try{
+
 const res=await fetch(SCRIPT_URL);
-allReports=await res.json();
-const data=allReports.filter(r=>r.studentName===name);
+
+const allReports=await res.json();
+
+const data=
+allReports.filter(
+r=>r.studentName===name
+);
 
 if(!data.length){
-box.innerHTML="لا توجد تقارير محفوظة لهذا الطالب.";
+
+box.innerHTML=
+"لا توجد تقارير لهذا الطالب.";
+
 return;
+
 }
 
 const latest=data[data.length-1];
-const attend=data.filter(x=>x.attendance==="حاضر").length;
-const pct=Math.round(attend/data.length*100);
 
 box.innerHTML=`
+
 <div class="report-card">
+
 <h3>${name}</h3>
-<div class="row"><span>عدد التقارير</span><b>${data.length}</b></div>
-<div class="row"><span>نسبة الحضور</span><b>${pct}%</b></div>
-<div class="row"><span>آخر حفظ/مسار</span><b>${latest.hifzPart}</b></div>
-<div class="row"><span>الرواية</span><b>${latest.readType}</b></div>
-<div class="row"><span>آخر ملاحظة</span><b>${latest.notes || "لا توجد"}</b></div>
+
+<div class="row">
+<span>عدد التقارير</span>
+<b>${data.length}</b>
 </div>
-<h3 style="margin-top:14px;color:#9b7332">آخر 5 تقارير</h3>
-${data.slice(-5).reverse().map((r,i)=>`
-<div class="report-card">
-<h3>رصد ${data.length-i}</h3>
-<div class="row"><span>الحضور</span><b>${r.attendance}</b></div>
-<div class="row"><span>الحفظ/المسار</span><b>${r.hifzPart}</b></div>
-<div class="row"><span>معاني الكلمات</span><b>${r.maani}</b></div>
-<div class="row"><span>الشواهد</span><b>${r.shatibiya}</b></div>
-<div class="row"><span>الملاحظات</span><b>${r.notes || "لا توجد"}</b></div>
+
+<div class="row">
+<span>آخر حفظ</span>
+<b>${latest.hifzPart}</b>
 </div>
-`).join("")}
+
+<div class="row">
+<span>الرواية</span>
+<b>${latest.readType}</b>
+</div>
+
+<div class="row">
+<span>آخر ملاحظة</span>
+<b>${latest.notes || "لا توجد"}</b>
+</div>
+
+</div>
+
 `;
+
 }catch(e){
-box.innerHTML="تعذر تحميل التقارير.";
+
+box.innerHTML=
+"تعذر تحميل التقارير.";
+
 }
+
 }
 
 function clearForm(){
+
 document.getElementById("studentName").value="";
 document.getElementById("nationality").value="";
 document.getElementById("notes").value="";
-document.getElementById("teacherReportsBox").innerHTML="اكتب اسم الطالب ثم اضغط: عرض تقارير هذا الطالب";
+
 }
+
 </script>
 
 </body>
