@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>لوحة المسؤولين - منصة أسفار</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
@@ -29,8 +28,8 @@ box-shadow:0 10px 30px rgba(0,0,0,.05);
 }
 
 .logo{
-width:190px;
-height:190px;
+width:210px;
+height:210px;
 object-fit:contain;
 margin-bottom:12px;
 }
@@ -67,9 +66,7 @@ font-size:34px;
 color:#a77b2d;
 }
 
-.stat span{
-font-weight:700;
-}
+.stat span{font-weight:700}
 
 .search-box{
 background:white;
@@ -100,6 +97,8 @@ border:1px solid #e7dcc7;
 border-radius:24px;
 padding:22px;
 box-shadow:0 8px 22px rgba(0,0,0,.04);
+break-inside:avoid;
+page-break-inside:avoid;
 }
 
 .student-card h2{
@@ -150,6 +149,8 @@ background:#fffdf8;
 border-radius:28px;
 border:7px solid #c8a45d;
 padding:24px;
+break-inside:avoid;
+page-break-inside:avoid;
 }
 
 .close{
@@ -168,11 +169,13 @@ text-align:center;
 border-bottom:2px solid #c8a45d;
 padding-bottom:14px;
 margin-bottom:18px;
+break-inside:avoid;
+page-break-inside:avoid;
 }
 
 .profile-header img{
-width:165px;
-height:165px;
+width:175px;
+height:175px;
 object-fit:contain;
 }
 
@@ -192,6 +195,8 @@ display:grid;
 grid-template-columns:repeat(auto-fit,minmax(190px,1fr));
 gap:14px;
 margin-bottom:18px;
+break-inside:avoid;
+page-break-inside:avoid;
 }
 
 .info-box{
@@ -199,6 +204,8 @@ background:white;
 border:1px solid #e7dcc7;
 border-radius:18px;
 padding:16px;
+break-inside:avoid;
+page-break-inside:avoid;
 }
 
 .info-box span{
@@ -211,24 +218,6 @@ display:block;
 font-size:23px;
 color:#a77b2d;
 margin-top:4px;
-}
-
-.print-holder{
-text-align:center;
-margin:6px 0 18px;
-}
-
-.print-btn{
-display:inline-block;
-background:#172233;
-color:white;
-border:0;
-border-radius:16px;
-padding:13px 34px;
-font-family:'Cairo';
-font-weight:800;
-font-size:16px;
-cursor:pointer;
 }
 
 .tabs{
@@ -266,6 +255,8 @@ border:1px solid #e7dcc7;
 border-radius:20px;
 padding:18px;
 margin-bottom:16px;
+break-inside:avoid;
+page-break-inside:avoid;
 }
 
 .section h3{
@@ -298,6 +289,8 @@ border:1px solid #eadcc4;
 border-radius:16px;
 padding:12px;
 margin-bottom:10px;
+break-inside:avoid;
+page-break-inside:avoid;
 }
 
 .day-title{
@@ -319,10 +312,33 @@ font-weight:bold;
 .bad{background:#fdeaea;color:#b42318}
 .neutral{background:#eef2f7;color:#34495e}
 
+.print-note{
+background:#fff7e8;
+border:1px solid #e7dcc7;
+border-radius:18px;
+padding:18px;
+text-align:center;
+font-weight:800;
+color:#9b7332;
+}
+
+.print-action{
+background:#172233;
+color:white;
+border:0;
+border-radius:16px;
+padding:15px 35px;
+font-family:'Cairo';
+font-size:17px;
+font-weight:800;
+cursor:pointer;
+margin-top:14px;
+}
+
 @media(max-width:768px){
-.logo{width:150px;height:150px}
+.logo{width:160px;height:160px}
 .header h1{font-size:31px}
-.profile-header img{width:135px;height:135px}
+.profile-header img{width:145px;height:145px}
 .profile-header h2{font-size:28px}
 .stats{grid-template-columns:1fr 1fr}
 .profile{padding:14px;border-width:5px}
@@ -333,6 +349,12 @@ font-weight:bold;
 *{
 -webkit-print-color-adjust:exact!important;
 print-color-adjust:exact!important;
+break-inside:avoid;
+}
+
+@page{
+size:A4 portrait;
+margin:10mm;
 }
 
 body{
@@ -342,11 +364,9 @@ padding:0!important;
 
 .container,
 .close,
-.tabs,
 .search-box,
 .stats,
-.btn,
-.print-holder{
+.btn{
 display:none!important;
 }
 
@@ -355,6 +375,7 @@ display:block!important;
 position:static!important;
 background:white!important;
 padding:0!important;
+overflow:visible!important;
 }
 
 .profile{
@@ -363,10 +384,26 @@ box-shadow:none!important;
 max-width:100%!important;
 border-radius:0!important;
 background:#fffdf8!important;
+padding:18px!important;
+}
+
+.tabs{
+display:none!important;
 }
 
 .tab{
 display:block!important;
+page-break-inside:avoid!important;
+break-inside:avoid!important;
+}
+
+.profile-header,
+.profile-grid,
+.section,
+.day,
+.info-box{
+page-break-inside:avoid!important;
+break-inside:avoid!important;
 }
 
 .profile-header h2,
@@ -375,6 +412,10 @@ display:block!important;
 color:#a77b2d!important;
 }
 
+.print-action,
+.print-note{
+display:none!important;
+}
 }
 </style>
 </head>
@@ -426,16 +467,13 @@ color:#a77b2d!important;
 <div class="info-box"><span>آخر حفظ</span><strong id="pHifz">-</strong></div>
 </div>
 
-<div class="print-holder">
-<button class="print-btn" onclick="window.print()">🖨️ طباعة التقرير</button>
-</div>
-
 <div class="tabs">
 <button class="tab-btn active" onclick="showTab('tabSummary',this)">الملخص</button>
 <button class="tab-btn" onclick="showTab('tabProgress',this)">الإنجاز</button>
 <button class="tab-btn" onclick="showTab('tabEval',this)">التقييم</button>
 <button class="tab-btn" onclick="showTab('tabHistory',this)">السجل</button>
 <button class="tab-btn" onclick="showTab('tabNotes',this)">الملاحظات</button>
+<button class="tab-btn" onclick="showTab('tabPrint',this)">الطباعة</button>
 </div>
 
 <div id="tabSummary" class="tab active">
@@ -480,6 +518,17 @@ color:#a77b2d!important;
 </div>
 </div>
 
+<div id="tabPrint" class="tab">
+<div class="section">
+<h3>طباعة التقرير</h3>
+<div class="print-note">
+اضغط الزر التالي لطباعة التقرير الكامل للطالب بصيغة رسمية.
+<br>
+<button class="print-action" onclick="window.print()">🖨️ طباعة التقرير</button>
+</div>
+</div>
+</div>
+
 </div>
 </div>
 
@@ -519,9 +568,31 @@ reportsCount.textContent=reports.length;
 const attend=reports.filter(r=>r.attendance==="حاضر").length;
 attendanceAvg.textContent=reports.length?Math.round(attend/reports.length*100)+"%":"0%";
 
-nationalitiesCount.textContent=[...new Set(reports.map(r=>r.nationality).filter(Boolean))].length;
-ijazahCount.textContent=reports.filter(r=>r.hifzPart==="ختمة إجازة").length;
-remoteCount.textContent=reports.filter(r=>r.studyType==="عن بعد").length;
+const uniqueNationalities=[...new Set(
+reports
+.map(r=>String(r.nationality||"").trim())
+.filter(Boolean)
+)];
+
+nationalitiesCount.textContent=uniqueNationalities.length;
+
+const uniqueIjazahStudents=[...new Set(
+reports
+.filter(r=>r.hifzPart==="ختمة إجازة")
+.map(r=>r.studentName)
+.filter(Boolean)
+)];
+
+ijazahCount.textContent=uniqueIjazahStudents.length;
+
+const uniqueRemoteStudents=[...new Set(
+reports
+.filter(r=>r.studyType==="عن بعد")
+.map(r=>r.studentName)
+.filter(Boolean)
+)];
+
+remoteCount.textContent=uniqueRemoteStudents.length;
 }
 
 function normalizeText(t){
