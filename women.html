@@ -1,388 +1,392 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>مقرأة أسفار النسائية</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f3efe7;font-family:'Cairo',sans-serif;padding:15px;color:#172233}
+.app{max-width:1000px;margin:auto}
+.panel,.teacher-reports{background:white;padding:24px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:20px}
+.logo{width:145px;display:block;margin:auto auto 18px}
+h1{text-align:center;color:#9b7332;font-size:42px;margin-bottom:10px;font-weight:800}
+.sub{text-align:center;color:#777;margin-bottom:30px;font-size:16px}
+.form-group{margin-bottom:18px}
+label{display:block;margin-bottom:8px;font-weight:700;font-size:15px}
+input,select,textarea{width:100%;padding:15px;border-radius:18px;border:1px solid #ddd;font-size:15px;font-family:'Cairo',sans-serif;background:white}
+textarea{resize:none}
+.btn{width:100%;padding:16px;border:none;border-radius:18px;font-size:16px;font-weight:800;font-family:'Cairo',sans-serif;cursor:pointer;margin-top:10px}
+.btn-save{background:#a97b2f;color:white}
+.btn-dark{background:#172233;color:white}
+.btn-clear{background:white;border:2px dashed #d64545;color:#d64545}
+.btn-edit{background:#12664f;color:white;padding:12px;font-size:14px;flex:1;border:none;border-radius:14px;font-family:'Cairo';font-weight:800}
+.btn-delete{background:#c0392b;color:white;padding:12px;font-size:14px;flex:1;border:none;border-radius:14px;font-family:'Cairo';font-weight:800}
+.alert{display:none;padding:14px;border-radius:16px;margin-bottom:15px;font-weight:bold;text-align:center}
+.success{background:#e7f8ef;color:#0c7b51}
+.error{background:#fdeaea;color:#b42318}
+.edit-mode{display:none;background:#fff6dc;color:#9b7332;padding:14px;border-radius:16px;margin-bottom:14px;text-align:center;font-weight:800}
+.report-card{border:1px solid #eadcc4;border-radius:24px;padding:20px;margin-top:18px;background:#fffdf8}
+.report-card h3{color:#9b7332;margin-bottom:14px;font-size:22px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dashed #eee;font-size:15px}
+.row b{font-weight:800;text-align:left}
+.actions{display:flex;gap:10px;margin-top:16px}
+.small-note{text-align:center;margin-top:12px;color:#777;font-size:13px}
+.search-wrapper{position:relative;margin-bottom:18px}
+.search-results{position:absolute;top:100%;right:0;left:0;background:white;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.08);max-height:260px;overflow:auto;display:none;z-index:999}
+.search-item{padding:14px 18px;border-bottom:1px solid #eee;cursor:pointer;font-weight:700}
+.search-item:hover{background:#f7f2e7}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:768px){
+h1{font-size:34px}
+.logo{width:120px}
+.panel,.teacher-reports{padding:18px}
+.row{font-size:14px}
+.grid2{grid-template-columns:1fr}
 }
-
-body{
-font-family:'Tajawal',sans-serif;
-background:#ece9e1;
-min-height:100vh;
-padding:40px 15px;
-display:flex;
-justify-content:center;
-align-items:flex-start;
-}
-
-.container{
-width:100%;
-max-width:760px;
-background:#f8f7f3;
-border-radius:40px;
-padding:40px;
-box-shadow:0 20px 60px rgba(0,0,0,.08);
-border:1px solid rgba(0,0,0,.05);
-}
-
-.logoBox{
-text-align:center;
-margin-bottom:30px;
-}
-
-.logoBox img{
-width:120px;
-height:auto;
-margin-bottom:15px;
-}
-
-.logoBox h1{
-font-size:48px;
-font-weight:800;
-color:#18233f;
-margin-bottom:10px;
-}
-
-.logoBox p{
-font-size:18px;
-color:#7a7f8f;
-}
-
-.section{
-background:#fcfcfb;
-border:1px solid #e5e2da;
-border-radius:30px;
-padding:28px;
-margin-bottom:28px;
-}
-
-.sectionTitle{
-font-size:34px;
-font-weight:800;
-color:#18233f;
-margin-bottom:24px;
-}
-
-.grid2{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-}
-
-.field{
-margin-bottom:20px;
-}
-
-.field label{
-display:block;
-margin-bottom:10px;
-font-size:18px;
-font-weight:700;
-color:#1d2945;
-}
-
-input,
-select,
-textarea{
-width:100%;
-height:62px;
-border-radius:20px;
-border:1px solid #d9d7cf;
-padding:15px;
-font-size:18px;
-font-family:'Tajawal',sans-serif;
-background:#fff;
-outline:none;
-}
-
-textarea{
-height:130px;
-resize:none;
-padding-top:18px;
-}
-
-.buttons{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:18px;
-margin-top:20px;
-}
-
-.btn{
-height:64px;
-border:none;
-border-radius:22px;
-font-size:22px;
-font-family:'Tajawal',sans-serif;
-font-weight:800;
-cursor:pointer;
-transition:.2s;
-}
-
-.btn:hover{
-transform:translateY(-2px);
-}
-
-.save{
-background:#0f7a5c;
-color:#fff;
-}
-
-.clear{
-background:#b8862b;
-color:#fff;
-}
-
-.summary{
-margin-top:30px;
-background:#f4f1ea;
-border-radius:30px;
-padding:28px;
-border:1px solid #ddd7c9;
-}
-
-.summary h2{
-font-size:36px;
-color:#b8862b;
-margin-bottom:18px;
-}
-
-.summary p{
-font-size:24px;
-line-height:2;
-color:#1d2945;
-}
-
-@media(max-width:700px){
-
-.container{
-padding:25px;
-}
-
-.logoBox h1{
-font-size:36px;
-}
-
-.sectionTitle{
-font-size:28px;
-}
-
-.grid2{
-grid-template-columns:1fr;
-}
-
-.buttons{
-grid-template-columns:1fr;
-}
-
-}
-
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-<div class="logoBox">
+<div class="panel">
 
-<img src="Asfar_logo_L@4x.png" alt="شعار أسفار">
+<img src="Asfar_logo_L@4x.png" class="logo">
 
 <h1>مقرأة أسفار النسائية</h1>
+<div class="sub">بوابة الرصد اليومي للمعلمة</div>
 
-<p>بوابة الرصد اليومي للمعلمة</p>
+<div id="alertBox" class="alert"></div>
+<div id="editModeBox" class="edit-mode">أنتِ الآن تعدّلين رصدًا سابقًا</div>
 
+<div class="search-wrapper">
+<input type="text" id="studentSearch" placeholder="اكتبي أول اسم الطالبة للبحث..." autocomplete="off">
+<div class="search-results" id="searchResults"></div>
 </div>
 
-<div class="section">
-
-<div class="sectionTitle">بيانات الطالبة</div>
-
-<div class="field">
+<div class="form-group">
 <label>اسم الطالبة</label>
-<input type="text" id="studentName" placeholder="مثال: سارة محمد">
+<input id="studentName" placeholder="اكتبي اسم الطالبة">
 </div>
 
 <div class="grid2">
-
-<div class="field">
+<div class="form-group">
 <label>العمر</label>
-<input type="text" placeholder="مثال: 12">
+<input id="age" placeholder="مثال: 12">
 </div>
 
-<div class="field">
+<div class="form-group">
 <label>الجنسية</label>
-<input type="text" placeholder="مثال: سعودية">
+<input id="nationality" placeholder="مثال: سعودية">
+</div>
 </div>
 
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">الحفظ</div>
-
-<div class="grid2">
-
-<div class="field">
+<div class="form-group">
 <label>مقدار الحفظ</label>
 <select id="memorizationAmount">
-<option>اختاري مقدار الحفظ</option>
-<option>وجه</option>
-<option>وجهان</option>
-<option>ثلاثة أوجه</option>
-<option>أربعة أوجه</option>
-<option>خمسة أوجه</option>
+<option value="وجه">وجه</option>
+<option value="وجهان">وجهان</option>
+<option value="ثلاثة أوجه">ثلاثة أوجه</option>
+<option value="أربعة أوجه">أربعة أوجه</option>
+<option value="خمسة أوجه">خمسة أوجه</option>
+<option value="ربع جزء">ربع جزء</option>
+<option value="نصف جزء">نصف جزء</option>
+<option value="جزء">جزء</option>
+<option value="جزآن">جزآن</option>
+<option value="حافظة كاملة">حافظة كاملة</option>
+<option value="القرآن كاملاً">القرآن كاملاً</option>
+<option value="ختمة إجازة">ختمة إجازة</option>
+<option value="مراجعة شاملة">مراجعة شاملة</option>
 </select>
 </div>
 
-<div class="field">
+<div class="form-group">
 <label>مستوى الحفظ</label>
 <select id="memorizationLevel">
-<option>اختاري مستوى الحفظ</option>
-<option>ممتاز</option>
-<option>جيد جداً</option>
-<option>جيد</option>
-<option>ضعيف</option>
+<option value="ممتاز">ممتاز</option>
+<option value="جيد جداً">جيد جداً</option>
+<option value="جيد">جيد</option>
+<option value="ضعيف">ضعيف</option>
 </select>
 </div>
 
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">المراجعة</div>
-
-<div class="grid2">
-
-<div class="field">
+<div class="form-group">
 <label>مقدار المراجعة</label>
 <select id="reviewAmount">
-<option>اختاري مقدار المراجعة</option>
-<option>ربع جزء</option>
-<option>نصف جزء</option>
-<option>جزء</option>
-<option>جزآن</option>
+<option value="لا يوجد">لا يوجد</option>
+<option value="ربع جزء">ربع جزء</option>
+<option value="نصف جزء">نصف جزء</option>
+<option value="جزء">جزء</option>
+<option value="جزآن">جزآن</option>
+<option value="مراجعة شاملة">مراجعة شاملة</option>
 </select>
 </div>
 
-<div class="field">
+<div class="form-group">
 <label>مستوى المراجعة</label>
 <select id="reviewLevel">
-<option>اختاري مستوى المراجعة</option>
-<option>ممتاز</option>
-<option>جيد جداً</option>
-<option>جيد</option>
-<option>ضعيف</option>
+<option value="ممتاز">ممتاز</option>
+<option value="جيد جداً">جيد جداً</option>
+<option value="جيد">جيد</option>
+<option value="ضعيف">ضعيف</option>
+<option value="غير مطلوب">غير مطلوب</option>
 </select>
 </div>
 
-</div>
-
-</div>
-
-<div class="section">
-
-<div class="sectionTitle">المتابعة</div>
-
-<div class="field">
+<div class="form-group">
 <label>الغياب</label>
 <select id="absence">
-<option>لا يوجد</option>
-<option>غياب بعذر</option>
-<option>غياب بدون عذر</option>
+<option value="لا يوجد">لا يوجد</option>
+<option value="غياب بعذر">غياب بعذر</option>
+<option value="غياب بدون عذر">غياب بدون عذر</option>
 </select>
 </div>
 
-<div class="field">
-<label>الملاحظات</label>
-<textarea id="notes" placeholder="اكتبي الملاحظات"></textarea>
+<div class="form-group">
+<label>الملاحظات التعليمية</label>
+<textarea id="notes" rows="3" placeholder="اكتبي ملاحظتك هنا..."></textarea>
 </div>
 
-<div class="buttons">
-
-<button class="btn save" onclick="saveData()">
-حفظ البيانات
-</button>
-
-<button class="btn clear" onclick="clearFields()">
-تفريغ الحقول
-</button>
+<button class="btn btn-save" onclick="sendReport()">💾 حفظ وإرسال التقرير</button>
+<button class="btn btn-dark" onclick="loadStudentReports()">📄 عرض تقارير الطالبة</button>
+<button id="cancelEditBtn" class="btn btn-clear" style="display:none" onclick="cancelEditOnly()">إلغاء التعديل</button>
+<button class="btn btn-clear" onclick="clearForm()">مسح الحقول</button>
 
 </div>
 
-<div class="summary">
-
-<h2>ملخص الإدخال</h2>
-
-<p id="summaryText">
-
-الطالبة: —<br>
-الحفظ: —<br>
-المراجعة: —<br>
-الغياب: لا يوجد
-
-</p>
-
-</div>
-
+<div class="teacher-reports">
+<h2 style="text-align:center;color:#9b7332;margin-bottom:10px">تقارير الطالبة للمعلمة</h2>
+<div id="teacherReportsBox" style="text-align:center;color:#777">اكتبي اسم الطالبة ثم اضغطي عرض تقارير الطالبة</div>
+<div class="small-note">يمكن تعديل أو حذف الرصد الخاطئ من هنا.</div>
 </div>
 
 </div>
 
 <script>
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbz_lahCdn-toUyyBhgQ0RdKYcpx919XJ846Z_UcXSQqB8ADxCQHHqnH187cM40UxI1T8w/exec";
 
-function saveData(){
+let editRowNumber = null;
 
-const name = document.getElementById("studentName").value;
-const mem = document.getElementById("memorizationAmount").value;
-const review = document.getElementById("reviewAmount").value;
-const absence = document.getElementById("absence").value;
-
-document.getElementById("summaryText").innerHTML = `
-الطالبة: ${name || "—"}<br>
-الحفظ: ${mem}<br>
-المراجعة: ${review}<br>
-الغياب: ${absence}
-`;
-
-alert("تم حفظ البيانات بنجاح");
-
+function showAlert(msg,type){
+  const box=document.getElementById("alertBox");
+  box.className="alert "+type;
+  box.textContent=msg;
+  box.style.display="block";
+  setTimeout(()=>{box.style.display="none";},4000);
 }
 
-function clearFields(){
-
-document.querySelectorAll("input").forEach(el=>el.value="");
-document.querySelectorAll("textarea").forEach(el=>el.value="");
-document.querySelectorAll("select").forEach(el=>el.selectedIndex=0);
-
-document.getElementById("summaryText").innerHTML = `
-الطالبة: —<br>
-الحفظ: —<br>
-المراجعة: —<br>
-الغياب: لا يوجد
-`;
-
+function normalizeText(t){
+  return String(t||"")
+  .replace(/[أإآ]/g,"ا")
+  .replace(/ة/g,"ه")
+  .replace(/ى/g,"ي")
+  .trim()
+  .toLowerCase();
 }
 
+studentSearch.addEventListener("input",()=>{
+  const value=normalizeText(studentSearch.value);
+
+  if(value.length<1){
+    searchResults.style.display="none";
+    return;
+  }
+
+  fetch(SCRIPT_URL)
+  .then(r=>r.json())
+  .then(data=>{
+    const unique={};
+
+    data.forEach(item=>{
+      const n=(item.studentName||"").trim();
+
+      if(n && normalizeText(n).includes(value)){
+        unique[n]=item;
+      }
+    });
+
+    const results=Object.values(unique);
+    searchResults.innerHTML="";
+
+    if(!results.length){
+      searchResults.style.display="none";
+      return;
+    }
+
+    results.forEach(item=>{
+      const div=document.createElement("div");
+      div.className="search-item";
+      div.textContent=item.studentName;
+
+      div.onclick=()=>{
+        fillForm(item);
+        searchResults.style.display="none";
+        loadStudentReports();
+      };
+
+      searchResults.appendChild(div);
+    });
+
+    searchResults.style.display="block";
+  });
+});
+
+document.addEventListener("click",(e)=>{
+  if(!studentSearch.contains(e.target) && !searchResults.contains(e.target)){
+    searchResults.style.display="none";
+  }
+});
+
+function getValue(obj, key, fallback=""){
+  return obj[key] || fallback;
+}
+
+function sendReport(){
+  const studentName=document.getElementById("studentName").value.trim();
+
+  if(!studentName){
+    showAlert("يرجى كتابة اسم الطالبة","error");
+    return;
+  }
+
+  const action=editRowNumber ? "update" : "insert";
+
+  const params=new URLSearchParams({
+    action:action,
+    rowNumber:editRowNumber || "",
+    studentName:studentName,
+    age:document.getElementById("age").value.trim(),
+    nationality:document.getElementById("nationality").value.trim(),
+    memorizationAmount:document.getElementById("memorizationAmount").value,
+    memorizationLevel:document.getElementById("memorizationLevel").value,
+    reviewAmount:document.getElementById("reviewAmount").value,
+    reviewLevel:document.getElementById("reviewLevel").value,
+    absence:document.getElementById("absence").value,
+    notes:document.getElementById("notes").value.trim()
+  });
+
+  const img=new Image();
+
+  img.onload=img.onerror=function(){
+    showAlert(editRowNumber ? "تم تعديل الرصد بنجاح ✅" : "تم إرسال التقرير بنجاح ✅","success");
+
+    editRowNumber=null;
+    document.getElementById("editModeBox").style.display="none";
+    document.getElementById("cancelEditBtn").style.display="none";
+    document.getElementById("notes").value="";
+
+    loadStudentReports();
+  };
+
+  img.src=SCRIPT_URL+"?"+params.toString();
+}
+
+function loadStudentReports(){
+  const studentName=document.getElementById("studentName").value.trim();
+
+  if(!studentName){
+    showAlert("اكتبي اسم الطالبة أولاً","error");
+    return;
+  }
+
+  const box=document.getElementById("teacherReportsBox");
+  box.innerHTML="جاري تحميل التقارير...";
+
+  fetch(SCRIPT_URL+"?action=getStudentReports&studentName="+encodeURIComponent(studentName))
+  .then(r=>r.json())
+  .then(data=>{
+    if(!data.length){
+      box.innerHTML="لا توجد تقارير لهذه الطالبة";
+      return;
+    }
+
+    box.innerHTML="";
+
+    data.reverse().forEach(report=>{
+      box.innerHTML+=`
+      <div class="report-card">
+      <h3>رصد رقم ${report.rowNumber}</h3>
+      <div class="row"><span>الطالبة</span><b>${report.studentName || "-"}</b></div>
+      <div class="row"><span>العمر</span><b>${report.age || "-"}</b></div>
+      <div class="row"><span>الجنسية</span><b>${report.nationality || "-"}</b></div>
+      <div class="row"><span>مقدار الحفظ</span><b>${report.memorizationAmount || "-"}</b></div>
+      <div class="row"><span>مستوى الحفظ</span><b>${report.memorizationLevel || "-"}</b></div>
+      <div class="row"><span>مقدار المراجعة</span><b>${report.reviewAmount || "-"}</b></div>
+      <div class="row"><span>مستوى المراجعة</span><b>${report.reviewLevel || "-"}</b></div>
+      <div class="row"><span>الغياب</span><b>${report.absence || "-"}</b></div>
+      <div class="row"><span>الملاحظات</span><b>${report.notes || "لا توجد"}</b></div>
+      <div class="actions">
+      <button class="btn-edit" onclick='editReport(${JSON.stringify(report)})'>تعديل</button>
+      <button class="btn-delete" onclick='deleteReport(${report.rowNumber})'>حذف</button>
+      </div>
+      </div>
+      `;
+    });
+  })
+  .catch(()=>{
+    box.innerHTML="تعذر تحميل التقارير. تأكدي من نشر السكربت.";
+  });
+}
+
+function fillForm(report){
+  document.getElementById("studentName").value=report.studentName || "";
+  document.getElementById("age").value=report.age || "";
+  document.getElementById("nationality").value=report.nationality || "";
+  document.getElementById("memorizationAmount").value=report.memorizationAmount || "وجه";
+  document.getElementById("memorizationLevel").value=report.memorizationLevel || "ممتاز";
+  document.getElementById("reviewAmount").value=report.reviewAmount || "لا يوجد";
+  document.getElementById("reviewLevel").value=report.reviewLevel || "غير مطلوب";
+  document.getElementById("absence").value=report.absence || "لا يوجد";
+  document.getElementById("notes").value=report.notes || "";
+}
+
+function editReport(report){
+  editRowNumber=report.rowNumber;
+  fillForm(report);
+
+  document.getElementById("editModeBox").style.display="block";
+  document.getElementById("cancelEditBtn").style.display="block";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function cancelEditOnly(){
+  editRowNumber=null;
+  document.getElementById("editModeBox").style.display="none";
+  document.getElementById("cancelEditBtn").style.display="none";
+  showAlert("تم إلغاء التعديل","success");
+}
+
+function deleteReport(rowNumber){
+  const confirmDelete=confirm("هل أنتِ متأكدة من حذف هذا الرصد؟");
+  if(!confirmDelete)return;
+
+  const img=new Image();
+
+  img.onload=img.onerror=function(){
+    showAlert("تم حذف الرصد بنجاح","success");
+    loadStudentReports();
+  };
+
+  img.src=SCRIPT_URL+"?action=delete&rowNumber="+rowNumber;
+}
+
+function clearForm(){
+  document.getElementById("studentSearch").value="";
+  document.getElementById("studentName").value="";
+  document.getElementById("age").value="";
+  document.getElementById("nationality").value="";
+  document.getElementById("notes").value="";
+  editRowNumber=null;
+  document.getElementById("editModeBox").style.display="none";
+  document.getElementById("cancelEditBtn").style.display="none";
+  document.getElementById("teacherReportsBox").innerHTML="اكتبي اسم الطالبة ثم اضغطي عرض تقارير الطالبة";
+}
 </script>
 
 </body>
