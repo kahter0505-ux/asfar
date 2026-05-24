@@ -1,87 +1,643 @@
-<!DOCTYPE html>
+html = """<!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>مقرأة أسفار النسائية</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;600;700;800;900&family=Noto+Naskh+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
 <style>
-:root{--navy:#1d2945;--gold:#c79a45;--green:#0f6b55;--cream:#f8f3e9}
+
+:root{
+
+  --navy:#1d2945;
+
+  --gold:#a77a28;
+
+  --soft-gold:#efe7d7;
+
+  --cream:#f7f1e7;
+
+  --bg:#eee7dc;
+
+  --border:#ddd7ce;
+
+  --green:#0f6b55;
+
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Tajawal',sans-serif;background:#e9edf3;min-height:100vh;color:#172033}
-.lockScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 15% 15%,rgba(199,154,69,.18),transparent 30%),radial-gradient(circle at 85% 85%,rgba(15,107,85,.14),transparent 35%),linear-gradient(145deg,#f8f9fb,#e9edf3)}
-.lockBox{width:min(440px,100%);background:#fff;border-radius:32px;padding:34px 28px;box-shadow:0 30px 80px rgba(0,0,0,.12);text-align:center}
-.lockIcon{width:78px;height:78px;border-radius:24px;display:flex;align-items:center;justify-content:center;margin:0 auto 18px;font-size:34px;background:linear-gradient(145deg,#fff7e8,#f1e1c4);color:var(--gold)}
-.lockBox h1{font-size:30px;font-weight:900;color:var(--navy);margin-bottom:10px}
-.lockBox p{font-size:15px;line-height:1.8;color:#667085;margin-bottom:22px}
-.lockBox input{width:100%;height:56px;border:1px solid #dce2ed;border-radius:18px;padding:0 18px;font-family:'Tajawal';font-size:18px;text-align:center;outline:none}
-.lockBox button{width:100%;height:56px;margin-top:14px;border:none;border-radius:18px;font-family:'Tajawal';font-size:17px;font-weight:900;background:#111827;color:#fff;cursor:pointer}
-.error{display:none;margin-top:12px;font-size:14px;font-weight:800;color:#c0392b}
-.app{display:none;padding:24px}
-.wrapper{display:grid;grid-template-columns:430px 1fr;gap:30px;max-width:1550px;margin:auto;align-items:start}
-.panel{background:#fff;border-radius:30px;padding:24px;box-shadow:0 18px 55px rgba(0,0,0,.08)}
-.panelHeader{text-align:center;margin-bottom:22px;border-bottom:1px solid #edf0f5;padding-bottom:18px}
-.panelHeader h1{font-size:30px;font-weight:900;color:var(--navy)}
-.panelHeader p{margin-top:8px;font-size:14px;color:#667085;line-height:1.8}
-.section{margin-bottom:22px;padding:18px;border:1px solid #edf0f5;border-radius:24px;background:#fff}
-.section h2{font-size:18px;font-weight:900;color:var(--navy);margin-bottom:14px}
-.formGroup{margin-bottom:14px}
-.formGroup label{display:block;font-weight:800;font-size:14px;color:#26324f;margin-bottom:8px}
-input,select,textarea{width:100%;border:1px solid #dce2ed;outline:none;border-radius:16px;padding:13px 14px;font-size:15px;background:#fff;font-family:'Tajawal',sans-serif}
-textarea{min-height:95px;resize:vertical;line-height:1.8}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn{width:100%;height:56px;border:none;border-radius:18px;font-family:'Tajawal';font-size:16px;font-weight:900;cursor:pointer;transition:.2s}
-.btn:hover{transform:translateY(-2px)}
-.btnPrimary{background:#111827;color:#fff}.btnGold{background:var(--gold);color:#fff}.btnGreen{background:var(--green);color:#fff}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.statusMsg{display:none;margin-top:14px;padding:13px;border-radius:16px;font-weight:800;text-align:center;font-size:14px}
-.statusSuccess{background:#e9f8f0;color:#087443;border:1px solid #bdebd2}.statusError{background:#fff0f0;color:#b42318;border:1px solid #ffd1d1}
-.previewArea{display:flex;flex-direction:column;align-items:center;gap:14px}
-.previewTitle{font-size:22px;font-weight:900;color:var(--navy)}
-.cardWrap{width:430px;height:760px;background:#fff;box-shadow:0 35px 85px rgba(0,0,0,.15);position:relative;overflow:hidden}
-.studentCard{position:absolute;inset:0;padding:54px 42px;background:#fff;overflow:hidden;text-align:center}
-.bgPattern{position:absolute;inset:0;z-index:0;background-color:#fff;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='145' height='145' viewBox='0 0 145 145'%3E%3Cg fill='none' stroke='%2398a0ad' stroke-width='1.3' opacity='.32'%3E%3Cpath d='M72.5 7L138 72.5L72.5 138L7 72.5Z'/%3E%3Cpath d='M72.5 22L123 72.5L72.5 123L22 72.5Z'/%3E%3Ccircle cx='72.5' cy='72.5' r='25'/%3E%3Cpath d='M72.5 7v131M7 72.5h131M27 27l91 91M118 27L27 118'/%3E%3C/g%3E%3C/svg%3E");background-size:145px 145px}
-.cardFrame{position:absolute;inset:26px;border:1px solid rgba(199,154,69,.42);border-radius:30px;z-index:1}
-.cardFrame2{position:absolute;inset:44px;border:1px solid rgba(29,41,69,.10);border-radius:25px;z-index:1}
-.cardContent{position:relative;z-index:3;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:18px}
-.brand{font-size:18px;font-weight:900;color:var(--gold)}
-.cardTitle{font-size:34px;font-weight:900;color:var(--navy);line-height:1.35}
-.goldLine{width:86px;height:4px;border-radius:20px;background:var(--gold)}
-.studentName{font-size:42px;font-weight:900;color:var(--green);line-height:1.4;font-family:'Cairo',sans-serif}
-.infoBox{width:100%;background:rgba(255,255,255,.82);border:1px solid rgba(29,41,69,.08);box-shadow:0 18px 45px rgba(0,0,0,.06);border-radius:28px;padding:24px 20px;text-align:right}
-.infoRow{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(29,41,69,.08);font-size:19px;line-height:1.6}
-.infoRow:last-child{border-bottom:none}
-.infoRow span:first-child{font-weight:900;color:var(--navy);white-space:nowrap}
-.infoRow span:last-child{font-weight:800;color:#243047;text-align:left}
-.levelBadge{padding:10px 18px;border-radius:999px;font-weight:900;font-size:19px;background:#f5f8f5;color:var(--green);border:1px solid rgba(15,107,85,.15)}
-.note{font-size:20px;line-height:1.9;font-family:'Noto Naskh Arabic',serif;color:#243047;background:rgba(248,243,233,.75);border-radius:24px;padding:18px;width:100%}
-.footerBrand{margin-top:auto;font-size:19px;font-weight:900;color:var(--navy)}
-@media(max-width:1050px){.wrapper{grid-template-columns:1fr}.panel{max-width:620px;margin:auto;width:100%}.cardWrap{width:390px;height:690px}.studentCard{padding:46px 36px}.cardTitle{font-size:30px}.studentName{font-size:36px}.infoRow{font-size:17px}}
+
+body{
+
+  font-family:'Tajawal',sans-serif;
+
+  background:var(--bg);
+
+  min-height:100vh;
+
+  color:var(--navy);
+
+}
+
+.lock{
+
+  min-height:100vh;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  padding:24px;
+
+}
+
+.lockBox,.mainCard{
+
+  width:min(640px,100%);
+
+  background:#fff;
+
+  border-radius:34px;
+
+  box-shadow:0 20px 60px rgba(0,0,0,.08);
+
+  padding:34px;
+
+}
+
+.lockBox{text-align:center}
+
+.lockBox h1{
+
+  font-size:34px;
+
+  color:var(--gold);
+
+  font-weight:900;
+
+  margin-bottom:12px;
+
+}
+
+.lockBox p{font-size:17px;color:#777;line-height:1.8;margin-bottom:22px}
+
+input,select,textarea{
+
+  width:100%;
+
+  border:1px solid var(--border);
+
+  border-radius:28px;
+
+  padding:18px 22px;
+
+  font-size:19px;
+
+  font-family:'Tajawal',sans-serif;
+
+  outline:none;
+
+  background:#fff;
+
+  color:var(--navy);
+
+}
+
+textarea{min-height:120px;resize:vertical;line-height:1.8}
+
+button{
+
+  width:100%;
+
+  border:none;
+
+  border-radius:26px;
+
+  padding:18px;
+
+  font-size:20px;
+
+  font-weight:900;
+
+  font-family:'Tajawal',sans-serif;
+
+  cursor:pointer;
+
+  background:var(--navy);
+
+  color:#fff;
+
+}
+
+.err{display:none;color:#b42318;font-weight:800;margin-top:14px}
+
+.app{display:none;padding:28px 18px}
+
+.mainCard{margin:auto}
+
+.logoBox{text-align:center;margin-bottom:32px}
+
+.logoBox img{
+
+  width:150px;
+
+  max-width:60%;
+
+  object-fit:contain;
+
+  margin-bottom:20px;
+
+}
+
+.logoBox h1{
+
+  font-family:'Cairo',sans-serif;
+
+  font-size:44px;
+
+  line-height:1.5;
+
+  color:var(--gold);
+
+  font-weight:900;
+
+}
+
+.logoBox p{
+
+  color:#8a8a8a;
+
+  font-size:22px;
+
+  margin-top:12px;
+
+}
+
+.sectionTitle{
+
+  font-size:24px;
+
+  font-weight:900;
+
+  margin:28px 0 14px;
+
+  color:var(--navy);
+
+}
+
+.group{margin-bottom:22px}
+
+.group label{
+
+  display:block;
+
+  font-size:22px;
+
+  font-weight:900;
+
+  margin-bottom:12px;
+
+  text-align:right;
+
+  color:var(--navy);
+
+}
+
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:28px}
+
+.goldBtn{background:var(--gold)}
+
+.greenBtn{background:var(--green)}
+
+.message{
+
+  display:none;
+
+  margin-top:18px;
+
+  text-align:center;
+
+  padding:16px;
+
+  border-radius:20px;
+
+  font-size:18px;
+
+  font-weight:900;
+
+}
+
+.ok{background:#e9f8f0;color:#087443}
+
+.bad{background:#fff0f0;color:#b42318}
+
+.preview{
+
+  margin-top:28px;
+
+  border:1px solid var(--border);
+
+  border-radius:28px;
+
+  padding:24px;
+
+  background:linear-gradient(145deg,#fff,#fbf7ee);
+
+}
+
+.preview h2{font-size:26px;color:var(--gold);margin-bottom:14px}
+
+.preview p{font-size:20px;line-height:2;color:var(--navy)}
+
+@media(max-width:700px){
+
+  .mainCard,.lockBox{padding:28px 24px;border-radius:30px}
+
+  .logoBox h1{font-size:38px}
+
+  .two{grid-template-columns:1fr}
+
+  .actions{grid-template-columns:1fr}
+
+}
+
 </style>
+
 </head>
+
 <body>
-<div class="lockScreen" id="lockScreen"><div class="lockBox"><div class="lockIcon">🔐</div><h1>مقرأة أسفار النسائية</h1><p>هذه الصفحة مخصصة لمعلمات القسم النسائي. الرجاء إدخال رمز الدخول للمتابعة.</p><input type="password" id="passInput" placeholder="رمز الدخول"><button onclick="checkPassword()">دخول</button><div class="error" id="loginError">رمز الدخول غير صحيح</div></div></div>
-<div class="app" id="app"><div class="wrapper">
-<div class="panel"><div class="panelHeader"><h1>مقرأة أسفار النسائية</h1><p>إدخال بيانات متابعة الطالبة وحفظها في صفحة المسؤولين.</p></div>
-<div class="section"><h2>بيانات الطالبة</h2><div class="formGroup"><label>اسم الطالبة</label><input id="studentName" type="text" placeholder="مثال: سارة محمد"></div><div class="grid2"><div class="formGroup"><label>الجنسية</label><input id="nationality" type="text" placeholder="مثال: سعودية"></div><div class="formGroup"><label>العمر</label><input id="age" type="number" placeholder="مثال: 12"></div></div></div>
-<div class="section"><h2>الحفظ</h2><div class="grid2"><div class="formGroup"><label>مقدار الحفظ</label><select id="hifzAmount"><option value="">اختاري</option><option>أقل من حزب</option><option>نصف حزب</option><option>حزب</option><option>نصف جزء</option><option>جزء</option><option>أكثر من ذلك</option></select></div><div class="formGroup"><label>مستوى الحفظ</label><select id="hifzLevel"><option value="">اختاري</option><option>ممتاز</option><option>جيد جدًا</option><option>جيد</option><option>يحتاج عناية</option></select></div></div></div>
-<div class="section"><h2>المراجعة</h2><div class="grid2"><div class="formGroup"><label>مقدار المراجعة</label><select id="reviewAmount"><option value="">اختاري</option><option>أقل من حزب</option><option>نصف حزب</option><option>حزب</option><option>نصف جزء</option><option>جزء</option><option>أكثر من ذلك</option></select></div><div class="formGroup"><label>مستوى المراجعة</label><select id="reviewLevel"><option value="">اختاري</option><option>ممتاز</option><option>جيد جدًا</option><option>جيد</option><option>يحتاج عناية</option></select></div></div></div>
-<div class="section"><h2>المتابعة</h2><div class="formGroup"><label>الغياب</label><select id="absence"><option>لا يوجد</option><option>غياب يوم واحد</option><option>غياب يومين</option><option>غياب أكثر من يومين</option></select></div><div class="formGroup"><label>الملاحظات</label><textarea id="notes" placeholder="ملاحظات المعلمة"></textarea></div></div>
-<div class="actions"><button class="btn btnGold" onclick="generateCard()">إنشاء بطاقة</button><button class="btn btnGreen" onclick="saveData()">حفظ البيانات</button></div><button class="btn btnPrimary" style="margin-top:12px" onclick="downloadCard()">تحميل صورة البطاقة</button><div class="statusMsg statusSuccess" id="successMsg">تم حفظ البيانات بنجاح</div><div class="statusMsg statusError" id="errorMsg">حدث خطأ أثناء الحفظ</div></div>
-<div class="previewArea"><div class="previewTitle">معاينة البطاقة</div><div class="cardWrap"><div class="studentCard" id="studentCard"><div class="bgPattern"></div><div class="cardFrame"></div><div class="cardFrame2"></div><div class="cardContent"><div class="brand">مقرأة أسفار النسائية</div><div class="cardTitle">بطاقة متابعة طالبة</div><div class="goldLine"></div><div class="studentName" id="cardStudentName">اسم الطالبة</div><div class="levelBadge" id="cardMainLevel">المستوى</div><div class="infoBox"><div class="infoRow"><span>مقدار الحفظ</span><span id="cardHifzAmount">—</span></div><div class="infoRow"><span>مستوى الحفظ</span><span id="cardHifzLevel">—</span></div><div class="infoRow"><span>مقدار المراجعة</span><span id="cardReviewAmount">—</span></div><div class="infoRow"><span>مستوى المراجعة</span><span id="cardReviewLevel">—</span></div><div class="infoRow"><span>الغياب</span><span id="cardAbsence">—</span></div></div><div class="note" id="cardNotes">بارك الله في الطالبة، وفتح عليها في حفظ كتابه.</div><div class="footerBrand">أسفار لتعليم القرآن</div></div></div></div></div>
-</div></div>
+
+<div class="lock" id="lock">
+
+  <div class="lockBox">
+
+    <h1>مقرأة أسفار النسائية</h1>
+
+    <p>أدخلي رمز الدخول للوصول إلى بوابة الرصد اليومي.</p>
+
+    <input type="password" id="password" placeholder="رمز الدخول">
+
+    <button style="margin-top:14px" onclick="login()">دخول</button>
+
+    <div class="err" id="err">رمز الدخول غير صحيح</div>
+
+  </div>
+
+</div>
+
+<div class="app" id="app">
+
+  <div class="mainCard">
+
+    <div class="logoBox">
+
+      <img src="Asfar_logo_L@4x.png" alt="Asfar Logo">
+
+      <h1>منصة أسفار لتعليم القرآن</h1>
+
+      <p>بوابة الرصد اليومي للمعلمة</p>
+
+    </div>
+
+    <div class="sectionTitle">بيانات الطالبة</div>
+
+    <div class="group">
+
+      <label>اسم الطالبة</label>
+
+      <input id="studentName" placeholder="اكتبي اسم الطالبة">
+
+    </div>
+
+    <div class="two">
+
+      <div class="group">
+
+        <label>الجنسية</label>
+
+        <input id="nationality" placeholder="مثال: سعودية">
+
+      </div>
+
+      <div class="group">
+
+        <label>العمر</label>
+
+        <input id="age" type="number" placeholder="مثال: 12">
+
+      </div>
+
+    </div>
+
+    <div class="sectionTitle">الحفظ</div>
+
+    <div class="two">
+
+      <div class="group">
+
+        <label>مقدار الحفظ</label>
+
+        <select id="hifzAmount">
+
+          <option value="">اختاري مقدار الحفظ</option>
+
+          <option>أقل من حزب</option>
+
+          <option>نصف حزب</option>
+
+          <option>حزب</option>
+
+          <option>نصف جزء</option>
+
+          <option>جزء</option>
+
+          <option>أكثر من ذلك</option>
+
+        </select>
+
+      </div>
+
+      <div class="group">
+
+        <label>مستوى الحفظ</label>
+
+        <select id="hifzLevel">
+
+          <option value="">اختاري مستوى الحفظ</option>
+
+          <option>ممتاز</option>
+
+          <option>جيد جدًا</option>
+
+          <option>جيد</option>
+
+          <option>يحتاج عناية</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="sectionTitle">المراجعة</div>
+
+    <div class="two">
+
+      <div class="group">
+
+        <label>مقدار المراجعة</label>
+
+        <select id="reviewAmount">
+
+          <option value="">اختاري مقدار المراجعة</option>
+
+          <option>أقل من حزب</option>
+
+          <option>نصف حزب</option>
+
+          <option>حزب</option>
+
+          <option>نصف جزء</option>
+
+          <option>جزء</option>
+
+          <option>أكثر من ذلك</option>
+
+        </select>
+
+      </div>
+
+      <div class="group">
+
+        <label>مستوى المراجعة</label>
+
+        <select id="reviewLevel">
+
+          <option value="">اختاري مستوى المراجعة</option>
+
+          <option>ممتاز</option>
+
+          <option>جيد جدًا</option>
+
+          <option>جيد</option>
+
+          <option>يحتاج عناية</option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+    <div class="sectionTitle">المتابعة</div>
+
+    <div class="group">
+
+      <label>الغياب</label>
+
+      <select id="absence">
+
+        <option>لا يوجد</option>
+
+        <option>غياب يوم واحد</option>
+
+        <option>غياب يومين</option>
+
+        <option>غياب أكثر من يومين</option>
+
+      </select>
+
+    </div>
+
+    <div class="group">
+
+      <label>الملاحظات</label>
+
+      <textarea id="notes" placeholder="اكتبي الملاحظات"></textarea>
+
+    </div>
+
+    <div class="actions">
+
+      <button class="greenBtn" onclick="saveData()">حفظ البيانات</button>
+
+      <button class="goldBtn" onclick="clearForm()">تفريغ الحقول</button>
+
+    </div>
+
+    <div class="message ok" id="ok">تم حفظ البيانات بنجاح</div>
+
+    <div class="message bad" id="bad">حدث خطأ أثناء الحفظ</div>
+
+    <div class="preview">
+
+      <h2>ملخص الإدخال</h2>
+
+      <p id="summary">يظهر هنا ملخص بيانات الطالبة بعد الإدخال.</p>
+
+    </div>
+
+  </div>
+
+</div>
+
 <script>
-const PASSWORD="asfar2026";
-const WEB_APP_URL="https://script.google.com/macros/s/AKfycbz_lahCdn-toUyyBhgQ0RdKYcpx919XJ846Z_UcXSQqB8ADxCQHHqnH187cM40UxI1T8w/exec";
-function checkPassword(){const pass=document.getElementById("passInput").value.trim();if(pass===PASSWORD){document.getElementById("lockScreen").style.display="none";document.getElementById("app").style.display="block"}else{document.getElementById("loginError").style.display="block"}}
-document.getElementById("passInput").addEventListener("keydown",e=>{if(e.key==="Enter")checkPassword()});
+
+const PASSWORD = "asfar2026";
+
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz_lahCdn-toUyyBhgQ0RdKYcpx919XJ846Z_UcXSQqB8ADxCQHHqnH187cM40UxI1T8w/exec";
+
+function login(){
+
+  const p = document.getElementById("password").value.trim();
+
+  if(p === PASSWORD){
+
+    document.getElementById("lock").style.display = "none";
+
+    document.getElementById("app").style.display = "block";
+
+  }else{
+
+    document.getElementById("err").style.display = "block";
+
+  }
+
+}
+
+document.getElementById("password").addEventListener("keydown", e=>{
+
+  if(e.key === "Enter") login();
+
+});
+
 function val(id){return document.getElementById(id).value.trim()}
-function generateCard(){const name=val("studentName")||"اسم الطالبة",hifzAmount=val("hifzAmount")||"—",hifzLevel=val("hifzLevel")||"—",reviewAmount=val("reviewAmount")||"—",reviewLevel=val("reviewLevel")||"—",absence=val("absence")||"—",notes=val("notes")||"بارك الله في الطالبة، وفتح عليها في حفظ كتابه.";document.getElementById("cardStudentName").innerText=name;document.getElementById("cardHifzAmount").innerText=hifzAmount;document.getElementById("cardHifzLevel").innerText=hifzLevel;document.getElementById("cardReviewAmount").innerText=reviewAmount;document.getElementById("cardReviewLevel").innerText=reviewLevel;document.getElementById("cardAbsence").innerText=absence;document.getElementById("cardNotes").innerText=notes;let mainLevel=hifzLevel!=="—"?hifzLevel:reviewLevel;const badge=document.getElementById("cardMainLevel");badge.innerText=mainLevel;badge.style.background="#f5f8f5";badge.style.color="#0f6b55";if(mainLevel==="يحتاج عناية"){badge.style.background="#fff1f0";badge.style.color="#b42318"}else if(mainLevel==="جيد"){badge.style.background="#fff7e6";badge.style.color="#b76b00"}else if(mainLevel==="جيد جدًا"){badge.style.background="#eef4ff";badge.style.color="#1d4ed8"}}
-async function saveData(){generateCard();const payload={studentName:val("studentName"),nationality:val("nationality"),age:val("age"),hifzAmount:val("hifzAmount"),hifzLevel:val("hifzLevel"),reviewAmount:val("reviewAmount"),reviewLevel:val("reviewLevel"),absence:val("absence"),notes:val("notes")};document.getElementById("successMsg").style.display="none";document.getElementById("errorMsg").style.display="none";try{await fetch(WEB_APP_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});document.getElementById("successMsg").style.display="block"}catch(e){document.getElementById("errorMsg").style.display="block"}}
-async function downloadCard(){generateCard();const canvas=await html2canvas(document.getElementById("studentCard"),{scale:4,backgroundColor:null});const link=document.createElement("a");link.download="بطاقة-طالبة.png";link.href=canvas.toDataURL("image/png");link.click()}
-["studentName","hifzAmount","hifzLevel","reviewAmount","reviewLevel","absence","notes"].forEach(id=>{document.getElementById(id).addEventListener("input",generateCard);document.getElementById(id).addEventListener("change",generateCard)});
-generateCard();
+
+function updateSummary(){
+
+  const name = val("studentName") || "—";
+
+  const hifzAmount = val("hifzAmount") || "—";
+
+  const hifzLevel = val("hifzLevel") || "—";
+
+  const reviewAmount = val("reviewAmount") || "—";
+
+  const reviewLevel = val("reviewLevel") || "—";
+
+  const absence = val("absence") || "—";
+
+  document.getElementById("summary").innerHTML =
+
+    "الطالبة: <b>"+name+"</b><br>" +
+
+    "الحفظ: "+hifzAmount+" — "+hifzLevel+"<br>" +
+
+    "المراجعة: "+reviewAmount+" — "+reviewLevel+"<br>" +
+
+    "الغياب: "+absence;
+
+}
+
+document.querySelectorAll("input,select,textarea").forEach(el=>{
+
+  el.addEventListener("input", updateSummary);
+
+  el.addEventListener("change", updateSummary);
+
+});
+
+async function saveData(){
+
+  updateSummary();
+
+  const payload = {
+
+    studentName: val("studentName"),
+
+    nationality: val("nationality"),
+
+    age: val("age"),
+
+    hifzAmount: val("hifzAmount"),
+
+    hifzLevel: val("hifzLevel"),
+
+    reviewAmount: val("reviewAmount"),
+
+    reviewLevel: val("reviewLevel"),
+
+    absence: val("absence"),
+
+    notes: val("notes")
+
+  };
+
+  document.getElementById("ok").style.display = "none";
+
+  document.getElementById("bad").style.display = "none";
+
+  try{
+
+    await fetch(WEB_APP_URL,{
+
+      method:"POST",
+
+      mode:"no-cors",
+
+      headers:{"Content-Type":"application/json"},
+
+      body:JSON.stringify(payload)
+
+    });
+
+    document.getElementById("ok").style.display = "block";
+
+  }catch(e){
+
+    document.getElementById("bad").style.display = "block";
+
+  }
+
+}
+
+function clearForm(){
+
+  ["studentName","nationality","age","hifzAmount","hifzLevel","reviewAmount","reviewLevel","notes"].forEach(id=>{
+
+    document.getElementById(id).value = "";
+
+  });
+
+  document.getElementById("absence").value = "لا يوجد";
+
+  updateSummary();
+
+}
+
 </script>
+
 </body>
+
 </html>
+
+"""
+
+path = "/mnt/data/women.html"
+
+with open(path, "w", encoding="utf-8") as f:
+
+    f.write(html)
+
+print("تم إنشاء women.html بالهوية الموحدة")
