@@ -1,3 +1,6 @@
+<!-- admin.html الموحد المصحح -->
+<!-- انسخه كاملًا بدل admin.html الحالي -->
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -10,8 +13,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Cairo',sans-serif;background:#f5f1ea;color:#172233;padding:18px}
 .container{max-width:1200px;margin:auto}
-.header,.search-box,.profile{background:#fff;border-radius:32px;box-shadow:0 10px 30px rgba(0,0,0,.05)}
-.header{text-align:center;padding:42px 25px;margin-bottom:22px}
+.header{background:#fff;border-radius:32px;padding:42px 25px;text-align:center;margin-bottom:22px;box-shadow:0 10px 30px rgba(0,0,0,.05)}
 .logo{width:210px;height:210px;object-fit:contain;margin-bottom:12px}
 .header h1{color:#a77b2d;font-size:44px;font-weight:800}
 .header p{color:#777;font-size:18px}
@@ -19,8 +21,9 @@ body{font-family:'Cairo',sans-serif;background:#f5f1ea;color:#172233;padding:18p
 .stat{background:#fff7e8;border:1px solid #e7dcc7;border-radius:22px;padding:22px;text-align:center}
 .stat strong{display:block;font-size:34px;color:#a77b2d}
 .stat span{font-weight:700}
-.search-box{padding:18px;margin-bottom:22px}
+.search-box{background:#fff;border-radius:24px;padding:18px;margin-bottom:22px;box-shadow:0 10px 25px rgba(0,0,0,.04)}
 .search-box input{width:100%;padding:16px;border:1px solid #ddd;border-radius:16px;font-size:17px;font-family:'Cairo'}
+.section-title{font-size:30px;color:#a77b2d;margin:28px 0 16px;font-weight:800}
 .students{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px}
 .card{background:white;border:1px solid #e7dcc7;border-radius:24px;padding:22px;box-shadow:0 8px 22px rgba(0,0,0,.04)}
 .card h2{color:#a77b2d;font-size:28px;margin-bottom:12px}
@@ -30,12 +33,10 @@ body{font-family:'Cairo',sans-serif;background:#f5f1ea;color:#172233;padding:18p
 .male{background:#eef4ff;color:#173b7a}
 .female{background:#fff0f6;color:#9b2455}
 .good{background:#e8f8f1;color:#087653}
-.mid{background:#fff7df;color:#9b7332}
 .bad{background:#fdeaea;color:#b42318}
-.neutral{background:#eef2f7;color:#34495e}
 .btn{width:100%;border:0;border-radius:15px;padding:14px;margin-top:15px;background:#a77b2d;color:white;font-family:'Cairo';font-weight:800;font-size:16px;cursor:pointer}
 .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.62);z-index:999;overflow:auto;padding:18px}
-.profile{max-width:980px;margin:auto;background:#fffdf8;border:7px solid #c8a45d;padding:24px}
+.profile{max-width:980px;margin:auto;background:#fffdf8;border:7px solid #c8a45d;border-radius:28px;padding:24px}
 .close{background:#b42318;color:white;border:0;border-radius:12px;padding:10px 18px;font-family:'Cairo';font-weight:800;margin-bottom:12px}
 .profile-header{text-align:center;border-bottom:2px solid #c8a45d;padding-bottom:14px;margin-bottom:18px}
 .profile-header img{width:175px;height:175px;object-fit:contain}
@@ -44,35 +45,15 @@ body{font-family:'Cairo',sans-serif;background:#f5f1ea;color:#172233;padding:18p
 .info-box{background:white;border:1px solid #e7dcc7;border-radius:18px;padding:16px}
 .info-box span{color:#777;font-size:14px}
 .info-box strong{display:block;font-size:23px;color:#a77b2d;margin-top:4px}
-.tabs{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;padding-bottom:4px;justify-content:center}
-.tab-btn{white-space:nowrap;border:1px solid #e7dcc7;background:white;border-radius:14px;padding:10px 14px;font-family:'Cairo';font-weight:800;color:#9b7332;cursor:pointer}
-.tab-btn.active{background:#a77b2d;color:white}
-.tab{display:none}
-.tab.active{display:block}
 .section{background:white;border:1px solid #e7dcc7;border-radius:20px;padding:18px;margin-bottom:16px}
 .section h3{color:#a77b2d;margin-bottom:12px;border-bottom:1px solid #c8a45d;padding-bottom:7px}
 .day{background:#fffaf2;border:1px solid #eadcc4;border-radius:16px;padding:12px;margin-bottom:10px}
 .day-title{color:#a77b2d;font-weight:800;margin-bottom:7px}
-.print-action{background:#172233;color:white;border:0;border-radius:16px;padding:15px 35px;font-family:'Cairo';font-size:17px;font-weight:800;cursor:pointer;margin-top:14px}
 @media(max-width:768px){
 .logo{width:160px;height:160px}
 .header h1{font-size:31px}
-.profile-header img{width:145px;height:145px}
-.profile-header h2{font-size:28px}
 .stats{grid-template-columns:1fr 1fr}
 .profile{padding:14px;border-width:5px}
-.section{padding:14px}
-}
-@media print{
-*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-@page{size:A4 portrait;margin:10mm}
-body{background:white!important;padding:0!important}
-.container,.close,.search-box,.stats,.btn,.tabs{display:none!important}
-.modal{display:block!important;position:static!important;background:white!important;padding:0!important;overflow:visible!important}
-.profile{border:6px solid #c8a45d!important;box-shadow:none!important;max-width:100%!important;border-radius:0!important;background:#fffdf8!important;padding:18px!important}
-.tab{display:block!important}
-.section,.day,.info-box,.profile-header,.profile-grid{page-break-inside:avoid!important;break-inside:avoid!important}
-.print-action{display:none!important}
 }
 </style>
 </head>
@@ -100,7 +81,11 @@ body{background:white!important;padding:0!important}
 <input id="searchInput" placeholder="ابحث باسم الطالب أو الطالبة أو الجنسية أو القسم..." oninput="renderCards()">
 </div>
 
-<div id="studentsContainer" class="students">جاري تحميل البيانات...</div>
+<h2 class="section-title">قسم الرجال</h2>
+<div id="menContainer" class="students">جاري تحميل بيانات الرجال...</div>
+
+<h2 class="section-title">قسم النساء</h2>
+<div id="womenContainer" class="students">جاري تحميل بيانات النساء...</div>
 
 </div>
 
@@ -124,51 +109,24 @@ body{background:white!important;padding:0!important}
 <div class="info-box"><span>الحالة</span><strong id="pStatus">-</strong></div>
 </div>
 
-<div class="tabs">
-<button class="tab-btn active" onclick="showTab('tabSummary',this)">الملخص</button>
-<button class="tab-btn" onclick="showTab('tabEval',this)">التقييم</button>
-<button class="tab-btn" onclick="showTab('tabHistory',this)">السجل</button>
-<button class="tab-btn" onclick="showTab('tabNotes',this)">الملاحظات</button>
-<button class="tab-btn" onclick="showTab('tabPrint',this)">الطباعة</button>
-</div>
-
-<div id="tabSummary" class="tab active">
 <div class="section">
-<h3>الملخص العام</h3>
+<h3>الملخص</h3>
 <div id="summaryBox"></div>
 </div>
-</div>
 
-<div id="tabEval" class="tab">
 <div class="section">
 <h3>التقييم</h3>
 <div id="evalBox"></div>
 </div>
-</div>
 
-<div id="tabHistory" class="tab">
 <div class="section">
 <h3>السجل الزمني</h3>
 <div id="timeline"></div>
 </div>
-</div>
 
-<div id="tabNotes" class="tab">
 <div class="section">
 <h3>الملاحظات</h3>
 <div id="notesOnly"></div>
-</div>
-</div>
-
-<div id="tabPrint" class="tab">
-<div class="section">
-<h3>طباعة التقرير</h3>
-<div style="text-align:center;color:#9b7332;font-weight:800">
-اضغط الزر التالي لطباعة التقرير الكامل.
-<br>
-<button class="print-action" onclick="window.print()">🖨️ طباعة التقرير</button>
-</div>
-</div>
 </div>
 
 </div>
@@ -190,8 +148,13 @@ fetch(MEN_URL).then(r=>r.json()).catch(()=>[]),
 fetch(WOMEN_URL).then(r=>r.json()).catch(()=>[])
 ]);
 
-const men=menRes.filter(r=>r.studentName).map(r=>({...r,section:"رجال",sectionType:"male"}));
-const women=womenRes.filter(r=>r.studentName).map(r=>({...r,section:"نساء",sectionType:"female"}));
+const men=menRes
+.filter(r=>r.studentName)
+.map(r=>({...r,section:"رجال",sectionType:"male"}));
+
+const women=womenRes
+.filter(r=>r.studentName)
+.map(r=>({...r,section:"نساء",sectionType:"female"}));
 
 allReports=[...men,...women];
 
@@ -200,12 +163,13 @@ renderStats();
 renderCards();
 
 }catch(e){
-studentsContainer.innerHTML="تعذر تحميل البيانات.";
+menContainer.innerHTML="تعذر تحميل بيانات الرجال.";
+womenContainer.innerHTML="تعذر تحميل بيانات النساء.";
 }
 }
 
 function personKey(r){
-return r.sectionType+"__"+String(r.studentName||"").trim();
+return String(r.sectionType)+"__"+String(r.studentName||"").trim();
 }
 
 function groupData(){
@@ -233,45 +197,52 @@ maleCount.textContent=keys.filter(k=>k.startsWith("male__")).length;
 femaleCount.textContent=keys.filter(k=>k.startsWith("female__")).length;
 reportsCount.textContent=allReports.length;
 
-const attendanceCount=allReports.filter(r=>
-["حاضر","حاضرة","لا يوجد"].includes(String(r.attendance||r.absence||""))
-).length;
+const attendanceCount=allReports.filter(r=>{
+const v=String(r.attendance||r.absence||"");
+return v==="حاضر"||v==="حاضرة"||v==="لا يوجد";
+}).length;
 
 attendanceAvg.textContent=allReports.length?Math.round(attendanceCount/allReports.length*100)+"%":"0%";
 
 const nationalities=[...new Set(
 allReports.map(r=>String(r.nationality||"").trim()).filter(Boolean)
 )];
-
 nationalitiesCount.textContent=nationalities.length;
 }
 
 function renderCards(){
 const q=normalizeText(searchInput.value);
 
-const keys=Object.keys(grouped).filter(key=>{
+const menKeys=[];
+const womenKeys=[];
+
+Object.keys(grouped).forEach(key=>{
 const db=grouped[key];
 const latest=db[db.length-1];
-return !q ||
+
+const match=!q ||
 normalizeText(latest.studentName).includes(q) ||
 normalizeText(latest.nationality).includes(q) ||
 normalizeText(latest.section).includes(q) ||
 normalizeText(latest.hifzPart || latest.memorizationAmount).includes(q);
+
+if(match){
+if(latest.sectionType==="male") menKeys.push(key);
+if(latest.sectionType==="female") womenKeys.push(key);
+}
 });
 
-if(!keys.length){
-studentsContainer.innerHTML="لا توجد نتائج.";
-return;
+menContainer.innerHTML=menKeys.length?menKeys.map(renderCard).join(""):"لا توجد نتائج في قسم الرجال.";
+womenContainer.innerHTML=womenKeys.length?womenKeys.map(renderCard).join(""):"لا توجد نتائج في قسم النساء.";
 }
 
-studentsContainer.innerHTML=keys.map(key=>{
+function renderCard(key){
 const db=grouped[key];
 const latest=db[db.length-1];
+
 const badge=latest.sectionType==="male"
 ? `<span class="badge male">رجال</span>`
 : `<span class="badge female">نساء</span>`;
-
-const attendance=calcAttendance(db);
 
 return `
 <div class="card">
@@ -280,11 +251,10 @@ return `
 <div class="row"><span>الجنسية</span><b>${latest.nationality||"-"}</b></div>
 <div class="row"><span>آخر إنجاز</span><b>${latest.hifzPart || latest.memorizationAmount || "-"}</b></div>
 <div class="row"><span>عدد التقارير</span><b>${db.length}</b></div>
-<div class="row"><span>الحضور</span><b>${attendance}%</b></div>
+<div class="row"><span>الحضور</span><b>${calcAttendance(db)}%</b></div>
 <button class="btn" onclick="openProfile('${key}')">عرض الملف</button>
 </div>
 `;
-}).join("");
 }
 
 function calcAttendance(db){
@@ -296,29 +266,24 @@ if(v==="حاضر"||v==="حاضرة"||v==="لا يوجد") count++;
 return db.length?Math.round(count/db.length*100):0;
 }
 
-function showTab(id,btn){
-document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
-document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("active"));
-document.getElementById(id).classList.add("active");
-btn.classList.add("active");
-}
-
 function openProfile(key){
 const db=grouped[key];
 const latest=db[db.length-1];
-const attendance=calcAttendance(db);
 
 profileName.textContent=latest.studentName;
 profileSection.textContent="القسم: "+latest.section;
+
 pSection.innerHTML=latest.sectionType==="male"
 ? `<span class="badge male">رجال</span>`
 : `<span class="badge female">نساء</span>`;
 
 pNationality.textContent=latest.nationality||"-";
 pReports.textContent=db.length;
-pAttendance.textContent=attendance+"%";
+pAttendance.textContent=calcAttendance(db)+"%";
 pLast.textContent=latest.hifzPart || latest.memorizationAmount || "-";
-pStatus.innerHTML=getStatus(latest,attendance);
+pStatus.innerHTML=calcAttendance(db)<75
+? `<span class="badge bad">يحتاج متابعة</span>`
+: `<span class="badge good">مستقر</span>`;
 
 if(latest.sectionType==="male"){
 renderMaleProfile(db);
@@ -327,13 +292,6 @@ renderFemaleProfile(db);
 }
 
 profileModal.style.display="block";
-showTab("tabSummary",document.querySelector(".tab-btn"));
-}
-
-function getStatus(latest,attendance){
-if(attendance<75)return `<span class="badge bad">يحتاج متابعة</span>`;
-if(String(latest.hifzPart||latest.memorizationAmount||"").includes("إجازة"))return `<span class="badge good">مسار إجازة</span>`;
-return `<span class="badge good">مستقر</span>`;
 }
 
 function renderMaleProfile(db){
