@@ -3,1188 +3,365 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asfar Studio Pro</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@300;400;600;700;800&family=Tajawal:wght@300;400;500;700;800&family=Almarai:wght@300;400;700;800&family=Reem+Kufi:wght@400;500;600;700&family=Marhey:wght@300;400;500;700&family=Noto+Naskh+Arabic:wght@400;500;600;700&family=Noto+Kufi+Arabic:wght@400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Readex+Pro:wght@300;400;500;600;700&family=Lateef:wght@400;500;600;700&family=Scheherazade+New:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<title>منصة أسفار - بوابة المعلم</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-:root{
---gold:#c79a45;
---navy:#1d2945;
---green:#0f6b55;
---brown:#7b5b3a;
-}
-
 *{margin:0;padding:0;box-sizing:border-box}
-
-body{
-font-family:'Tajawal',sans-serif;
-background:#e9edf3;
-min-height:100vh;
-padding:24px;
-overflow-x:hidden;
-}
-
-.wrapper{
-display:grid;
-grid-template-columns:390px 1fr;
-gap:35px;
-max-width:1650px;
-margin:auto;
-align-items:start;
-}
-
-.controls{
-background:#fff;
-border-radius:30px;
-padding:22px;
-position:sticky;
-top:18px;
-box-shadow:0 18px 55px rgba(0,0,0,.08);
-max-height:95vh;
-overflow:auto;
-}
-
-.logo{
-font-size:30px;
-font-weight:800;
-text-align:center;
-color:var(--navy);
-margin-bottom:8px;
-}
-
-.sub{
-font-size:14px;
-color:#6b7280;
-text-align:center;
-line-height:1.8;
-margin-bottom:18px;
-}
-
-.accordion{
-background:#fff;
-border:1px solid #e5e7eb;
-border-radius:18px;
-margin-bottom:14px;
-overflow:hidden;
-}
-
-.accordion summary{
-padding:18px;
-cursor:pointer;
-font-weight:800;
-font-size:15px;
-color:#1d2945;
-list-style:none;
-position:relative;
-}
-
-.accordion summary::-webkit-details-marker{display:none}
-
-.accordion summary::after{
-content:"+";
-position:absolute;
-left:18px;
-font-size:22px;
-transition:.3s;
-}
-
-.accordion[open] summary::after{
-transform:rotate(45deg);
-}
-
-.inside{padding:0 18px 18px}
-
-.group{margin-bottom:18px}
-
-.group label{
-display:block;
-margin-bottom:8px;
-font-size:14px;
-font-weight:800;
-color:#26324f;
-}
-
-textarea,
-select,
-input[type=color],
-input[type=text]{
-width:100%;
-border:1px solid #dce2ed;
-outline:none;
-border-radius:16px;
-padding:14px;
-font-size:15px;
-background:#fff;
-font-family:'Tajawal',sans-serif;
-}
-
-textarea{
-height:170px;
-resize:vertical;
-line-height:1.9;
-}
-
-.rangeBox{
-display:flex;
-align-items:center;
-gap:10px;
-}
-
-input[type=range]{
-width:100%;
-accent-color:var(--gold);
-}
-
-.rangeValue{
-min-width:62px;
-background:var(--navy);
-color:#fff;
-padding:6px 10px;
-border-radius:10px;
-text-align:center;
-font-size:13px;
-}
-
-.optionGrid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-}
-
-.optionGrid.three{
-grid-template-columns:repeat(3,1fr);
-}
-
-.tempBtn{
-border:none;
-min-height:52px;
-border-radius:16px;
-cursor:pointer;
-font-family:'Tajawal';
-font-weight:800;
-transition:.25s;
-color:#fff;
-font-size:13px;
-padding:8px;
-}
-
-.tempBtn:hover{transform:translateY(-2px)}
-
-.download{
-width:100%;
-height:58px;
-border:none;
-border-radius:18px;
-background:#111827;
-color:#fff;
-font-size:17px;
-font-family:'Tajawal';
-font-weight:800;
-cursor:pointer;
-margin-top:12px;
-}
-
-.previewArea{
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:flex-start;
-min-height:92vh;
-}
-
-.previewLabel{
-font-size:22px;
-font-weight:800;
-color:var(--navy);
-margin-bottom:18px;
-}
-
-.phone{
-width:430px;
-height:760px;
-background:#fff;
-overflow:hidden;
-position:relative;
-box-shadow:0 35px 85px rgba(0,0,0,.15);
-}
-
-.screen{
-width:100%;
-height:100%;
-overflow:hidden;
-position:relative;
-}
-
-.status{
-position:absolute;
-inset:0;
-padding:22px 48px 55px;
-overflow:hidden;
-text-align:center;
-background:#fff;
-}
-
-.bgLayer{
-position:absolute;
-inset:0;
-z-index:0;
-}
-
-.frame{
-position:absolute;
-inset:24px;
-border-radius:28px;
-border:1px solid rgba(199,154,69,.35);
-z-index:1;
-pointer-events:none;
-}
-
-.smallFrame{
-position:absolute;
-inset:42px;
-border-radius:24px;
-border:1px solid rgba(29,41,69,.10);
-z-index:1;
-pointer-events:none;
-}
-
-.lineSide{
-position:absolute;
-top:60px;
-bottom:60px;
-width:3px;
-background:rgba(199,154,69,.65);
-z-index:2;
-}
-
-.lineLeft{left:24px}
-.lineRight{right:24px}
-
-.flower,
-.decor{
-position:absolute;
-pointer-events:none;
-z-index:1;
-}
-
-.flower{
-font-size:120px;
-opacity:.06;
-}
-
-.decor{
-opacity:.10;
-font-size:160px;
-}
-
-.f1{top:20px;left:15px}
-.f2{bottom:20px;right:15px}
-.decor1{top:-35px;left:-20px}
-.decor2{bottom:-45px;right:-10px}
-
-.layoutBox{
-position:relative;
-z-index:5;
-width:100%;
-height:100%;
-display:flex;
-flex-direction:column;
-justify-content:flex-start;
-align-items:center;
-gap:12px;
-padding-top:0;
-}
-
-.kicker{
-font-size:18px;
-font-weight:800;
-color:var(--gold);
-}
-
-.goldLine{
-width:82px;
-height:4px;
-background:var(--gold);
-border-radius:20px;
-}
-
-.content{
-width:100%;
-white-space:pre-wrap;
-word-break:normal;
-overflow-wrap:break-word;
-transition:.2s;
-font-size:35px;
-line-height:2;
-font-family:'Amiri',serif;
-color:#172033;
-text-align:center;
-font-weight:400;
-letter-spacing:0;
-word-spacing:0;
-padding:0;
-}
-
-.source{
-font-size:18px;
-font-weight:800;
-color:var(--gold);
-}
-
-.quoteMark{
-font-size:72px;
-line-height:1;
-color:rgba(199,154,69,.25);
-font-family:serif;
-}
-
-.chip{
-background:var(--navy);
-color:white;
-padding:10px 24px;
-border-radius:999px;
-font-size:18px;
-font-weight:800;
-}
-
-.numList{
-text-align:right;
-font-family:'Amiri',serif;
-font-size:30px;
-line-height:2.05;
-color:#172033;
-width:100%;
-}
-
-.numList div{
-border-bottom:1px solid rgba(0,0,0,.07);
-padding:6px 0;
-}
-
-.numList b{
-color:var(--navy);
-margin-left:12px;
-}
-
-/* الخلفيات */
-.bg-white{background:#fff}
-
-.bg-cream{
-background:linear-gradient(145deg,#ffffff 0%,#f8f3e9 100%);
-}
-
-.bg-grid{
-background:#fff;
-background-image:
-linear-gradient(rgba(29,41,69,.045) 1px, transparent 1px),
-linear-gradient(90deg, rgba(29,41,69,.045) 1px, transparent 1px);
-background-size:42px 42px;
-}
-
-.bg-dots{
-background:#fbfbfb;
-background-image:radial-gradient(rgba(29,41,69,.17) 1.4px, transparent 1.4px);
-background-size:28px 28px;
-}
-
-.bg-paper{
-background:linear-gradient(145deg,#fffaf1 0%,#f3ead8 100%);
-}
-
-.bg-marble{
-background:
-radial-gradient(circle at 20% 15%,rgba(210,210,210,.35),transparent 30%),
-radial-gradient(circle at 80% 70%,rgba(230,220,205,.35),transparent 35%),
-linear-gradient(145deg,#ffffff,#f7f7f7);
-}
-
-.bg-gold{
-background:
-radial-gradient(circle at 50% 0%,rgba(199,154,69,.25),transparent 45%),
-linear-gradient(180deg,#fff,#fbf4e6);
-}
-
-.bg-green{
-background:
-radial-gradient(circle at 85% 10%,rgba(15,107,85,.18),transparent 40%),
-linear-gradient(145deg,#ffffff,#f2fbf8);
-}
-
-.bg-blue{
-background:
-radial-gradient(circle at 15% 20%,rgba(29,43,123,.14),transparent 35%),
-linear-gradient(145deg,#ffffff,#eef2ff);
-}
-
-.bg-dark{
-background:
-radial-gradient(circle at 50% 0%,rgba(215,176,106,.20),transparent 35%),
-linear-gradient(145deg,#111827,#050816);
-}
-
-.bg-book{
-background:linear-gradient(90deg,#f0e5d5 0 15%,#fff 15% 100%);
-}
-
-.bg-floral{
-background:#fff;
-}
-
-.bg-floral::before{
-content:"✿";
-position:absolute;
-top:-20px;
-left:15px;
-font-size:190px;
-color:rgba(29,41,69,.08);
-}
-
-.bg-floral::after{
-content:"❀";
-position:absolute;
-bottom:-25px;
-right:25px;
-font-size:170px;
-color:rgba(199,154,69,.12);
-}
-
-.bg-islamic{
-background:
-radial-gradient(circle at 50% 50%,rgba(199,154,69,.08) 0 8%,transparent 9%),
-repeating-linear-gradient(45deg,rgba(29,41,69,.035) 0 2px,transparent 2px 28px),
-#fff;
-}
-
-/* التنسيقات */
-.layout-center .layoutBox{
-justify-content:flex-start;
-padding-top:0;
-}
-
-.layout-card .content{
-background:#fff;
-border-radius:34px;
-padding:42px 30px;
-box-shadow:0 20px 50px rgba(0,0,0,.10);
-border-bottom:8px solid var(--gold);
-}
-
-.layout-side-line .lineRight{
-width:7px;
-right:42px;
-top:105px;
-bottom:105px;
-background:var(--gold);
-}
-
-.layout-side-line .lineLeft{
-display:none;
-}
-
-.layout-side-line .layoutBox{
-align-items:flex-start;
-text-align:right;
-padding-right:35px;
-}
-
-.layout-side-line .content{
-text-align:right;
-}
-
-.layout-magazine .layoutBox{
-align-items:flex-start;
-text-align:right;
-justify-content:flex-start;
-padding-top:0;
-}
-
-.layout-magazine .content{
-text-align:right;
-margin-top:12px;
-}
-
-.layout-quote .quoteMark{
-display:block;
-}
-
-.layout-minimal .frame,
-.layout-minimal .smallFrame,
-.layout-minimal .lineSide,
-.layout-minimal .flower,
-.layout-minimal .decor{
-display:none;
-}
-
-.layout-border .frame{
-border:8px solid var(--gold);
-border-radius:0;
-inset:24px;
-box-shadow:inset 0 0 0 2px var(--navy);
-}
-
-.layout-border .smallFrame{
-display:none;
-}
-
-.layout-chip .chip{
-display:block;
-}
-
-.layout-split .layoutBox{
-justify-content:flex-start;
-align-items:stretch;
-text-align:right;
-}
-
-.layout-split .topBlock{
-display:none;
-}
-
-.layout-bottom-card .layoutBox{
-justify-content:flex-end;
-padding-bottom:35px;
-}
-
-.layout-bottom-card .content{
-background:#fff;
-border-radius:34px;
-padding:38px 28px;
-box-shadow:0 18px 45px rgba(0,0,0,.11);
-}
-
-.layout-left-band::after{
-content:"";
-position:absolute;
-left:0;
-top:0;
-bottom:0;
-width:54px;
-background:#efe5d5;
-z-index:1;
-}
-
-.layout-right-band::after{
-content:"";
-position:absolute;
-right:0;
-top:0;
-bottom:0;
-width:54px;
-background:#efe5d5;
-z-index:1;
-}
-
-.layout-editorial .layoutBox{
-justify-content:flex-start;
-padding-top:0;
-}
-
-.layout-editorial .goldLine{
-width:100%;
-height:2px;
-}
-
-.layout-editorial .content{
-font-size:31px;
-line-height:2.15;
-text-align:right;
-margin-top:10px;
-}
-
-.layout-poetry .content{
-font-family:'Amiri',serif;
-font-size:38px;
-line-height:2.4;
-}
-
-.layout-ayah .content{
-color:var(--green);
-background:#f5f8f5;
-border-radius:30px;
-padding:35px 25px;
-border:1px solid rgba(15,107,85,.12);
-}
-
-.layout-list .content{
-display:none;
-}
-
-.layout-list .numList{
-display:block;
-}
-
-.layout-pinterest .content{
-background:#fff;
-border-radius:34px;
-padding:46px 30px;
-box-shadow:0 25px 60px rgba(0,0,0,.13);
-transform:rotate(-1deg);
-}
-
-.layout-stamp .content{
-border:2px dashed rgba(199,154,69,.7);
-padding:42px 28px;
-border-radius:28px;
-}
-
-.layout-corner::before{
-content:"";
-position:absolute;
-top:0;
-right:0;
-width:140px;
-height:140px;
-background:rgba(199,154,69,.16);
-border-radius:0 0 0 100%;
-z-index:1;
-}
-
-.layout-corner::after{
-content:"";
-position:absolute;
-bottom:0;
-left:0;
-width:140px;
-height:140px;
-background:rgba(29,41,69,.08);
-border-radius:0 100% 0 0;
-z-index:1;
-}
-
-.layout-luxury-dark{
-background:#111827;
-}
-
-.layout-luxury-dark .content{
-color:white;
-background:rgba(255,255,255,.06);
-border-radius:30px;
-padding:40px 28px;
-}
-
-.quoteMark,
-.chip,
-.numList,
-.topBlock{
-display:none;
-}
-
-.layout-quote .quoteMark,
-.layout-chip .chip,
-.layout-list .numList{
-display:block;
-}
-
-.hideDecor .flower,
-.hideDecor .decor{
-display:none;
-}
-
-.hideFrames .frame,
-.hideFrames .smallFrame{
-display:none;
-}
-
-.hideLines .lineSide{
-display:none;
-}
-
-@media(max-width:1100px){
-.wrapper{grid-template-columns:1fr}
-.controls{position:relative;top:auto;max-height:none}
+body{background:#f3efe7;font-family:'Cairo',sans-serif;padding:15px;color:#172233}
+.app{max-width:1000px;margin:auto}
+.panel,.teacher-reports{background:white;padding:24px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:20px}
+.logo{width:95px;display:block;margin:auto auto 10px}
+h1{text-align:center;color:#9b7332;font-size:38px;margin-bottom:6px}
+.sub{text-align:center;color:#777;margin-bottom:25px}
+.form-group{margin-bottom:18px}
+label{display:block;margin-bottom:8px;font-weight:700;font-size:15px}
+input,select,textarea{width:100%;padding:15px;border-radius:18px;border:1px solid #ddd;font-size:15px;font-family:'Cairo',sans-serif;background:white}
+textarea{resize:none}
+.btn{width:100%;padding:16px;border:none;border-radius:18px;font-size:16px;font-weight:800;font-family:'Cairo',sans-serif;cursor:pointer;margin-top:10px}
+.btn-save{background:#a97b2f;color:white}
+.btn-dark{background:#172233;color:white}
+.btn-clear{background:white;border:2px dashed #d64545;color:#d64545}
+.btn-edit{background:#12664f;color:white;padding:12px;font-size:14px;flex:1;border:none;border-radius:14px;font-family:'Cairo';font-weight:800}
+.btn-delete{background:#c0392b;color:white;padding:12px;font-size:14px;flex:1;border:none;border-radius:14px;font-family:'Cairo';font-weight:800}
+.alert{display:none;padding:14px;border-radius:16px;margin-bottom:15px;font-weight:bold;text-align:center}
+.success{background:#e7f8ef;color:#0c7b51}
+.error{background:#fdeaea;color:#b42318}
+.edit-mode{display:none;background:#fff6dc;color:#9b7332;padding:14px;border-radius:16px;margin-bottom:14px;text-align:center;font-weight:800}
+.report-card{border:1px solid #eadcc4;border-radius:24px;padding:20px;margin-top:18px;background:#fffdf8}
+.report-card h3{color:#9b7332;margin-bottom:14px;font-size:22px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dashed #eee;font-size:15px}
+.row b{font-weight:800;text-align:left}
+.actions{display:flex;gap:10px;margin-top:16px}
+.small-note{text-align:center;margin-top:12px;color:#777;font-size:13px}
+@media(max-width:768px){
+h1{font-size:30px}
+.panel,.teacher-reports{padding:18px}
+.row{font-size:14px}
 }
 </style>
 </head>
 
 <body>
 
-<div class="wrapper">
+<div class="app">
 
-<div class="controls">
+<div class="panel">
 
-<div class="logo">Asfar Studio Pro</div>
-<div class="sub">استوديو حالات واتساب عربية فاخرة.</div>
+<img src="Asfar_logo_L@4x.png" class="logo">
 
-<details class="accordion" open>
-<summary>النص</summary>
-<div class="inside">
+<h1>منصة أسفار لتعليم القرآن</h1>
+<div class="sub">بوابة الرصد اليومي للمعلم</div>
 
-<div class="group">
-<label>اكتب النص</label>
-<textarea id="textInput">📚 💡 🌟
+<div id="alertBox" class="alert"></div>
+<div id="editModeBox" class="edit-mode">أنت الآن تعدّل رصدًا سابقًا</div>
 
-قال الرافعي رحمه الله:
-
-"وأشقى الناس من يتوقع الشقاء
-فهو يتوهم الخوف ثم يخاف مما
-يتوهم ثم يخاف أن يكون الأمر
-أكبر مما توهم!"</textarea>
+<div class="form-group">
+<label>اسم الطالب</label>
+<input id="studentName" placeholder="اكتب اسم الطالب">
 </div>
 
-<div class="group">
-<label>التصنيف</label>
-<input type="text" id="kickerInput" value="ومضات يقين">
+<div class="form-group">
+<label>الجنسية</label>
+<input id="nationality" placeholder="مثال: سعودي">
 </div>
 
-<div class="group">
-<label>المصدر</label>
-<input type="text" id="sourceInput" value="رسالة طمأنينة">
-</div>
-
-</div>
-</details>
-
-<details class="accordion">
-<summary>التنسيقات الجاهزة</summary>
-<div class="inside">
-<div class="optionGrid">
-
-<button class="tempBtn" style="background:#1d2945" onclick="setLayout('layout-center')">وسط</button>
-<button class="tempBtn" style="background:#c79a45" onclick="setLayout('layout-card')">بطاقة</button>
-<button class="tempBtn" style="background:#0f6b55" onclick="setLayout('layout-side-line')">عمود</button>
-<button class="tempBtn" style="background:#5d6b8a" onclick="setLayout('layout-magazine')">مجلة</button>
-<button class="tempBtn" style="background:#866c55" onclick="setLayout('layout-quote')">اقتباس</button>
-<button class="tempBtn" style="background:#111827" onclick="setLayout('layout-minimal')">بسيط</button>
-<button class="tempBtn" style="background:#b68a63" onclick="setLayout('layout-border')">إطار</button>
-<button class="tempBtn" style="background:#1d2b7b" onclick="setLayout('layout-chip')">وسم</button>
-<button class="tempBtn" style="background:#4b5563" onclick="setLayout('layout-split')">تقسيم</button>
-<button class="tempBtn" style="background:#a89258" onclick="setLayout('layout-bottom-card')">سفلي</button>
-<button class="tempBtn" style="background:#c9b79d" onclick="setLayout('layout-left-band')">شريط يسار</button>
-<button class="tempBtn" style="background:#d4b179" onclick="setLayout('layout-right-band')">شريط يمين</button>
-<button class="tempBtn" style="background:#1d2945" onclick="setLayout('layout-editorial')">تحريري</button>
-<button class="tempBtn" style="background:#5b4636" onclick="setLayout('layout-poetry')">شعري</button>
-<button class="tempBtn" style="background:#0f6b55" onclick="setLayout('layout-ayah')">آية</button>
-<button class="tempBtn" style="background:#6f4ca1" onclick="setLayout('layout-list')">قائمة</button>
-<button class="tempBtn" style="background:#7c5f46" onclick="setLayout('layout-pinterest')">Pinterest</button>
-<button class="tempBtn" style="background:#b68a63" onclick="setLayout('layout-stamp')">منقط</button>
-<button class="tempBtn" style="background:#3d4f7c" onclick="setLayout('layout-corner')">زوايا</button>
-<button class="tempBtn" style="background:#111827" onclick="setLayout('layout-luxury-dark')">داكن</button>
-
-</div>
-</div>
-</details>
-
-<details class="accordion">
-<summary>الخلفيات</summary>
-<div class="inside">
-<div class="optionGrid">
-
-<button class="tempBtn" style="background:#ffffff;color:#1d2945;border:1px solid #ddd" onclick="setBackground('bg-white')">أبيض</button>
-<button class="tempBtn" style="background:#f8f3e9;color:#1d2945" onclick="setBackground('bg-cream')">كريمي</button>
-<button class="tempBtn" style="background:#dfe4ee;color:#1d2945" onclick="setBackground('bg-grid')">شبكة</button>
-<button class="tempBtn" style="background:#ececec;color:#1d2945" onclick="setBackground('bg-dots')">نقاط</button>
-<button class="tempBtn" style="background:#e7d7bd;color:#1d2945" onclick="setBackground('bg-paper')">ورق</button>
-<button class="tempBtn" style="background:#f7f7f7;color:#1d2945" onclick="setBackground('bg-marble')">رخام</button>
-<button class="tempBtn" style="background:#d8b36b" onclick="setBackground('bg-gold')">ذهبي</button>
-<button class="tempBtn" style="background:#0f6b55" onclick="setBackground('bg-green')">أخضر</button>
-<button class="tempBtn" style="background:#1d2b7b" onclick="setBackground('bg-blue')">أزرق</button>
-<button class="tempBtn" style="background:#111827" onclick="setBackground('bg-dark')">داكن</button>
-<button class="tempBtn" style="background:#c9b79d" onclick="setBackground('bg-floral')">زهور</button>
-<button class="tempBtn" style="background:#b68a63" onclick="setBackground('bg-islamic')">زخرفة</button>
-<button class="tempBtn" style="background:#efe5d5;color:#1d2945" onclick="setBackground('bg-book')">كتاب</button>
-
-</div>
-</div>
-</details>
-
-<details class="accordion">
-<summary>الخطوط</summary>
-<div class="inside">
-
-<div class="group">
-<label>نوع الخط</label>
-<select id="fontFamily">
-<option value="Amiri">Amiri</option>
-<option value="Aref Ruqaa">Aref Ruqaa</option>
-<option value="Lateef">Lateef</option>
-<option value="Scheherazade New">Scheherazade New</option>
-<option value="Noto Naskh Arabic">Noto Naskh Arabic</option>
-<option value="Tajawal">Tajawal</option>
-<option value="Cairo">Cairo</option>
-<option value="Almarai">Almarai</option>
-<option value="IBM Plex Sans Arabic">IBM Plex Sans Arabic</option>
-<option value="Readex Pro">Readex Pro</option>
-<option value="Reem Kufi">Reem Kufi</option>
-<option value="Noto Kufi Arabic">Noto Kufi Arabic</option>
-<option value="Marhey">Marhey</option>
+<div class="form-group">
+<label>نوع الدراسة</label>
+<select id="studyType">
+<option value="حضوري">حضوري</option>
+<option value="عن بعد">عن بعد</option>
 </select>
 </div>
 
-<div class="optionGrid">
+<div class="form-group">
+<label>الرواية</label>
+<select id="readType">
+<option value="حفص">حفص</option>
+<option value="حفص بالقصر">حفص بالقصر</option>
+<option value="شعبة">شعبة</option>
+<option value="قراءة الإمام عاصم">قراءة الإمام عاصم</option>
+</select>
+</div>
 
-<button class="tempBtn" style="background:#1d2945" onclick="setFont('Amiri')">أميري</button>
-<button class="tempBtn" style="background:#866c55" onclick="setFont('Aref Ruqaa')">رقعة</button>
-<button class="tempBtn" style="background:#7b5b3a" onclick="setFont('Lateef')">لطيف</button>
-<button class="tempBtn" style="background:#5b4636" onclick="setFont('Scheherazade New')">شهرزاد</button>
-<button class="tempBtn" style="background:#0f6b55" onclick="setFont('Noto Naskh Arabic')">نسخ واضح</button>
-<button class="tempBtn" style="background:#5d6b8a" onclick="setFont('Tajawal')">تجوال</button>
-<button class="tempBtn" style="background:#3d4f7c" onclick="setFont('Cairo')">القاهرة</button>
-<button class="tempBtn" style="background:#4b5563" onclick="setFont('Almarai')">المراعي</button>
-<button class="tempBtn" style="background:#1d2b7b" onclick="setFont('IBM Plex Sans Arabic')">IBM</button>
-<button class="tempBtn" style="background:#6f4ca1" onclick="setFont('Readex Pro')">ريدكس</button>
-<button class="tempBtn" style="background:#7c5f46" onclick="setFont('Reem Kufi')">كوفي</button>
-<button class="tempBtn" style="background:#111827" onclick="setFont('Noto Kufi Arabic')">كوفي واضح</button>
+<div class="form-group">
+<label>الحضور</label>
+<select id="attendance">
+<option value="حاضر">حاضر</option>
+<option value="غائب">غائب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الحفظ / المسار</label>
+<select id="hifzPart">
+<option value="جزء 1">جزء 1</option>
+<option value="جزء 2">جزء 2</option>
+<option value="جزء 3">جزء 3</option>
+<option value="جزء 4">جزء 4</option>
+<option value="جزء 5">جزء 5</option>
+<option value="جزء 6">جزء 6</option>
+<option value="جزء 7">جزء 7</option>
+<option value="جزء 8">جزء 8</option>
+<option value="جزء 9">جزء 9</option>
+<option value="جزء 10">جزء 10</option>
+<option value="جزء 11">جزء 11</option>
+<option value="جزء 12">جزء 12</option>
+<option value="جزء 13">جزء 13</option>
+<option value="جزء 14">جزء 14</option>
+<option value="جزء 15">جزء 15</option>
+<option value="جزء 16">جزء 16</option>
+<option value="جزء 17">جزء 17</option>
+<option value="جزء 18">جزء 18</option>
+<option value="جزء 19">جزء 19</option>
+<option value="جزء 20">جزء 20</option>
+<option value="جزء 21">جزء 21</option>
+<option value="جزء 22">جزء 22</option>
+<option value="جزء 23">جزء 23</option>
+<option value="جزء 24">جزء 24</option>
+<option value="جزء 25">جزء 25</option>
+<option value="جزء 26">جزء 26</option>
+<option value="جزء 27">جزء 27</option>
+<option value="جزء 28">جزء 28</option>
+<option value="جزء 29">جزء 29</option>
+<option value="جزء 30">جزء 30</option>
+<option value="حافظ كامل">حافظ كامل</option>
+<option value="القرآن كاملاً">القرآن كاملاً</option>
+<option value="ختمة إجازة">ختمة إجازة</option>
+<option value="مراجعة شاملة">مراجعة شاملة</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>التحفة</label>
+<select id="tohfa">
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>غير مطلوب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الجزرية</label>
+<select id="jazariya">
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>غير مطلوب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>معاني الكلمات</label>
+<select id="maani">
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>غير مطلوب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الشواهد</label>
+<select id="shatibiya">
+<option value="متقن">متقن</option>
+<option value="متوسط">متوسط</option>
+<option value="يحتاج متابعة">يحتاج متابعة</option>
+<option value="غير مطلوب" selected>غير مطلوب</option>
+</select>
+</div>
+
+<div class="form-group">
+<label>الملاحظات التعليمية</label>
+<textarea id="notes" rows="3" placeholder="اكتب ملاحظتك هنا..."></textarea>
+</div>
+
+<button class="btn btn-save" onclick="sendReport()">💾 حفظ وإرسال التقرير</button>
+<button class="btn btn-dark" onclick="loadStudentReports()">📄 عرض تقارير الطالب</button>
+<button id="cancelEditBtn" class="btn btn-clear" style="display:none" onclick="cancelEditOnly()">إلغاء التعديل</button>
+<button class="btn btn-clear" onclick="clearForm()">مسح الحقول</button>
 
 </div>
 
-</div>
-</details>
-
-<details class="accordion">
-<summary>تحكم متقدم بالنص</summary>
-<div class="inside">
-
-<div class="group">
-<label>حجم الخط</label>
-<div class="rangeBox">
-<input type="range" id="fontSize" min="20" max="72" value="35">
-<div class="rangeValue" id="fontSizeValue">35px</div>
-</div>
-</div>
-
-<div class="group">
-<label>تباعد الأسطر</label>
-<div class="rangeBox">
-<input type="range" id="lineHeight" min="1.1" max="3" step="0.1" value="2">
-<div class="rangeValue" id="lineHeightValue">2</div>
-</div>
-</div>
-
-<div class="group">
-<label>عرض النص</label>
-<div class="rangeBox">
-<input type="range" id="widthRange" min="55" max="100" value="100">
-<div class="rangeValue" id="widthValue">100%</div>
-</div>
-</div>
-
-<div class="group">
-<label>ارتفاع النص من الأعلى</label>
-<div class="rangeBox">
-<input type="range" id="topSpace" min="0" max="160" value="0">
-<div class="rangeValue" id="topSpaceValue">0</div>
-</div>
-</div>
-
-<div class="group">
-<label>المسافة بين العناصر</label>
-<div class="rangeBox">
-<input type="range" id="gapRange" min="0" max="45" value="12">
-<div class="rangeValue" id="gapValue">12</div>
-</div>
-</div>
-
-<div class="group">
-<label>سُمك الخط</label>
-<div class="rangeBox">
-<input type="range" id="fontWeight" min="300" max="800" step="100" value="400">
-<div class="rangeValue" id="fontWeightValue">400</div>
-</div>
-</div>
-
-<div class="group">
-<label>تباعد الحروف</label>
-<div class="rangeBox">
-<input type="range" id="letterSpacing" min="-2" max="8" step="0.5" value="0">
-<div class="rangeValue" id="letterSpacingValue">0</div>
-</div>
-</div>
-
-<div class="group">
-<label>تباعد الكلمات</label>
-<div class="rangeBox">
-<input type="range" id="wordSpacing" min="0" max="20" step="1" value="0">
-<div class="rangeValue" id="wordSpacingValue">0</div>
-</div>
-</div>
-
-<div class="group">
-<label>حشو داخل النص</label>
-<div class="rangeBox">
-<input type="range" id="textPadding" min="0" max="60" value="0">
-<div class="rangeValue" id="textPaddingValue">0</div>
-</div>
-</div>
-
-<div class="group">
-<label>محاذاة النص</label>
-<div class="optionGrid three">
-<button class="tempBtn" style="background:#1d2945" onclick="setAlign('right')">يمين</button>
-<button class="tempBtn" style="background:#c79a45" onclick="setAlign('center')">وسط</button>
-<button class="tempBtn" style="background:#0f6b55" onclick="setAlign('left')">يسار</button>
-</div>
-</div>
-
-</div>
-</details>
-
-<details class="accordion">
-<summary>ألوان النص</summary>
-<div class="inside">
-
-<div class="group">
-<label>لون مخصص</label>
-<input type="color" id="textColor" value="#172033">
-</div>
-
-<div class="optionGrid">
-<button class="tempBtn" style="background:#1d2945" onclick="setTextColor('#1d2945')">كحلي</button>
-<button class="tempBtn" style="background:#c79a45" onclick="setTextColor('#c79a45')">ذهبي</button>
-<button class="tempBtn" style="background:#0f6b55" onclick="setTextColor('#0f6b55')">أخضر</button>
-<button class="tempBtn" style="background:#5b4636" onclick="setTextColor('#5b4636')">بني</button>
-<button class="tempBtn" style="background:#000" onclick="setTextColor('#000')">أسود</button>
-<button class="tempBtn" style="background:#6f4ca1" onclick="setTextColor('#6f4ca1')">بنفسجي</button>
-<button class="tempBtn" style="background:#fff;color:#111;border:1px solid #ddd" onclick="setTextColor('#ffffff')">أبيض</button>
-</div>
-
-</div>
-</details>
-
-<details class="accordion">
-<summary>إظهار وإخفاء</summary>
-<div class="inside">
-<div class="optionGrid">
-<button class="tempBtn" style="background:#1d2945" onclick="toggleDecor()">الزخارف</button>
-<button class="tempBtn" style="background:#c79a45" onclick="toggleFrames()">الإطارات</button>
-<button class="tempBtn" style="background:#0f6b55" onclick="toggleLines()">الخطوط الجانبية</button>
-</div>
-</div>
-</details>
-
-<button class="download" onclick="downloadImage()">تحميل الحالة</button>
-
-</div>
-
-<div class="previewArea">
-<div class="previewLabel">معاينة واتساب</div>
-
-<div class="phone">
-<div class="screen">
-
-<div class="status layout-center" id="statusCard">
-
-<div class="bgLayer bg-cream" id="bgLayer"></div>
-
-<div class="flower f1">✿</div>
-<div class="flower f2">❀</div>
-<div class="decor decor1">❋</div>
-<div class="decor decor2">✦</div>
-
-<div class="lineSide lineLeft"></div>
-<div class="lineSide lineRight"></div>
-<div class="frame"></div>
-<div class="smallFrame"></div>
-
-<div class="layoutBox" id="layoutBox">
-
-<div class="kicker" id="previewKicker">ومضات يقين</div>
-<div class="chip" id="previewChip">ومضات يقين</div>
-<div class="quoteMark">“</div>
-
-<div class="content" id="previewText">📚 💡 🌟
-
-قال الرافعي رحمه الله:
-
-"وأشقى الناس من يتوقع الشقاء
-فهو يتوهم الخوف ثم يخاف مما
-يتوهم ثم يخاف أن يكون الأمر
-أكبر مما توهم!"</div>
-
-<div class="numList">
-<div><b>١.</b> الغسل.</div>
-<div><b>٢.</b> الطيب.</div>
-<div><b>٣.</b> السواك.</div>
-<div><b>٤.</b> قراءة سورة الكهف.</div>
-<div><b>٥.</b> الصلاة على النبي ﷺ.</div>
-</div>
-
-<div class="source" id="previewSource">رسالة طمأنينة</div>
-</div>
-
-</div>
-
-</div>
-</div>
+<div class="teacher-reports">
+<h2 style="text-align:center;color:#9b7332;margin-bottom:10px">تقارير الطالب للمعلم</h2>
+<div id="teacherReportsBox" style="text-align:center;color:#777">اكتب اسم الطالب ثم اضغط عرض تقارير الطالب</div>
+<div class="small-note">يمكن تعديل أو حذف الرصد الخاطئ من هنا.</div>
 </div>
 
 </div>
 
 <script>
-const statusCard = document.getElementById("statusCard");
-const bgLayer = document.getElementById("bgLayer");
-const layoutBox = document.getElementById("layoutBox");
+const SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbxUMhBb081AMNFtXDDD-_lVJoL6OgZcWxr-FqOoRTjjkswF6XIUU8YDq2Dr_NaIGPOilg/exec";
 
-const textInput = document.getElementById("textInput");
-const kickerInput = document.getElementById("kickerInput");
-const sourceInput = document.getElementById("sourceInput");
+let editRowNumber = null;
 
-const previewText = document.getElementById("previewText");
-const previewKicker = document.getElementById("previewKicker");
-const previewChip = document.getElementById("previewChip");
-const previewSource = document.getElementById("previewSource");
-
-const fontFamily = document.getElementById("fontFamily");
-const fontSize = document.getElementById("fontSize");
-const lineHeight = document.getElementById("lineHeight");
-const widthRange = document.getElementById("widthRange");
-const textColor = document.getElementById("textColor");
-
-const topSpace = document.getElementById("topSpace");
-const gapRange = document.getElementById("gapRange");
-const fontWeight = document.getElementById("fontWeight");
-const letterSpacing = document.getElementById("letterSpacing");
-const wordSpacing = document.getElementById("wordSpacing");
-const textPadding = document.getElementById("textPadding");
-
-textInput.addEventListener("input", ()=>{
-previewText.innerText = textInput.value;
-autoFitText();
-});
-
-kickerInput.addEventListener("input", ()=>{
-previewKicker.innerText = kickerInput.value;
-previewChip.innerText = kickerInput.value;
-});
-
-sourceInput.addEventListener("input", ()=>{
-previewSource.innerText = sourceInput.value;
-});
-
-fontFamily.addEventListener("change", ()=>{
-setFont(fontFamily.value);
-});
-
-fontSize.addEventListener("input", ()=>{
-previewText.style.fontSize = fontSize.value + "px";
-document.getElementById("fontSizeValue").innerText = fontSize.value + "px";
-autoFitText();
-});
-
-lineHeight.addEventListener("input", ()=>{
-previewText.style.lineHeight = lineHeight.value;
-document.getElementById("lineHeightValue").innerText = lineHeight.value;
-autoFitText();
-});
-
-widthRange.addEventListener("input", ()=>{
-previewText.style.width = widthRange.value + "%";
-document.getElementById("widthValue").innerText = widthRange.value + "%";
-autoFitText();
-});
-
-topSpace.addEventListener("input", ()=>{
-layoutBox.style.paddingTop = topSpace.value + "px";
-document.getElementById("topSpaceValue").innerText = topSpace.value;
-});
-
-gapRange.addEventListener("input", ()=>{
-layoutBox.style.gap = gapRange.value + "px";
-document.getElementById("gapValue").innerText = gapRange.value;
-});
-
-fontWeight.addEventListener("input", ()=>{
-previewText.style.fontWeight = fontWeight.value;
-document.getElementById("fontWeightValue").innerText = fontWeight.value;
-});
-
-letterSpacing.addEventListener("input", ()=>{
-previewText.style.letterSpacing = letterSpacing.value + "px";
-document.getElementById("letterSpacingValue").innerText = letterSpacing.value;
-});
-
-wordSpacing.addEventListener("input", ()=>{
-previewText.style.wordSpacing = wordSpacing.value + "px";
-document.getElementById("wordSpacingValue").innerText = wordSpacing.value;
-});
-
-textPadding.addEventListener("input", ()=>{
-previewText.style.padding = textPadding.value + "px";
-document.getElementById("textPaddingValue").innerText = textPadding.value;
-autoFitText();
-});
-
-textColor.addEventListener("input", ()=>{
-previewText.style.color = textColor.value;
-});
-
-function setLayout(layout){
-statusCard.className = "status " + layout;
-autoFitText();
+function showAlert(msg,type){
+  const box=document.getElementById("alertBox");
+  box.className="alert "+type;
+  box.textContent=msg;
+  box.style.display="block";
+  setTimeout(()=>{box.style.display="none";},4000);
 }
 
-function setBackground(bg){
-bgLayer.className = "bgLayer " + bg;
-autoFitText();
+function sendReport(){
+  const studentName=document.getElementById("studentName").value.trim();
+
+  if(!studentName){
+    showAlert("يرجى كتابة اسم الطالب","error");
+    return;
+  }
+
+  const action=editRowNumber ? "update" : "insert";
+
+  const params=new URLSearchParams({
+    action:action,
+    rowNumber:editRowNumber || "",
+    studentName:document.getElementById("studentName").value.trim(),
+    nationality:document.getElementById("nationality").value.trim(),
+    studyType:document.getElementById("studyType").value,
+    readType:document.getElementById("readType").value,
+    attendance:document.getElementById("attendance").value,
+    hifzPart:document.getElementById("hifzPart").value,
+    tohfa:document.getElementById("tohfa").value,
+    jazariya:document.getElementById("jazariya").value,
+    maani:document.getElementById("maani").value,
+    shatibiya:document.getElementById("shatibiya").value,
+    notes:document.getElementById("notes").value.trim()
+  });
+
+  const img=new Image();
+
+  img.onload=img.onerror=function(){
+    showAlert(
+      editRowNumber ? "تم تعديل الرصد بنجاح ✅" : "تم إرسال التقرير بنجاح ✅",
+      "success"
+    );
+
+    editRowNumber=null;
+    document.getElementById("editModeBox").style.display="none";
+    document.getElementById("cancelEditBtn").style.display="none";
+    document.getElementById("notes").value="";
+
+    loadStudentReports();
+  };
+
+  img.src=SCRIPT_URL+"?"+params.toString();
 }
 
-function setTextColor(color){
-previewText.style.color = color;
-textColor.value = color;
+function loadStudentReports(){
+  const studentName=document.getElementById("studentName").value.trim();
+
+  if(!studentName){
+    showAlert("اكتب اسم الطالب أولاً","error");
+    return;
+  }
+
+  const box=document.getElementById("teacherReportsBox");
+  box.innerHTML="جاري تحميل التقارير...";
+
+  fetch(
+    SCRIPT_URL+
+    "?action=getStudentReports&studentName="+
+    encodeURIComponent(studentName)
+  )
+  .then(r=>r.json())
+  .then(data=>{
+
+    if(!data.length){
+      box.innerHTML="لا توجد تقارير لهذا الطالب";
+      return;
+    }
+
+    box.innerHTML="";
+
+    data.reverse().forEach(report=>{
+
+      box.innerHTML+=`
+      <div class="report-card">
+
+      <h3>رصد رقم ${report.rowNumber}</h3>
+
+      <div class="row"><span>الطالب</span><b>${report.studentName || "-"}</b></div>
+      <div class="row"><span>الحضور</span><b>${report.attendance || "-"}</b></div>
+      <div class="row"><span>الحفظ/المسار</span><b>${report.hifzPart || "-"}</b></div>
+      <div class="row"><span>التحفة</span><b>${report.tohfa || "-"}</b></div>
+      <div class="row"><span>الجزرية</span><b>${report.jazariya || "-"}</b></div>
+      <div class="row"><span>معاني الكلمات</span><b>${report.maani || "-"}</b></div>
+      <div class="row"><span>الشواهد</span><b>${report.shatibiya || "-"}</b></div>
+      <div class="row"><span>الملاحظات</span><b>${report.notes || "لا توجد"}</b></div>
+
+      <div class="actions">
+      <button class="btn-edit" onclick='editReport(${JSON.stringify(report)})'>تعديل</button>
+      <button class="btn-delete" onclick='deleteReport(${report.rowNumber})'>حذف</button>
+      </div>
+
+      </div>
+      `;
+
+    });
+
+  })
+  .catch(()=>{
+    box.innerHTML="تعذر تحميل التقارير. تأكد من نشر السكربت.";
+  });
 }
 
-function setFont(font){
-previewText.style.fontFamily = font;
-fontFamily.value = font;
-autoFitText();
+function editReport(report){
+  editRowNumber=report.rowNumber;
+
+  document.getElementById("studentName").value=report.studentName || "";
+  document.getElementById("nationality").value=report.nationality || "";
+  document.getElementById("studyType").value=report.studyType || "حضوري";
+  document.getElementById("readType").value=report.readType || "حفص";
+  document.getElementById("attendance").value=report.attendance || "حاضر";
+  document.getElementById("hifzPart").value=report.hifzPart || "جزء 1";
+  document.getElementById("tohfa").value=report.tohfa || "غير مطلوب";
+  document.getElementById("jazariya").value=report.jazariya || "غير مطلوب";
+  document.getElementById("maani").value=report.maani || "غير مطلوب";
+  document.getElementById("shatibiya").value=report.shatibiya || "غير مطلوب";
+  document.getElementById("notes").value=report.notes || "";
+
+  document.getElementById("editModeBox").style.display="block";
+  document.getElementById("cancelEditBtn").style.display="block";
+
+  window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function setAlign(align){
-previewText.style.textAlign = align;
+function cancelEditOnly(){
+  editRowNumber=null;
+  document.getElementById("editModeBox").style.display="none";
+  document.getElementById("cancelEditBtn").style.display="none";
+  showAlert("تم إلغاء التعديل","success");
 }
 
-function toggleDecor(){
-statusCard.classList.toggle("hideDecor");
+function deleteReport(rowNumber){
+  const confirmDelete=confirm("هل أنت متأكد من حذف هذا الرصد؟");
+
+  if(!confirmDelete)return;
+
+  const img=new Image();
+
+  img.onload=img.onerror=function(){
+    showAlert("تم حذف الرصد بنجاح","success");
+    loadStudentReports();
+  };
+
+  img.src=SCRIPT_URL+"?action=delete&rowNumber="+rowNumber;
 }
 
-function toggleFrames(){
-statusCard.classList.toggle("hideFrames");
+function clearForm(){
+  document.getElementById("studentName").value="";
+  document.getElementById("nationality").value="";
+  document.getElementById("notes").value="";
+  editRowNumber=null;
+  document.getElementById("editModeBox").style.display="none";
+  document.getElementById("cancelEditBtn").style.display="none";
+  document.getElementById("teacherReportsBox").innerHTML="اكتب اسم الطالب ثم اضغط عرض تقارير الطالب";
 }
-
-function toggleLines(){
-statusCard.classList.toggle("hideLines");
-}
-
-function autoFitText(){
-let size = parseInt(fontSize.value);
-previewText.style.fontSize = size + "px";
-
-const maxHeight = statusCard.clientHeight - 165;
-
-while(previewText.scrollHeight > maxHeight && size > 18){
-size--;
-previewText.style.fontSize = size + "px";
-}
-}
-
-async function downloadImage(){
-const canvas = await html2canvas(statusCard,{
-scale:4,
-backgroundColor:null
-});
-
-const link = document.createElement("a");
-link.download = "asfar-whatsapp-status.png";
-link.href = canvas.toDataURL("image/png");
-link.click();
-}
-
-previewText.style.fontSize = "35px";
-previewText.style.lineHeight = "2";
-previewText.style.width = "100%";
-previewText.style.fontFamily = "Amiri";
-layoutBox.style.paddingTop = "0px";
-layoutBox.style.gap = "12px";
-
-autoFitText();
 </script>
 
 </body>
 </html>
-
-هذا هو الكود ؟
