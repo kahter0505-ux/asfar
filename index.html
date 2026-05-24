@@ -4,260 +4,46 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>منصة أسفار - بوابة المعلم</title>
-
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box
-}
-
-body{
-background:#f3efe7;
-font-family:'Cairo',sans-serif;
-padding:15px;
-color:#172233
-}
-
-.app{
-max-width:1000px;
-margin:auto
-}
-
-.panel,
-.teacher-reports{
-background:white;
-padding:24px;
-border-radius:30px;
-box-shadow:0 10px 30px rgba(0,0,0,.05);
-margin-bottom:20px
-}
-
-.logo{
-width:145px;
-display:block;
-margin:auto auto 18px;
-}
-
-h1{
-text-align:center;
-color:#9b7332;
-font-size:42px;
-margin-bottom:10px;
-font-weight:800;
-}
-
-.sub{
-text-align:center;
-color:#777;
-margin-bottom:30px;
-font-size:16px;
-}
-
-.form-group{
-margin-bottom:18px
-}
-
-label{
-display:block;
-margin-bottom:8px;
-font-weight:700;
-font-size:15px
-}
-
-input,
-select,
-textarea{
-width:100%;
-padding:15px;
-border-radius:18px;
-border:1px solid #ddd;
-font-size:15px;
-font-family:'Cairo',sans-serif;
-background:white
-}
-
-textarea{
-resize:none
-}
-
-.btn{
-width:100%;
-padding:16px;
-border:none;
-border-radius:18px;
-font-size:16px;
-font-weight:800;
-font-family:'Cairo',sans-serif;
-cursor:pointer;
-margin-top:10px
-}
-
-.btn-save{
-background:#a97b2f;
-color:white
-}
-
-.btn-dark{
-background:#172233;
-color:white
-}
-
-.btn-clear{
-background:white;
-border:2px dashed #d64545;
-color:#d64545
-}
-
-.btn-edit{
-background:#12664f;
-color:white;
-padding:12px;
-font-size:14px;
-flex:1;
-border:none;
-border-radius:14px;
-font-family:'Cairo';
-font-weight:800
-}
-
-.btn-delete{
-background:#c0392b;
-color:white;
-padding:12px;
-font-size:14px;
-flex:1;
-border:none;
-border-radius:14px;
-font-family:'Cairo';
-font-weight:800
-}
-
-.alert{
-display:none;
-padding:14px;
-border-radius:16px;
-margin-bottom:15px;
-font-weight:bold;
-text-align:center
-}
-
-.success{
-background:#e7f8ef;
-color:#0c7b51
-}
-
-.error{
-background:#fdeaea;
-color:#b42318
-}
-
-.edit-mode{
-display:none;
-background:#fff6dc;
-color:#9b7332;
-padding:14px;
-border-radius:16px;
-margin-bottom:14px;
-text-align:center;
-font-weight:800
-}
-
-.report-card{
-border:1px solid #eadcc4;
-border-radius:24px;
-padding:20px;
-margin-top:18px;
-background:#fffdf8
-}
-
-.report-card h3{
-color:#9b7332;
-margin-bottom:14px;
-font-size:22px
-}
-
-.row{
-display:flex;
-justify-content:space-between;
-gap:10px;
-padding:9px 0;
-border-bottom:1px dashed #eee;
-font-size:15px
-}
-
-.row b{
-font-weight:800;
-text-align:left
-}
-
-.actions{
-display:flex;
-gap:10px;
-margin-top:16px
-}
-
-.small-note{
-text-align:center;
-margin-top:12px;
-color:#777;
-font-size:13px
-}
-
-.search-wrapper{
-position:relative;
-margin-bottom:18px;
-}
-
-.search-results{
-position:absolute;
-top:100%;
-right:0;
-left:0;
-background:white;
-border-radius:18px;
-box-shadow:0 12px 30px rgba(0,0,0,.08);
-max-height:260px;
-overflow:auto;
-display:none;
-z-index:999;
-}
-
-.search-item{
-padding:14px 18px;
-border-bottom:1px solid #eee;
-cursor:pointer;
-font-weight:700;
-}
-
-.search-item:hover{
-background:#f7f2e7;
-}
-
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#f3efe7;font-family:'Cairo',sans-serif;padding:15px;color:#172233}
+.app{max-width:1000px;margin:auto}
+.panel,.teacher-reports{background:white;padding:24px;border-radius:30px;box-shadow:0 10px 30px rgba(0,0,0,.05);margin-bottom:20px}
+.logo{width:145px;display:block;margin:auto auto 18px}
+h1{text-align:center;color:#9b7332;font-size:42px;margin-bottom:10px;font-weight:800}
+.sub{text-align:center;color:#777;margin-bottom:30px;font-size:16px}
+.form-group{margin-bottom:18px}
+label{display:block;margin-bottom:8px;font-weight:700;font-size:15px}
+input,select,textarea{width:100%;padding:15px;border-radius:18px;border:1px solid #ddd;font-size:15px;font-family:'Cairo',sans-serif;background:white}
+textarea{resize:none}
+.btn{width:100%;padding:16px;border:none;border-radius:18px;font-size:16px;font-weight:800;font-family:'Cairo',sans-serif;cursor:pointer;margin-top:10px}
+.btn-save{background:#a97b2f;color:white}
+.btn-dark{background:#172233;color:white}
+.btn-clear{background:white;border:2px dashed #d64545;color:#d64545}
+.btn-edit{background:#12664f;color:white;padding:12px;font-size:14px;flex:1;border:none;border-radius:14px;font-family:'Cairo';font-weight:800}
+.btn-delete{background:#c0392b;color:white;padding:12px;font-size:14px;flex:1;border:none;border-radius:14px;font-family:'Cairo';font-weight:800}
+.alert{display:none;padding:14px;border-radius:16px;margin-bottom:15px;font-weight:bold;text-align:center}
+.success{background:#e7f8ef;color:#0c7b51}
+.error{background:#fdeaea;color:#b42318}
+.edit-mode{display:none;background:#fff6dc;color:#9b7332;padding:14px;border-radius:16px;margin-bottom:14px;text-align:center;font-weight:800}
+.report-card{border:1px solid #eadcc4;border-radius:24px;padding:20px;margin-top:18px;background:#fffdf8}
+.report-card h3{color:#9b7332;margin-bottom:14px;font-size:22px}
+.row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dashed #eee;font-size:15px}
+.row b{font-weight:800;text-align:left}
+.actions{display:flex;gap:10px;margin-top:16px}
+.small-note{text-align:center;margin-top:12px;color:#777;font-size:13px}
+.search-wrapper{position:relative;margin-bottom:18px}
+.search-results{position:absolute;top:100%;right:0;left:0;background:white;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.08);max-height:260px;overflow:auto;display:none;z-index:999}
+.search-item{padding:14px 18px;border-bottom:1px solid #eee;cursor:pointer;font-weight:700}
+.search-item:hover{background:#f7f2e7}
 @media(max-width:768px){
-
-h1{
-font-size:34px
+h1{font-size:34px}
+.logo{width:120px}
+.panel,.teacher-reports{padding:18px}
+.row{font-size:14px}
 }
-
-.logo{
-width:120px;
-}
-
-.panel,
-.teacher-reports{
-padding:18px
-}
-
-.row{
-font-size:14px
-}
-
-}
-
 </style>
 </head>
 
@@ -270,27 +56,14 @@ font-size:14px
 <img src="Asfar_logo_L@4x.png" class="logo">
 
 <h1>منصة أسفار لتعليم القرآن</h1>
-
-<div class="sub">
-بوابة الرصد اليومي للمعلم
-</div>
+<div class="sub">بوابة الرصد اليومي للمعلم</div>
 
 <div id="alertBox" class="alert"></div>
-
-<div id="editModeBox" class="edit-mode">
-أنت الآن تعدّل رصدًا سابقًا
-</div>
+<div id="editModeBox" class="edit-mode">أنت الآن تعدّل رصدًا سابقًا</div>
 
 <div class="search-wrapper">
-
-<input
-type="text"
-id="studentSearch"
-placeholder="اكتب أول اسم الطالب..."
-autocomplete="off">
-
+<input type="text" id="studentSearch" placeholder="اكتب أول اسم الطالب للبحث..." autocomplete="off">
 <div class="search-results" id="searchResults"></div>
-
 </div>
 
 <div class="form-group">
@@ -415,147 +188,246 @@ autocomplete="off">
 </div>
 
 <button class="btn btn-save" onclick="sendReport()">💾 حفظ وإرسال التقرير</button>
-
 <button class="btn btn-dark" onclick="loadStudentReports()">📄 عرض تقارير الطالب</button>
-
 <button id="cancelEditBtn" class="btn btn-clear" style="display:none" onclick="cancelEditOnly()">إلغاء التعديل</button>
-
 <button class="btn btn-clear" onclick="clearForm()">مسح الحقول</button>
 
 </div>
 
 <div class="teacher-reports">
-
-<h2 style="text-align:center;color:#9b7332;margin-bottom:10px">
-تقارير الطالب للمعلم
-</h2>
-
-<div id="teacherReportsBox" style="text-align:center;color:#777">
-اكتب اسم الطالب ثم اضغط عرض تقارير الطالب
-</div>
-
-<div class="small-note">
-يمكن تعديل أو حذف الرصد الخاطئ من هنا.
-</div>
-
+<h2 style="text-align:center;color:#9b7332;margin-bottom:10px">تقارير الطالب للمعلم</h2>
+<div id="teacherReportsBox" style="text-align:center;color:#777">اكتب اسم الطالب ثم اضغط عرض تقارير الطالب</div>
+<div class="small-note">يمكن تعديل أو حذف الرصد الخاطئ من هنا.</div>
 </div>
 
 </div>
 
 <script>
-
 const SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbxUMhBb081AMNFtXDDD-_lVJoL6OgZcWxr-FqOoRTjjkswF6XIUU8YDq2Dr_NaIGPOilg/exec";
 
 let editRowNumber = null;
 
 function showAlert(msg,type){
+  const box=document.getElementById("alertBox");
+  box.className="alert "+type;
+  box.textContent=msg;
+  box.style.display="block";
+  setTimeout(()=>{box.style.display="none";},4000);
+}
 
-const box=document.getElementById("alertBox");
-
-box.className="alert "+type;
-
-box.textContent=msg;
-
-box.style.display="block";
-
-setTimeout(()=>{
-
-box.style.display="none";
-
-},4000);
-
+function normalizeText(t){
+  return String(t||"")
+  .replace(/[أإآ]/g,"ا")
+  .replace(/ة/g,"ه")
+  .replace(/ى/g,"ي")
+  .trim()
+  .toLowerCase();
 }
 
 studentSearch.addEventListener("input",()=>{
+  const value=normalizeText(studentSearch.value);
 
-const value = studentSearch.value.trim();
+  if(value.length<1){
+    searchResults.style.display="none";
+    return;
+  }
 
-if(value.length < 1){
+  fetch(SCRIPT_URL)
+  .then(r=>r.json())
+  .then(data=>{
+    const unique={};
 
-searchResults.style.display="none";
+    data.forEach(item=>{
+      const n=(item.studentName||"").trim();
 
-return;
+      if(n && normalizeText(n).includes(value)){
+        unique[n]=item;
+      }
+    });
 
-}
+    const results=Object.values(unique);
+    searchResults.innerHTML="";
 
-fetch(SCRIPT_URL)
+    if(!results.length){
+      searchResults.style.display="none";
+      return;
+    }
 
-.then(r=>r.json())
+    results.forEach(item=>{
+      const div=document.createElement("div");
+      div.className="search-item";
+      div.textContent=item.studentName;
 
-.then(data=>{
+      div.onclick=()=>{
+        document.getElementById("studentName").value=item.studentName||"";
+        document.getElementById("nationality").value=item.nationality||"";
+        document.getElementById("studyType").value=item.studyType||"حضوري";
+        document.getElementById("readType").value=item.readType||"حفص";
+        document.getElementById("attendance").value=item.attendance||"حاضر";
+        document.getElementById("hifzPart").value=item.hifzPart||"جزء 1";
+        document.getElementById("tohfa").value=item.tohfa||"غير مطلوب";
+        document.getElementById("jazariya").value=item.jazariya||"غير مطلوب";
+        document.getElementById("maani").value=item.maani||"غير مطلوب";
+        document.getElementById("shatibiya").value=item.shatibiya||"غير مطلوب";
 
-const unique = {};
+        searchResults.style.display="none";
+        loadStudentReports();
+      };
 
-data.forEach(item=>{
+      searchResults.appendChild(div);
+    });
 
-const n = (item.studentName || "").trim();
-
-if(
-n &&
-n.includes(value)
-){
-
-unique[n]=item;
-
-}
-
-});
-
-const results = Object.values(unique);
-
-searchResults.innerHTML="";
-
-if(!results.length){
-
-searchResults.style.display="none";
-
-return;
-
-}
-
-results.forEach(item=>{
-
-const div=document.createElement("div");
-
-div.className="search-item";
-
-div.innerHTML=item.studentName;
-
-div.onclick=()=>{
-
-studentName.value=item.studentName;
-
-searchResults.style.display="none";
-
-loadStudentReports();
-
-};
-
-searchResults.appendChild(div);
-
-});
-
-searchResults.style.display="block";
-
-});
-
+    searchResults.style.display="block";
+  });
 });
 
 document.addEventListener("click",(e)=>{
-
-if(
-!studentSearch.contains(e.target)
-&&
-!searchResults.contains(e.target)
-){
-
-searchResults.style.display="none";
-
-}
-
+  if(!studentSearch.contains(e.target) && !searchResults.contains(e.target)){
+    searchResults.style.display="none";
+  }
 });
 
+function sendReport(){
+  const studentName=document.getElementById("studentName").value.trim();
+
+  if(!studentName){
+    showAlert("يرجى كتابة اسم الطالب","error");
+    return;
+  }
+
+  const action=editRowNumber ? "update" : "insert";
+
+  const params=new URLSearchParams({
+    action:action,
+    rowNumber:editRowNumber || "",
+    studentName:studentName,
+    nationality:document.getElementById("nationality").value.trim(),
+    studyType:document.getElementById("studyType").value,
+    readType:document.getElementById("readType").value,
+    attendance:document.getElementById("attendance").value,
+    hifzPart:document.getElementById("hifzPart").value,
+    tohfa:document.getElementById("tohfa").value,
+    jazariya:document.getElementById("jazariya").value,
+    maani:document.getElementById("maani").value,
+    shatibiya:document.getElementById("shatibiya").value,
+    notes:document.getElementById("notes").value.trim()
+  });
+
+  const img=new Image();
+
+  img.onload=img.onerror=function(){
+    showAlert(editRowNumber ? "تم تعديل الرصد بنجاح ✅" : "تم إرسال التقرير بنجاح ✅","success");
+
+    editRowNumber=null;
+    document.getElementById("editModeBox").style.display="none";
+    document.getElementById("cancelEditBtn").style.display="none";
+    document.getElementById("notes").value="";
+
+    loadStudentReports();
+  };
+
+  img.src=SCRIPT_URL+"?"+params.toString();
+}
+
+function loadStudentReports(){
+  const studentName=document.getElementById("studentName").value.trim();
+
+  if(!studentName){
+    showAlert("اكتب اسم الطالب أولاً","error");
+    return;
+  }
+
+  const box=document.getElementById("teacherReportsBox");
+  box.innerHTML="جاري تحميل التقارير...";
+
+  fetch(SCRIPT_URL+"?action=getStudentReports&studentName="+encodeURIComponent(studentName))
+  .then(r=>r.json())
+  .then(data=>{
+    if(!data.length){
+      box.innerHTML="لا توجد تقارير لهذا الطالب";
+      return;
+    }
+
+    box.innerHTML="";
+
+    data.reverse().forEach(report=>{
+      box.innerHTML+=`
+      <div class="report-card">
+      <h3>رصد رقم ${report.rowNumber}</h3>
+      <div class="row"><span>الطالب</span><b>${report.studentName || "-"}</b></div>
+      <div class="row"><span>الحضور</span><b>${report.attendance || "-"}</b></div>
+      <div class="row"><span>الحفظ/المسار</span><b>${report.hifzPart || "-"}</b></div>
+      <div class="row"><span>التحفة</span><b>${report.tohfa || "-"}</b></div>
+      <div class="row"><span>الجزرية</span><b>${report.jazariya || "-"}</b></div>
+      <div class="row"><span>معاني الكلمات</span><b>${report.maani || "-"}</b></div>
+      <div class="row"><span>الشواهد</span><b>${report.shatibiya || "-"}</b></div>
+      <div class="row"><span>الملاحظات</span><b>${report.notes || "لا توجد"}</b></div>
+      <div class="actions">
+      <button class="btn-edit" onclick='editReport(${JSON.stringify(report)})'>تعديل</button>
+      <button class="btn-delete" onclick='deleteReport(${report.rowNumber})'>حذف</button>
+      </div>
+      </div>
+      `;
+    });
+  })
+  .catch(()=>{
+    box.innerHTML="تعذر تحميل التقارير. تأكد من نشر السكربت.";
+  });
+}
+
+function editReport(report){
+  editRowNumber=report.rowNumber;
+
+  document.getElementById("studentName").value=report.studentName || "";
+  document.getElementById("nationality").value=report.nationality || "";
+  document.getElementById("studyType").value=report.studyType || "حضوري";
+  document.getElementById("readType").value=report.readType || "حفص";
+  document.getElementById("attendance").value=report.attendance || "حاضر";
+  document.getElementById("hifzPart").value=report.hifzPart || "جزء 1";
+  document.getElementById("tohfa").value=report.tohfa || "غير مطلوب";
+  document.getElementById("jazariya").value=report.jazariya || "غير مطلوب";
+  document.getElementById("maani").value=report.maani || "غير مطلوب";
+  document.getElementById("shatibiya").value=report.shatibiya || "غير مطلوب";
+  document.getElementById("notes").value=report.notes || "";
+
+  document.getElementById("editModeBox").style.display="block";
+  document.getElementById("cancelEditBtn").style.display="block";
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function cancelEditOnly(){
+  editRowNumber=null;
+  document.getElementById("editModeBox").style.display="none";
+  document.getElementById("cancelEditBtn").style.display="none";
+  showAlert("تم إلغاء التعديل","success");
+}
+
+function deleteReport(rowNumber){
+  const confirmDelete=confirm("هل أنت متأكد من حذف هذا الرصد؟");
+  if(!confirmDelete)return;
+
+  const img=new Image();
+
+  img.onload=img.onerror=function(){
+    showAlert("تم حذف الرصد بنجاح","success");
+    loadStudentReports();
+  };
+
+  img.src=SCRIPT_URL+"?action=delete&rowNumber="+rowNumber;
+}
+
+function clearForm(){
+  document.getElementById("studentSearch").value="";
+  document.getElementById("studentName").value="";
+  document.getElementById("nationality").value="";
+  document.getElementById("notes").value="";
+  editRowNumber=null;
+  document.getElementById("editModeBox").style.display="none";
+  document.getElementById("cancelEditBtn").style.display="none";
+  document.getElementById("teacherReportsBox").innerHTML="اكتب اسم الطالب ثم اضغط عرض تقارير الطالب";
+}
 </script>
 
 </body>
