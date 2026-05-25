@@ -17,10 +17,7 @@ color:#172233;
 padding:18px
 }
 
-.container{
-max-width:1200px;
-margin:auto
-}
+.container{max-width:1200px;margin:auto}
 
 .header{
 background:white;
@@ -31,22 +28,10 @@ margin-bottom:22px;
 box-shadow:0 10px 30px rgba(0,0,0,.05)
 }
 
-.logo{
-width:180px;
-height:180px;
-object-fit:contain
-}
+.logo{width:180px;height:180px;object-fit:contain}
 
-.header h1{
-color:#a77b2d;
-font-size:42px;
-font-weight:800
-}
-
-.header p{
-color:#777;
-font-size:18px
-}
+.header h1{color:#a77b2d;font-size:42px;font-weight:800}
+.header p{color:#777;font-size:18px}
 
 .stats{
 display:grid;
@@ -63,11 +48,7 @@ padding:22px;
 text-align:center
 }
 
-.stat strong{
-display:block;
-font-size:34px;
-color:#a77b2d
-}
+.stat strong{display:block;font-size:34px;color:#a77b2d}
 
 .search-box{
 background:white;
@@ -98,11 +79,7 @@ border-radius:24px;
 padding:22px
 }
 
-.card h2{
-color:#a77b2d;
-font-size:28px;
-margin-bottom:12px
-}
+.card h2{color:#a77b2d;font-size:28px;margin-bottom:12px}
 
 .row{
 display:flex;
@@ -162,16 +139,8 @@ padding-bottom:14px;
 margin-bottom:18px
 }
 
-.profile-header img{
-width:150px;
-height:150px;
-object-fit:contain
-}
-
-.profile-header h2{
-color:#a77b2d;
-font-size:36px
-}
+.profile-header img{width:150px;height:150px;object-fit:contain}
+.profile-header h2{color:#a77b2d;font-size:36px}
 
 .section{
 background:white;
@@ -197,16 +166,8 @@ margin-bottom:10px
 }
 
 @media(max-width:768px){
-
-.header h1{
-font-size:30px
-}
-
-.logo{
-width:140px;
-height:140px
-}
-
+.header h1{font-size:30px}
+.logo{width:140px;height:140px}
 }
 </style>
 </head>
@@ -216,424 +177,200 @@ height:140px
 <div class="container">
 
 <div class="header">
-
 <img src="Asfar_logo_L@4x.png" class="logo">
-
 <h1>مقرأة أسفار النسائية</h1>
-
 <p>لوحة المسؤولات - قسم النساء</p>
-
 </div>
 
 <div class="stats">
-
-<div class="stat">
-<strong id="studentsCount">0</strong>
-<span>عدد الطالبات</span>
-</div>
-
-<div class="stat">
-<strong id="reportsCount">0</strong>
-<span>عدد التقارير</span>
-</div>
-
-<div class="stat">
-<strong id="attendanceAvg">0%</strong>
-<span>متوسط الالتزام</span>
-</div>
-
-<div class="stat">
-<strong id="nationalitiesCount">0</strong>
-<span>عدد الجنسيات</span>
-</div>
-
+<div class="stat"><strong id="studentsCount">0</strong><span>عدد الطالبات</span></div>
+<div class="stat"><strong id="reportsCount">0</strong><span>عدد التقارير</span></div>
+<div class="stat"><strong id="attendanceAvg">0%</strong><span>متوسط الالتزام</span></div>
+<div class="stat"><strong id="nationalitiesCount">0</strong><span>عدد الجنسيات</span></div>
 </div>
 
 <div class="search-box">
-
-<input
-id="searchInput"
-placeholder="ابحثي باسم الطالبة أو الجنسية..."
-oninput="renderCards()">
-
+<input id="searchInput" placeholder="ابحثي باسم الطالبة أو الجنسية..." oninput="renderCards()">
 </div>
 
-<div id="studentsContainer" class="students">
-
-جاري تحميل البيانات...
-
-</div>
+<div id="studentsContainer" class="students">جاري تحميل البيانات...</div>
 
 </div>
 
 <div id="profileModal" class="modal">
-
 <div class="profile">
 
-<button class="close" onclick="closeProfile()">
-
-إغلاق
-
-</button>
+<button class="close" onclick="closeProfile()">إغلاق</button>
 
 <div class="profile-header">
-
 <img src="Asfar_logo_L@4x.png">
-
-<h2 id="profileName">
-
-اسم الطالبة
-
-</h2>
-
-<p>
-
-الملف التراكمي للطالبة
-
-</p>
-
+<h2 id="profileName">اسم الطالبة</h2>
+<p>الملف التراكمي للطالبة</p>
 </div>
 
 <div class="section">
-
 <h3>الملخص</h3>
-
 <div id="summaryBox"></div>
-
 </div>
 
 <div class="section">
-
 <h3>التقييم</h3>
-
 <div id="evalBox"></div>
-
 </div>
 
 <div class="section">
-
 <h3>السجل الزمني</h3>
-
 <div id="timeline"></div>
-
 </div>
 
 <div class="section">
-
 <h3>الملاحظات</h3>
-
 <div id="notesOnly"></div>
-
 </div>
 
 </div>
-
 </div>
 
 <script>
-
 const WOMEN_URL =
-"https://script.google.com/macros/s/AKfycbz_lahCdn-toUyyBhgQ0RdKYcpx919XJ846Z_UcXSQqB8ADxCQHHqnH187cM40UxI1T8w/exec";
+"https://script.google.com/macros/s/AKfycbxtpZfWxY9RmgkgtK1lP4ObIBCcvNeZrkLNb-bTdzzY0bPSUMfNYPQG81oMmfcWfuzI/exec";
 
 let reports = [];
-
 let grouped = {};
 
 loadData();
 
 async function loadData(){
-
 try{
-
 const res = await fetch(WOMEN_URL);
-
 reports = await res.json();
-
 reports = reports.filter(r=>r.studentName);
-
 groupData();
-
 renderStats();
-
 renderCards();
-
 }catch(e){
-
-studentsContainer.innerHTML =
-"تعذر تحميل البيانات.";
-
+studentsContainer.innerHTML = "تعذر تحميل البيانات.";
 }
-
 }
 
 function groupData(){
-
 grouped = {};
-
 reports.forEach(r=>{
-
-const name =
-String(r.studentName || "").trim();
-
+const name = String(r.studentName || "").trim();
 if(!grouped[name]){
-
 grouped[name] = [];
-
 }
-
 grouped[name].push(r);
-
 });
-
 }
 
 function normalizeText(t){
-
 return String(t||"")
-
 .replace(/[أإآ]/g,"ا")
 .replace(/ة/g,"ه")
 .replace(/ى/g,"ي")
-
 .trim()
-
 .toLowerCase();
-
 }
 
 function renderStats(){
-
 const names = Object.keys(grouped);
-
 studentsCount.textContent = names.length;
-
 reportsCount.textContent = reports.length;
 
-const attend =
-reports.filter(r=>
-String(r.absence||"") === "لا يوجد"
-).length;
+const attend = reports.filter(r=>String(r.absence||"") === "لا يوجد").length;
 
 attendanceAvg.textContent =
-reports.length
-?
-Math.round(attend/reports.length*100)+"%"
-:
-"0%";
+reports.length ? Math.round(attend/reports.length*100)+"%" : "0%";
 
-const nationalities =
-[...new Set(
-reports.map(r=>
-String(r.nationality||"").trim()
-).filter(Boolean)
+const nationalities = [...new Set(
+reports.map(r=>String(r.nationality||"").trim()).filter(Boolean)
 )];
 
-nationalitiesCount.textContent =
-nationalities.length;
-
+nationalitiesCount.textContent = nationalities.length;
 }
 
 function renderCards(){
-
 const q = normalizeText(searchInput.value);
 
-const names =
-Object.keys(grouped).filter(name=>{
-
-const latest =
-grouped[name][grouped[name].length-1];
+const names = Object.keys(grouped).filter(name=>{
+const latest = grouped[name][grouped[name].length-1];
 
 return !q ||
-
-normalizeText(name).includes(q)
-
-||
-
-normalizeText(latest.nationality).includes(q)
-
-||
-
-normalizeText(
-latest.memorizationAmount
-).includes(q);
-
+normalizeText(name).includes(q) ||
+normalizeText(latest.nationality).includes(q) ||
+normalizeText(latest.memorizationAmount).includes(q);
 });
 
 if(!names.length){
-
-studentsContainer.innerHTML =
-"لا توجد نتائج.";
-
+studentsContainer.innerHTML = "لا توجد نتائج.";
 return;
-
 }
 
-studentsContainer.innerHTML =
-names.map(name=>{
-
+studentsContainer.innerHTML = names.map(name=>{
 const db = grouped[name];
-
 const latest = db[db.length-1];
 
-const attend =
-db.filter(x=>
-String(x.absence||"")==="لا يوجد"
-).length;
-
-const pct =
-Math.round(attend/db.length*100);
+const attend = db.filter(x=>String(x.absence||"")==="لا يوجد").length;
+const pct = Math.round(attend/db.length*100);
 
 return `
-
 <div class="card">
-
 <h2>${name}</h2>
 
-<div class="row">
-<span>الجنسية</span>
-<b>${latest.nationality||"-"}</b>
+<div class="row"><span>الجنسية</span><b>${latest.nationality||"-"}</b></div>
+<div class="row"><span>العمر</span><b>${latest.age||"-"}</b></div>
+<div class="row"><span>آخر حفظ</span><b>${latest.memorizationAmount||"-"}</b></div>
+<div class="row"><span>عدد التقارير</span><b>${db.length}</b></div>
+<div class="row"><span>الالتزام</span><b>${pct}%</b></div>
+
+<button class="btn" onclick="openProfile('${name.replace(/'/g,"")}')">عرض الملف</button>
 </div>
-
-<div class="row">
-<span>العمر</span>
-<b>${latest.age||"-"}</b>
-</div>
-
-<div class="row">
-<span>آخر حفظ</span>
-<b>${latest.memorizationAmount||"-"}</b>
-</div>
-
-<div class="row">
-<span>عدد التقارير</span>
-<b>${db.length}</b>
-</div>
-
-<div class="row">
-<span>الالتزام</span>
-<b>${pct}%</b>
-</div>
-
-<button
-class="btn"
-onclick="openProfile('${name.replace(/'/g,"")}')">
-
-عرض الملف
-
-</button>
-
-</div>
-
 `;
-
 }).join("");
-
 }
 
 function openProfile(name){
-
 const db = grouped[name];
-
 const latest = db[db.length-1];
 
 profileName.textContent = name;
 
 summaryBox.innerHTML = `
-
-<div class="row">
-<span>العمر</span>
-<b>${latest.age||"-"}</b>
-</div>
-
-<div class="row">
-<span>الجنسية</span>
-<b>${latest.nationality||"-"}</b>
-</div>
-
-<div class="row">
-<span>الحفظ</span>
-<b>${latest.memorizationAmount||"-"}</b>
-</div>
-
-<div class="row">
-<span>المراجعة</span>
-<b>${latest.reviewAmount||"-"}</b>
-</div>
-
+<div class="row"><span>العمر</span><b>${latest.age||"-"}</b></div>
+<div class="row"><span>الجنسية</span><b>${latest.nationality||"-"}</b></div>
+<div class="row"><span>الحفظ</span><b>${latest.memorizationAmount||"-"}</b></div>
+<div class="row"><span>المراجعة</span><b>${latest.reviewAmount||"-"}</b></div>
 `;
 
 evalBox.innerHTML = `
-
-<div class="row">
-<span>مستوى الحفظ</span>
-<b>${latest.memorizationLevel||"-"}</b>
-</div>
-
-<div class="row">
-<span>مستوى المراجعة</span>
-<b>${latest.reviewLevel||"-"}</b>
-</div>
-
-<div class="row">
-<span>الغياب</span>
-<b>${latest.absence||"-"}</b>
-</div>
-
+<div class="row"><span>مستوى الحفظ</span><b>${latest.memorizationLevel||"-"}</b></div>
+<div class="row"><span>مستوى المراجعة</span><b>${latest.reviewLevel||"-"}</b></div>
+<div class="row"><span>الغياب</span><b>${latest.absence||"-"}</b></div>
 `;
 
-timeline.innerHTML =
-db.slice().reverse().map((r,i)=>`
-
+timeline.innerHTML = db.slice().reverse().map((r,i)=>`
 <div class="day">
-
 <b>رصد ${db.length-i}</b>
-
-<div class="row">
-<span>الحفظ</span>
-<b>${r.memorizationAmount||"-"}</b>
+<div class="row"><span>الحفظ</span><b>${r.memorizationAmount||"-"}</b></div>
+<div class="row"><span>المراجعة</span><b>${r.reviewAmount||"-"}</b></div>
+<div class="row"><span>الغياب</span><b>${r.absence||"-"}</b></div>
 </div>
-
-<div class="row">
-<span>المراجعة</span>
-<b>${r.reviewAmount||"-"}</b>
-</div>
-
-<div class="row">
-<span>الغياب</span>
-<b>${r.absence||"-"}</b>
-</div>
-
-</div>
-
 `).join("");
 
-notesOnly.innerHTML =
-db.slice().reverse().map((r,i)=>`
-
+notesOnly.innerHTML = db.slice().reverse().map((r,i)=>`
 <div class="day">
-
 <b>ملاحظة ${db.length-i}</b>
-
-<div>
-
-${r.notes || "لا توجد ملاحظات."}
-
+<div>${r.notes || "لا توجد ملاحظات."}</div>
 </div>
-
-</div>
-
 `).join("");
 
 profileModal.style.display = "block";
-
 }
 
 function closeProfile(){
-
 profileModal.style.display = "none";
-
 }
-
 </script>
 
 </body>
